@@ -45,8 +45,24 @@ export type StatusV11Response = {
         } | null;
         privacyMetadata?: boolean;
         blurhash?: string | null;
+        hasReference: boolean;
     }>;
-    contest?: unknown;
+    contest: {
+        slug: string;
+        title: string;
+        headerUrl: string;
+    } | null;
+    weeklyTheme: {
+        slug: string;
+        title: string;
+        weekKey: string;
+        sponsor: {
+            name: string;
+            url: string | null;
+            logoUrl: string | null;
+            disclosure: string;
+        } | null;
+    } | null;
     reactions: {
         [key: string]: {
             name: string;
@@ -134,8 +150,24 @@ export type LuckyV12Response = {
         } | null;
         privacyMetadata?: boolean;
         blurhash?: string | null;
+        hasReference: boolean;
     }>;
-    contest?: unknown;
+    contest: {
+        slug: string;
+        title: string;
+        headerUrl: string;
+    } | null;
+    weeklyTheme: {
+        slug: string;
+        title: string;
+        weekKey: string;
+        sponsor: {
+            name: string;
+            url: string | null;
+            logoUrl: string | null;
+            disclosure: string;
+        } | null;
+    } | null;
     reactions: {
         [key: string]: {
             name: string;
@@ -223,8 +255,10 @@ export type LuckyV12Response = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
     type: 'album';
@@ -306,8 +340,10 @@ export type LuckyV12Response = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
     type: 'smart-album';
@@ -427,8 +463,10 @@ export type AlbumResponse = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
 };
@@ -523,8 +561,10 @@ export type AlbumOrSmartAlbumResponse = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
     type: 'album' | 'smart-album';
@@ -672,8 +712,10 @@ export type StatusV10Response = {
         } | null;
         privacyMetadata?: boolean;
         blurhash?: string | null;
+        hasReference: boolean;
     }>;
     contest?: unknown;
+    weeklyTheme?: unknown;
     reactions?: unknown;
 };
 
@@ -1109,8 +1151,10 @@ export type SmartAlbumResponse = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
 };
@@ -1145,11 +1189,13 @@ export type Status = {
     isNsfw: boolean;
     isSpoiler: boolean;
     isSubmitToContest: boolean;
+    isSubmitToWeeklyTheme?: boolean;
     isHidingLikeAndViewCount: boolean;
     isPrivateMetadata?: boolean;
     isAllowComments: boolean;
     privacy?: 'public' | 'quiet_public' | 'followers' | 'private';
     contestId?: string;
+    weeklyThemeId?: string;
     media: Array<{
         url: string;
         alt?: string;
@@ -1168,6 +1214,63 @@ export type RichTrendingItemResponse = {
     rank: number;
     previousRank: number | null;
     movement: 'up' | 'down' | 'same' | 'new';
+};
+
+export type WeeklyThemeResponse = {
+    slug: string;
+    weekKey: string;
+    title: string;
+    description: string;
+    hashtag: string | null;
+    bannerUrl: string | null;
+    since: string;
+    until: string;
+    state: 'draft' | 'scheduled' | 'open' | 'closed' | 'cancelled';
+    points: number;
+    sponsor: {
+        name: string;
+        url: string | null;
+        logoUrl: string | null;
+        disclosure: string;
+    } | null;
+    statusCount: number;
+    participantCount: number;
+    visitor?: {
+        submitted: boolean;
+        earned: boolean;
+    };
+};
+
+export type WeeklyThemeSponsorshipResponse = {
+    id: string;
+    weekKey: string;
+    title: string;
+    description: string;
+    state: string;
+};
+
+export type WeeklyThemeSponsorshipRequest = {
+    weekKey: string;
+    title: string;
+    description: string;
+    sponsorName: string;
+    hashtag?: string;
+    bannerUrl?: string;
+    sponsorUrl?: string;
+    sponsorLogoUrl?: string;
+    bonusPoints?: number;
+};
+
+export type WeeklyThemeSubscriptionResponse = {
+    notifyOnOpen: boolean;
+    notifyOnStreak: boolean;
+    notifyBeforeClose: boolean;
+};
+
+export type WeeklyThemeSubscription = {
+    notifyOnOpen: boolean;
+    notifyOnStreak: boolean;
+    notifyBeforeClose: boolean;
 };
 
 export type User = {
@@ -1300,8 +1403,10 @@ export type EpicleseStatusesByItemResponse = {
             } | null;
             privacyMetadata?: boolean;
             blurhash?: string | null;
+            hasReference: boolean;
         }>;
         contest?: unknown;
+        weeklyTheme?: unknown;
         reactions?: unknown;
     }>;
     count: {
@@ -1610,6 +1715,17 @@ export type EpicleseWorldsResponse = {
             name: string;
         } | null;
     }>;
+    count: {
+        total: number;
+        offset: number;
+    };
+    page: {
+        min: number;
+        max: number;
+        current: number;
+        next: number | null;
+        prev: number | null;
+    };
 };
 
 export type MetadataWorld = {
@@ -1623,6 +1739,58 @@ export type MetadataWorld = {
         platform?: string;
         name: string;
     } | null;
+};
+
+export type PointLedgerResponse = {
+    id: string;
+    amount: number;
+    reason: 'earned' | 'earned_revoked' | 'redeemed' | 'redemption_cancelled' | 'admin_adjustment';
+    balanceAfter: number;
+    source: {
+        type: 'catalyst_weekly_theme' | 'catalyst_weekly_theme_streak' | 'redemption' | 'admin';
+        label: string;
+        href: string | null;
+    };
+    createdAt: string;
+};
+
+export type PointRedemptionResponse = {
+    id: string;
+    reward: {
+        id: string;
+        name: string;
+        cost: number;
+    };
+    cost: number;
+    state: 'issued' | 'revoked';
+    code: string;
+    validUntil: string;
+    createdAt: string;
+};
+
+export type PointRewardResponse = {
+    id: string;
+    name: string;
+    description: string;
+    cost: number;
+    validDays: number;
+    stock: number | null;
+    redeemable: boolean;
+};
+
+export type PointBalanceResponse = {
+    balance: number;
+    totalEarned: number;
+    totalRedeemed: number;
+    streak: {
+        current: number;
+        longest: number;
+        nextBonus: {
+            name: string;
+            weeksRemaining: number;
+            bonusPoints: number;
+        } | null;
+    };
 };
 
 export type MediaUploadResponse = {
@@ -2413,11 +2581,17 @@ export type GetCatalystV1AlbumSearchResponse = GetCatalystV1AlbumSearchResponses
 export type GetCatalystV1AnnouncementsData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        target?: 'web' | 'ios' | 'android';
+    };
     url: '/catalyst/v1/announcements';
 };
 
 export type GetCatalystV1AnnouncementsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
     /**
      * Internal Server Error
      */
@@ -5074,6 +5248,280 @@ export type PostCatalystV1UserByIdReportResponses = {
 
 export type PostCatalystV1UserByIdReportResponse = PostCatalystV1UserByIdReportResponses[keyof PostCatalystV1UserByIdReportResponses];
 
+export type GetCatalystV1WeeklyThemesBySlugBySlugData = {
+    body?: never;
+    path: {
+        slug: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/by/slug/{slug}';
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugError = GetCatalystV1WeeklyThemesBySlugBySlugErrors[keyof GetCatalystV1WeeklyThemesBySlugBySlugErrors];
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugResponses = {
+    /**
+     * OK
+     */
+    200: {
+        theme: WeeklyThemeResponse;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugResponse = GetCatalystV1WeeklyThemesBySlugBySlugResponses[keyof GetCatalystV1WeeklyThemesBySlugBySlugResponses];
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugStatusesData = {
+    body?: never;
+    path: {
+        slug: string;
+    };
+    query?: {
+        cursor?: string;
+        take?: number;
+        sort?: 'latest' | 'popular';
+    };
+    url: '/catalyst/v1/weekly-themes/by/slug/{slug}/statuses';
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugStatusesErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugStatusesError = GetCatalystV1WeeklyThemesBySlugBySlugStatusesErrors[keyof GetCatalystV1WeeklyThemesBySlugBySlugStatusesErrors];
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugStatusesResponses = {
+    /**
+     * OK
+     */
+    200: {
+        statuses: Array<StatusV11Response>;
+        nextCursor: string | null;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesBySlugBySlugStatusesResponse = GetCatalystV1WeeklyThemesBySlugBySlugStatusesResponses[keyof GetCatalystV1WeeklyThemesBySlugBySlugStatusesResponses];
+
+export type GetCatalystV1WeeklyThemesCurrentData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/current';
+};
+
+export type GetCatalystV1WeeklyThemesCurrentErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1WeeklyThemesCurrentError = GetCatalystV1WeeklyThemesCurrentErrors[keyof GetCatalystV1WeeklyThemesCurrentErrors];
+
+export type GetCatalystV1WeeklyThemesCurrentResponses = {
+    /**
+     * OK
+     */
+    200: {
+        theme: {
+            slug: string;
+            weekKey: string;
+            title: string;
+            description: string;
+            hashtag: string | null;
+            bannerUrl: string | null;
+            since: string;
+            until: string;
+            state: 'draft' | 'scheduled' | 'open' | 'closed' | 'cancelled';
+            points: number;
+            sponsor: {
+                name: string;
+                url: string | null;
+                logoUrl: string | null;
+                disclosure: string;
+            } | null;
+            statusCount: number;
+            participantCount: number;
+            visitor?: {
+                submitted: boolean;
+                earned: boolean;
+            };
+        } | null;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesCurrentResponse = GetCatalystV1WeeklyThemesCurrentResponses[keyof GetCatalystV1WeeklyThemesCurrentResponses];
+
+export type GetCatalystV1WeeklyThemesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        cursor?: string;
+        take?: number;
+        state?: 'open' | 'closed';
+    };
+    url: '/catalyst/v1/weekly-themes';
+};
+
+export type GetCatalystV1WeeklyThemesErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1WeeklyThemesError = GetCatalystV1WeeklyThemesErrors[keyof GetCatalystV1WeeklyThemesErrors];
+
+export type GetCatalystV1WeeklyThemesResponses = {
+    /**
+     * OK
+     */
+    200: {
+        themes: Array<WeeklyThemeResponse>;
+        nextCursor: string | null;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesResponse = GetCatalystV1WeeklyThemesResponses[keyof GetCatalystV1WeeklyThemesResponses];
+
+export type GetCatalystV1WeeklyThemesSponsorshipsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/sponsorships';
+};
+
+export type GetCatalystV1WeeklyThemesSponsorshipsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: {
+        message: string;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesSponsorshipsError = GetCatalystV1WeeklyThemesSponsorshipsErrors[keyof GetCatalystV1WeeklyThemesSponsorshipsErrors];
+
+export type GetCatalystV1WeeklyThemesSponsorshipsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        items: Array<WeeklyThemeSponsorshipResponse>;
+        weeks: Array<{
+            weekKey: string;
+            since: string;
+            until: string;
+        }>;
+    };
+};
+
+export type GetCatalystV1WeeklyThemesSponsorshipsResponse = GetCatalystV1WeeklyThemesSponsorshipsResponses[keyof GetCatalystV1WeeklyThemesSponsorshipsResponses];
+
+export type PostCatalystV1WeeklyThemesSponsorshipsData = {
+    body?: WeeklyThemeSponsorshipRequest;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/sponsorships';
+};
+
+export type PostCatalystV1WeeklyThemesSponsorshipsErrors = {
+    /**
+     * Bad Request
+     */
+    400: {
+        message: string;
+    };
+    /**
+     * Unauthorized
+     */
+    401: {
+        message: string;
+    };
+};
+
+export type PostCatalystV1WeeklyThemesSponsorshipsError = PostCatalystV1WeeklyThemesSponsorshipsErrors[keyof PostCatalystV1WeeklyThemesSponsorshipsErrors];
+
+export type PostCatalystV1WeeklyThemesSponsorshipsResponses = {
+    /**
+     * Created
+     */
+    201: WeeklyThemeSponsorshipResponse;
+};
+
+export type PostCatalystV1WeeklyThemesSponsorshipsResponse = PostCatalystV1WeeklyThemesSponsorshipsResponses[keyof PostCatalystV1WeeklyThemesSponsorshipsResponses];
+
+export type GetCatalystV1WeeklyThemesSubscriptionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/subscription';
+};
+
+export type GetCatalystV1WeeklyThemesSubscriptionErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV1WeeklyThemesSubscriptionError = GetCatalystV1WeeklyThemesSubscriptionErrors[keyof GetCatalystV1WeeklyThemesSubscriptionErrors];
+
+export type GetCatalystV1WeeklyThemesSubscriptionResponses = {
+    /**
+     * OK
+     */
+    200: WeeklyThemeSubscriptionResponse;
+};
+
+export type GetCatalystV1WeeklyThemesSubscriptionResponse = GetCatalystV1WeeklyThemesSubscriptionResponses[keyof GetCatalystV1WeeklyThemesSubscriptionResponses];
+
+export type PatchCatalystV1WeeklyThemesSubscriptionData = {
+    body?: WeeklyThemeSubscription;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/weekly-themes/subscription';
+};
+
+export type PatchCatalystV1WeeklyThemesSubscriptionErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type PatchCatalystV1WeeklyThemesSubscriptionError = PatchCatalystV1WeeklyThemesSubscriptionErrors[keyof PatchCatalystV1WeeklyThemesSubscriptionErrors];
+
+export type PatchCatalystV1WeeklyThemesSubscriptionResponses = {
+    /**
+     * OK
+     */
+    200: WeeklyThemeSubscriptionResponse;
+};
+
+export type PatchCatalystV1WeeklyThemesSubscriptionResponse = PatchCatalystV1WeeklyThemesSubscriptionResponses[keyof PatchCatalystV1WeeklyThemesSubscriptionResponses];
+
 export type GetEgeriaV1MeData = {
     body?: never;
     path?: never;
@@ -5300,6 +5748,8 @@ export type GetEpicleseV1AuthorsData = {
     query?: {
         q?: string;
         platform?: string;
+        offset?: number | null;
+        limit?: number;
     };
     url: '/epiclese/v1/authors';
 };
@@ -5396,6 +5846,7 @@ export type GetEpicleseV1ItemsData = {
         q?: string;
         type?: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
         offset?: number | null;
+        limit?: number;
     };
     url: '/epiclese/v1/items';
 };
@@ -5627,7 +6078,8 @@ export type GetEpicleseV1WorldsData = {
     query?: {
         q?: string;
         platform?: string;
-        offset?: number;
+        offset?: number | null;
+        limit?: number;
     };
     url: '/epiclese/v1/worlds';
 };
@@ -5694,6 +6146,181 @@ export type GetFeatureFlagsV1MeResponses = {
 };
 
 export type GetFeatureFlagsV1MeResponse = GetFeatureFlagsV1MeResponses[keyof GetFeatureFlagsV1MeResponses];
+
+export type GetGiftiaV1PointsHistoryData = {
+    body?: never;
+    path?: never;
+    query?: {
+        cursor?: string;
+    };
+    url: '/giftia/v1/points/history';
+};
+
+export type GetGiftiaV1PointsHistoryErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetGiftiaV1PointsHistoryError = GetGiftiaV1PointsHistoryErrors[keyof GetGiftiaV1PointsHistoryErrors];
+
+export type GetGiftiaV1PointsHistoryResponses = {
+    /**
+     * OK
+     */
+    200: {
+        items: Array<PointLedgerResponse>;
+        nextCursor: string | null;
+    };
+};
+
+export type GetGiftiaV1PointsHistoryResponse = GetGiftiaV1PointsHistoryResponses[keyof GetGiftiaV1PointsHistoryResponses];
+
+export type GetGiftiaV1PointsRedemptionsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        cursor?: string;
+    };
+    url: '/giftia/v1/points/redemptions';
+};
+
+export type GetGiftiaV1PointsRedemptionsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetGiftiaV1PointsRedemptionsError = GetGiftiaV1PointsRedemptionsErrors[keyof GetGiftiaV1PointsRedemptionsErrors];
+
+export type GetGiftiaV1PointsRedemptionsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        items: Array<PointRedemptionResponse>;
+        nextCursor: string | null;
+    };
+};
+
+export type GetGiftiaV1PointsRedemptionsResponse = GetGiftiaV1PointsRedemptionsResponses[keyof GetGiftiaV1PointsRedemptionsResponses];
+
+export type PostGiftiaV1PointsRewardsByIdRedeemData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/giftia/v1/points/rewards/{id}/redeem';
+};
+
+export type PostGiftiaV1PointsRewardsByIdRedeemErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Too Many Requests
+     */
+    429: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostGiftiaV1PointsRewardsByIdRedeemError = PostGiftiaV1PointsRewardsByIdRedeemErrors[keyof PostGiftiaV1PointsRewardsByIdRedeemErrors];
+
+export type PostGiftiaV1PointsRewardsByIdRedeemResponses = {
+    /**
+     * Created
+     */
+    201: PointRedemptionResponse;
+};
+
+export type PostGiftiaV1PointsRewardsByIdRedeemResponse = PostGiftiaV1PointsRewardsByIdRedeemResponses[keyof PostGiftiaV1PointsRewardsByIdRedeemResponses];
+
+export type GetGiftiaV1PointsRewardsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/giftia/v1/points/rewards';
+};
+
+export type GetGiftiaV1PointsRewardsErrors = {
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetGiftiaV1PointsRewardsError = GetGiftiaV1PointsRewardsErrors[keyof GetGiftiaV1PointsRewardsErrors];
+
+export type GetGiftiaV1PointsRewardsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        rewards: Array<PointRewardResponse>;
+    };
+};
+
+export type GetGiftiaV1PointsRewardsResponse = GetGiftiaV1PointsRewardsResponses[keyof GetGiftiaV1PointsRewardsResponses];
+
+export type GetGiftiaV1PointsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/giftia/v1/points';
+};
+
+export type GetGiftiaV1PointsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetGiftiaV1PointsError = GetGiftiaV1PointsErrors[keyof GetGiftiaV1PointsErrors];
+
+export type GetGiftiaV1PointsResponses = {
+    /**
+     * OK
+     */
+    200: PointBalanceResponse;
+};
+
+export type GetGiftiaV1PointsResponse = GetGiftiaV1PointsResponses[keyof GetGiftiaV1PointsResponses];
 
 export type DeleteMediaV1UploadData = {
     body?: {
