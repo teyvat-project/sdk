@@ -349,6 +349,85 @@ export type LuckyV12Response = {
     type: 'smart-album';
 };
 
+export type StatusV12Response = {
+    id: string;
+    body: string;
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    } | null;
+    medias: Array<{
+        id: string;
+        alt: string;
+        url: string;
+        order: number;
+        metadata: {
+            width: number | null;
+            height: number | null;
+            isSensitive: boolean;
+            isSpoiler: boolean;
+        } | null;
+        privacyMetadata?: boolean;
+        blurhash?: string | null;
+        hasReference: boolean;
+    }>;
+    contest: {
+        slug: string;
+        title: string;
+        headerUrl: string;
+    } | null;
+    weeklyTheme: {
+        slug: string;
+        title: string;
+        weekKey: string;
+        sponsor: {
+            name: string;
+            url: string | null;
+            logoUrl: string | null;
+            disclosure: string;
+        } | null;
+    } | null;
+    reactions: {
+        [key: string]: {
+            name: string;
+            symbol: string;
+            url: string;
+            count: number;
+            customReactionId?: string;
+        };
+    };
+    createdAt: string;
+    updatedAt: string;
+    visitor?: unknown;
+    privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+    advertisement: {
+        id: string;
+        url: string;
+        redirectHost: string;
+    } | null;
+};
+
 export type AlbumBookResponse = {
     id: string;
     albumId: string | null;
@@ -2071,6 +2150,69 @@ export type GetCatalystV12RandomResponses = {
 
 export type GetCatalystV12RandomResponse = GetCatalystV12RandomResponses[keyof GetCatalystV12RandomResponses];
 
+export type GetCatalystV12TimelineFirehoseData = {
+    body?: never;
+    path?: never;
+    query?: {
+        since?: string;
+        until?: string;
+        trim_visitor?: boolean;
+    };
+    url: '/catalyst/v1.2/timeline/firehose';
+};
+
+export type GetCatalystV12TimelineFirehoseErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+};
+
+export type GetCatalystV12TimelineFirehoseError = GetCatalystV12TimelineFirehoseErrors[keyof GetCatalystV12TimelineFirehoseErrors];
+
+export type GetCatalystV12TimelineFirehoseResponses = {
+    /**
+     * OK
+     */
+    200: Array<StatusV12Response>;
+};
+
+export type GetCatalystV12TimelineFirehoseResponse = GetCatalystV12TimelineFirehoseResponses[keyof GetCatalystV12TimelineFirehoseResponses];
+
+export type GetCatalystV12TimelineHomeData = {
+    body?: never;
+    path?: never;
+    query?: {
+        since?: string;
+        until?: string;
+        trim_visitor?: boolean;
+        exclude_sensitive?: boolean;
+    };
+    url: '/catalyst/v1.2/timeline/home';
+};
+
+export type GetCatalystV12TimelineHomeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV12TimelineHomeError = GetCatalystV12TimelineHomeErrors[keyof GetCatalystV12TimelineHomeErrors];
+
+export type GetCatalystV12TimelineHomeResponses = {
+    /**
+     * OK
+     */
+    200: Array<StatusV12Response>;
+};
+
+export type GetCatalystV12TimelineHomeResponse = GetCatalystV12TimelineHomeResponses[keyof GetCatalystV12TimelineHomeResponses];
+
 export type PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateData = {
     body?: never;
     path: {
@@ -3226,6 +3368,10 @@ export type PostCatalystV1FleetByIdReactionsBySymbolData = {
 };
 
 export type PostCatalystV1FleetByIdReactionsBySymbolErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
     /**
      * Unauthorized
      */
