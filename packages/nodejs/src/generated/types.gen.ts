@@ -70,6 +70,8 @@ export type StatusV11Response = {
             url: string;
             count: number;
             customReactionId?: string;
+            emoji?: string;
+            isRemoteOnly?: boolean;
         };
     };
     createdAt: string;
@@ -175,6 +177,8 @@ export type LuckyV12Response = {
             url: string;
             count: number;
             customReactionId?: string;
+            emoji?: string;
+            isRemoteOnly?: boolean;
         };
     };
     createdAt: string;
@@ -415,6 +419,8 @@ export type StatusV12Response = {
             url: string;
             count: number;
             customReactionId?: string;
+            emoji?: string;
+            isRemoteOnly?: boolean;
         };
     };
     createdAt: string;
@@ -426,6 +432,15 @@ export type StatusV12Response = {
         url: string;
         redirectHost: string;
     } | null;
+};
+
+export type ActivitypubSettingsResponse = {
+    state: 'unavailable' | 'eligible' | 'active' | 'retired';
+    rolloutEligible: boolean;
+    actorUri: string | null;
+    enabledAt: string | null;
+    retiredAt: string | null;
+    eligibilityReason: 'screen-name-required' | 'suspended' | 'account-deleted';
 };
 
 export type AlbumBookResponse = {
@@ -1113,6 +1128,30 @@ export type UserRelationshipsCountResponse = {
     followers: number | null;
 };
 
+export type RemoteFollowersListResponse = {
+    items: Array<{
+        type: 'activitypub-remote-actor';
+        id: string;
+        actorUri: string;
+        profileUri: string;
+        preferredUsername: string;
+        displayName: string;
+        handle: string;
+        cachedIconUri: string | null;
+    }>;
+    count: {
+        total: number;
+        offset: number;
+    };
+    page: {
+        min: number;
+        max: number;
+        current: number;
+        next: number | null;
+        prev: number | null;
+    };
+};
+
 export type FollowingOrFollowersListResponse = {
     items: Array<{
         id: string;
@@ -1257,6 +1296,8 @@ export type StatusReactionResponse = {
     count: number;
     hasSelfReaction?: boolean;
     customReactionId?: string;
+    emoji?: string;
+    isRemoteOnly?: boolean;
 };
 
 export type EditStatus = {
@@ -1909,6 +1950,15 @@ export type NotificationResponse = {
                 width: number;
                 height: number;
             } | null;
+        } | {
+            type: 'activitypub-remote-actor';
+            id: string;
+            actorUri: string;
+            profileUri: string;
+            preferredUsername: string;
+            displayName: string;
+            handle: string;
+            cachedIconUri: string | null;
         };
         isRead: boolean;
         createdAt: string;
@@ -1952,6 +2002,15 @@ export type NotificationResponse = {
                 width: number;
                 height: number;
             } | null;
+        } | {
+            type: 'activitypub-remote-actor';
+            id: string;
+            actorUri: string;
+            profileUri: string;
+            preferredUsername: string;
+            displayName: string;
+            handle: string;
+            cachedIconUri: string | null;
         };
         isRead: boolean;
         createdAt: string;
@@ -2212,6 +2271,97 @@ export type GetCatalystV12TimelineHomeResponses = {
 };
 
 export type GetCatalystV12TimelineHomeResponse = GetCatalystV12TimelineHomeResponses[keyof GetCatalystV12TimelineHomeResponses];
+
+export type DeleteCatalystV1ActivitypubSettingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/activitypub/settings';
+};
+
+export type DeleteCatalystV1ActivitypubSettingsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+};
+
+export type DeleteCatalystV1ActivitypubSettingsError = DeleteCatalystV1ActivitypubSettingsErrors[keyof DeleteCatalystV1ActivitypubSettingsErrors];
+
+export type DeleteCatalystV1ActivitypubSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ActivitypubSettingsResponse;
+};
+
+export type DeleteCatalystV1ActivitypubSettingsResponse = DeleteCatalystV1ActivitypubSettingsResponses[keyof DeleteCatalystV1ActivitypubSettingsResponses];
+
+export type GetCatalystV1ActivitypubSettingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/activitypub/settings';
+};
+
+export type GetCatalystV1ActivitypubSettingsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV1ActivitypubSettingsError = GetCatalystV1ActivitypubSettingsErrors[keyof GetCatalystV1ActivitypubSettingsErrors];
+
+export type GetCatalystV1ActivitypubSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ActivitypubSettingsResponse;
+};
+
+export type GetCatalystV1ActivitypubSettingsResponse = GetCatalystV1ActivitypubSettingsResponses[keyof GetCatalystV1ActivitypubSettingsResponses];
+
+export type PostCatalystV1ActivitypubSettingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/activitypub/settings';
+};
+
+export type PostCatalystV1ActivitypubSettingsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+};
+
+export type PostCatalystV1ActivitypubSettingsError = PostCatalystV1ActivitypubSettingsErrors[keyof PostCatalystV1ActivitypubSettingsErrors];
+
+export type PostCatalystV1ActivitypubSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ActivitypubSettingsResponse;
+};
+
+export type PostCatalystV1ActivitypubSettingsResponse = PostCatalystV1ActivitypubSettingsResponses[keyof PostCatalystV1ActivitypubSettingsResponses];
 
 export type PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateData = {
     body?: never;
@@ -3971,6 +4121,39 @@ export type GetCatalystV1RelationshipsByUsernameByUsernameCountsResponses = {
 };
 
 export type GetCatalystV1RelationshipsByUsernameByUsernameCountsResponse = GetCatalystV1RelationshipsByUsernameByUsernameCountsResponses[keyof GetCatalystV1RelationshipsByUsernameByUsernameCountsResponses];
+
+export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteData = {
+    body?: never;
+    path: {
+        username: string;
+    };
+    query?: {
+        page?: number;
+    };
+    url: '/catalyst/v1/relationships/by/username/{username}/followers/remote';
+};
+
+export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteErrors = {
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteError = GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteErrors[keyof GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteErrors];
+
+export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteResponses = {
+    /**
+     * OK
+     */
+    200: RemoteFollowersListResponse;
+};
+
+export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteResponse = GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteResponses[keyof GetCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteResponses];
 
 export type GetCatalystV1RelationshipsByUsernameByUsernameFollowersData = {
     body?: never;
