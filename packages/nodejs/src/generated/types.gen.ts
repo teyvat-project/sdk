@@ -85,6 +85,55 @@ export type ErrorResponse = {
     code?: string | number;
 };
 
+export type StatusV10Response = {
+    id: string;
+    body: string;
+    createdAt: string;
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    };
+    medias: Array<{
+        id: string;
+        alt: string;
+        url: string;
+        order: number;
+        metadata: {
+            width: number | null;
+            height: number | null;
+            isSensitive: boolean;
+            isSpoiler: boolean;
+        } | null;
+        privacyMetadata?: boolean;
+        blurhash?: string | null;
+        hasReference: boolean;
+    }>;
+    contest?: unknown;
+    weeklyTheme?: unknown;
+    reactions?: unknown;
+};
+
 export type UserResponse = {
     id: string;
     screenName: string;
@@ -764,55 +813,6 @@ export type ContestResponse = {
     publishedAt: string;
 };
 
-export type StatusV10Response = {
-    id: string;
-    body: string;
-    createdAt: string;
-    user: {
-        id: string;
-        screenName: string;
-        displayName: string;
-        profile: {
-            iconUrl: string;
-            bannerUrl: string;
-            bio: string;
-            website: string;
-            additionalWebsites: Array<string>;
-        } | null;
-        profileEmoji?: {
-            type: 'standard';
-            value: string;
-            imageUrl: string;
-        } | {
-            type: 'custom';
-            id: string;
-            shortcode: string;
-            displayName: string;
-            imageUrl: string;
-            width: number;
-            height: number;
-        } | null;
-    };
-    medias: Array<{
-        id: string;
-        alt: string;
-        url: string;
-        order: number;
-        metadata: {
-            width: number | null;
-            height: number | null;
-            isSensitive: boolean;
-            isSpoiler: boolean;
-        } | null;
-        privacyMetadata?: boolean;
-        blurhash?: string | null;
-        hasReference: boolean;
-    }>;
-    contest?: unknown;
-    weeklyTheme?: unknown;
-    reactions?: unknown;
-};
-
 export type CustomReactionResponse = {
     id: string;
     shortcode: string;
@@ -1047,6 +1047,298 @@ export type Fleet = {
         scale?: number;
         rotation?: number;
     }>;
+};
+
+export type GalleryPublicDocumentResponse = {
+    gallery: {
+        id: string;
+        title: string;
+        slug: string;
+        status: 'draft' | 'published' | 'archived';
+        sources: Array<{
+            id: string;
+            sourceType: 'album' | 'smart_album';
+            sourceId: string;
+            position: number;
+        }>;
+        domains: Array<{
+            id: string;
+            hostname: string;
+            domainType: 'catalyst_subdomain' | 'custom';
+            status: 'pending' | 'active' | 'failed';
+            isPrimary: boolean;
+        }>;
+        draftRevisionId: string | null;
+        publishedRevisionId: string | null;
+        createdAt: string;
+        updatedAt: string;
+    };
+    document: {
+        id: string;
+        revision: {
+            id: string;
+            number: number;
+            schemaVersion: number;
+        };
+        metadata: {
+            title: string | null;
+            subtitle: string | null;
+            description: string | null;
+        };
+        theme: {
+            [key: string]: unknown;
+        };
+        settings: {
+            [key: string]: unknown;
+        };
+        sections: Array<{
+            id: string;
+            type: 'hero' | 'grid' | 'masonry' | 'text' | 'chapter' | 'quote' | 'spacer' | 'credits';
+            contentMode: 'manual' | 'dynamic';
+            sourceId: string | null;
+            position: number;
+            name: string | null;
+            settings: {
+                [key: string]: unknown;
+            };
+            items: Array<{
+                id: string;
+                type: 'post' | 'image';
+                sourceId: string | null;
+                position: number;
+                settings: {
+                    caption?: string;
+                    crop?: {
+                        x: number;
+                        y: number;
+                    };
+                    emphasis?: 'featured' | 'normal' | 'supporting';
+                    showCaption?: boolean;
+                    showAuthor?: boolean;
+                };
+            }>;
+            overrides: Array<{
+                id: string;
+                sourceId: string;
+                action: 'pin' | 'hide';
+                position: number | null;
+                settings: {
+                    caption?: string;
+                    crop?: {
+                        x: number;
+                        y: number;
+                    };
+                    emphasis?: 'featured' | 'normal' | 'supporting';
+                    showCaption?: boolean;
+                    showAuthor?: boolean;
+                };
+            }>;
+        }>;
+    };
+    author: {
+        displayName: string;
+        iconUrl: string | null;
+    };
+};
+
+export type GalleryDocumentResponse = {
+    id: string;
+    revision: {
+        id: string;
+        number: number;
+        schemaVersion: number;
+    };
+    metadata: {
+        title: string | null;
+        subtitle: string | null;
+        description: string | null;
+    };
+    theme: {
+        [key: string]: unknown;
+    };
+    settings: {
+        [key: string]: unknown;
+    };
+    sections: Array<{
+        id: string;
+        type: 'hero' | 'grid' | 'masonry' | 'text' | 'chapter' | 'quote' | 'spacer' | 'credits';
+        contentMode: 'manual' | 'dynamic';
+        sourceId: string | null;
+        position: number;
+        name: string | null;
+        settings: {
+            [key: string]: unknown;
+        };
+        items: Array<{
+            id: string;
+            type: 'post' | 'image';
+            sourceId: string | null;
+            position: number;
+            settings: {
+                caption?: string;
+                crop?: {
+                    x: number;
+                    y: number;
+                };
+                emphasis?: 'featured' | 'normal' | 'supporting';
+                showCaption?: boolean;
+                showAuthor?: boolean;
+            };
+        }>;
+        overrides: Array<{
+            id: string;
+            sourceId: string;
+            action: 'pin' | 'hide';
+            position: number | null;
+            settings: {
+                caption?: string;
+                crop?: {
+                    x: number;
+                    y: number;
+                };
+                emphasis?: 'featured' | 'normal' | 'supporting';
+                showCaption?: boolean;
+                showAuthor?: boolean;
+            };
+        }>;
+    }>;
+};
+
+export type UpdateCatalystGalleryRevision = {
+    title?: string | null;
+    subtitle?: string | null;
+    description?: string | null;
+    theme?: {
+        [key: string]: unknown;
+    };
+    settings?: {
+        [key: string]: unknown;
+    };
+};
+
+export type CreateCatalystGalleryDomain = {
+    label: string;
+};
+
+export type GalleryResponse = {
+    id: string;
+    title: string;
+    slug: string;
+    status: 'draft' | 'published' | 'archived';
+    sources: Array<{
+        id: string;
+        sourceType: 'album' | 'smart_album';
+        sourceId: string;
+        position: number;
+    }>;
+    domains: Array<{
+        id: string;
+        hostname: string;
+        domainType: 'catalyst_subdomain' | 'custom';
+        status: 'pending' | 'active' | 'failed';
+        isPrimary: boolean;
+    }>;
+    draftRevisionId: string | null;
+    publishedRevisionId: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type UpdateCatalystGallery = {
+    title?: string;
+    slug?: string;
+    status?: 'draft' | 'published' | 'archived';
+};
+
+export type UpdateCatalystGallerySectionItem = {
+    settings: {
+        caption?: string;
+        crop?: {
+            x: number;
+            y: number;
+        };
+        emphasis?: 'featured' | 'normal' | 'supporting';
+        showCaption?: boolean;
+        showAuthor?: boolean;
+    };
+};
+
+export type CreateCatalystGallerySectionItem = {
+    type: 'post' | 'image';
+    sourceId?: string;
+    position: number;
+    settings?: {
+        caption?: string;
+        crop?: {
+            x: number;
+            y: number;
+        };
+        emphasis?: 'featured' | 'normal' | 'supporting';
+        showCaption?: boolean;
+        showAuthor?: boolean;
+    };
+};
+
+export type ReorderCatalystGallerySectionItems = {
+    order: Array<{
+        id: string;
+        position: number;
+    }>;
+};
+
+export type UpsertCatalystGallerySectionItemOverride = {
+    sourceId: string;
+    action: 'pin' | 'hide';
+    position?: number | null;
+    settings?: {
+        caption?: string;
+        crop?: {
+            x: number;
+            y: number;
+        };
+        emphasis?: 'featured' | 'normal' | 'supporting';
+        showCaption?: boolean;
+        showAuthor?: boolean;
+    };
+};
+
+export type UpdateCatalystGallerySection = {
+    name?: string | null;
+    contentMode?: 'manual' | 'dynamic';
+    sourceId?: string | null;
+    settings?: {
+        [key: string]: unknown;
+    };
+};
+
+export type CreateCatalystGallerySection = {
+    type: 'hero' | 'grid' | 'masonry' | 'text' | 'chapter' | 'quote' | 'spacer' | 'credits';
+    contentMode?: 'manual' | 'dynamic';
+    sourceId?: string;
+    position: number;
+    name?: string;
+    settings?: {
+        [key: string]: unknown;
+    };
+};
+
+export type ReorderCatalystGallerySections = {
+    order: Array<{
+        id: string;
+        position: number;
+    }>;
+};
+
+export type AddCatalystGallerySource = {
+    sourceType: 'album' | 'smart_album';
+    sourceId: string;
+};
+
+export type CreateCatalystGallery = {
+    title: string;
+    slug: string;
+    sourceType: 'album' | 'smart_album';
+    sourceId: string;
 };
 
 export type PrivacySettingsResponse = {
@@ -1334,6 +1626,18 @@ export type RichTrendingItemResponse = {
     rank: number;
     previousRank: number | null;
     movement: 'up' | 'down' | 'same' | 'new';
+};
+
+export type UserWatchSubscriptionResponse = {
+    mode: 'none' | 'all' | 'fleet' | 'followers_only';
+};
+
+export type CreateCatalystWatchUser = {
+    mode: 'all' | 'fleet' | 'followers_only';
+};
+
+export type UpdateCatalystWatchUser = {
+    mode: 'all' | 'fleet' | 'followers_only';
 };
 
 export type WeeklyThemeResponse = {
@@ -2058,6 +2362,37 @@ export type GetCatalystV11OnThisDayResponses = {
 
 export type GetCatalystV11OnThisDayResponse = GetCatalystV11OnThisDayResponses[keyof GetCatalystV11OnThisDayResponses];
 
+export type GetCatalystV11RandomByHashtagData = {
+    body?: never;
+    path?: never;
+    query: {
+        q: string;
+    };
+    url: '/catalyst/v1.1/random/by/hashtag';
+};
+
+export type GetCatalystV11RandomByHashtagErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV11RandomByHashtagError = GetCatalystV11RandomByHashtagErrors[keyof GetCatalystV11RandomByHashtagErrors];
+
+export type GetCatalystV11RandomByHashtagResponses = {
+    /**
+     * OK
+     */
+    200: StatusV10Response;
+};
+
+export type GetCatalystV11RandomByHashtagResponse = GetCatalystV11RandomByHashtagResponses[keyof GetCatalystV11RandomByHashtagResponses];
+
 export type GetCatalystV11RandomData = {
     body?: never;
     path?: never;
@@ -2121,6 +2456,42 @@ export type GetCatalystV11StatusByIdResponses = {
 
 export type GetCatalystV11StatusByIdResponse = GetCatalystV11StatusByIdResponses[keyof GetCatalystV11StatusByIdResponses];
 
+export type GetCatalystV11TimelineAlbumByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        since?: string;
+        until?: string;
+        limit?: number;
+        trim_visitor?: boolean;
+    };
+    url: '/catalyst/v1.1/timeline/album/{id}';
+};
+
+export type GetCatalystV11TimelineAlbumByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV11TimelineAlbumByIdError = GetCatalystV11TimelineAlbumByIdErrors[keyof GetCatalystV11TimelineAlbumByIdErrors];
+
+export type GetCatalystV11TimelineAlbumByIdResponses = {
+    /**
+     * OK
+     */
+    200: Array<StatusV11Response>;
+};
+
+export type GetCatalystV11TimelineAlbumByIdResponse = GetCatalystV11TimelineAlbumByIdResponses[keyof GetCatalystV11TimelineAlbumByIdResponses];
+
 export type GetCatalystV11TimelineFirehoseData = {
     body?: never;
     path?: never;
@@ -2183,6 +2554,42 @@ export type GetCatalystV11TimelineHomeResponses = {
 };
 
 export type GetCatalystV11TimelineHomeResponse = GetCatalystV11TimelineHomeResponses[keyof GetCatalystV11TimelineHomeResponses];
+
+export type GetCatalystV11TimelineSmartAlbumByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        since?: string;
+        until?: string;
+        limit?: number;
+        trim_visitor?: boolean;
+    };
+    url: '/catalyst/v1.1/timeline/smart-album/{id}';
+};
+
+export type GetCatalystV11TimelineSmartAlbumByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV11TimelineSmartAlbumByIdError = GetCatalystV11TimelineSmartAlbumByIdErrors[keyof GetCatalystV11TimelineSmartAlbumByIdErrors];
+
+export type GetCatalystV11TimelineSmartAlbumByIdResponses = {
+    /**
+     * OK
+     */
+    200: Array<StatusV11Response>;
+};
+
+export type GetCatalystV11TimelineSmartAlbumByIdResponse = GetCatalystV11TimelineSmartAlbumByIdResponses[keyof GetCatalystV11TimelineSmartAlbumByIdResponses];
 
 export type GetCatalystV12RandomData = {
     body?: never;
@@ -2528,6 +2935,33 @@ export type PostCatalystV1AlbumByIdByIdBookResponses = {
 };
 
 export type PostCatalystV1AlbumByIdByIdBookResponse = PostCatalystV1AlbumByIdByIdBookResponses[keyof PostCatalystV1AlbumByIdByIdBookResponses];
+
+export type GetCatalystV1AlbumByIdByIdRandomData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/album/by/id/{id}/random';
+};
+
+export type GetCatalystV1AlbumByIdByIdRandomErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV1AlbumByIdByIdRandomError = GetCatalystV1AlbumByIdByIdRandomErrors[keyof GetCatalystV1AlbumByIdByIdRandomErrors];
+
+export type GetCatalystV1AlbumByIdByIdRandomResponses = {
+    /**
+     * OK
+     */
+    200: StatusV10Response;
+};
+
+export type GetCatalystV1AlbumByIdByIdRandomResponse = GetCatalystV1AlbumByIdByIdRandomResponses[keyof GetCatalystV1AlbumByIdByIdRandomResponses];
 
 export type PostCatalystV1AlbumByIdByIdReportData = {
     body?: CreateCatalystReport;
@@ -3876,6 +4310,921 @@ export type PostCatalystV1FleetResponses = {
 
 export type PostCatalystV1FleetResponse = PostCatalystV1FleetResponses[keyof PostCatalystV1FleetResponses];
 
+export type GetCatalystV1GalleryByHostnameByHostnameData = {
+    body?: never;
+    path: {
+        hostname: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/hostname/{hostname}';
+};
+
+export type GetCatalystV1GalleryByHostnameByHostnameErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV1GalleryByHostnameByHostnameError = GetCatalystV1GalleryByHostnameByHostnameErrors[keyof GetCatalystV1GalleryByHostnameByHostnameErrors];
+
+export type GetCatalystV1GalleryByHostnameByHostnameResponses = {
+    /**
+     * OK
+     */
+    200: GalleryPublicDocumentResponse;
+};
+
+export type GetCatalystV1GalleryByHostnameByHostnameResponse = GetCatalystV1GalleryByHostnameByHostnameResponses[keyof GetCatalystV1GalleryByHostnameByHostnameResponses];
+
+export type GetCatalystV1GalleryByIdByIdDocumentData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        revision?: 'draft' | 'published';
+    };
+    url: '/catalyst/v1/gallery/by/id/{id}/document';
+};
+
+export type GetCatalystV1GalleryByIdByIdDocumentErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV1GalleryByIdByIdDocumentError = GetCatalystV1GalleryByIdByIdDocumentErrors[keyof GetCatalystV1GalleryByIdByIdDocumentErrors];
+
+export type GetCatalystV1GalleryByIdByIdDocumentResponses = {
+    /**
+     * OK
+     */
+    200: GalleryDocumentResponse;
+};
+
+export type GetCatalystV1GalleryByIdByIdDocumentResponse = GetCatalystV1GalleryByIdByIdDocumentResponses[keyof GetCatalystV1GalleryByIdByIdDocumentResponses];
+
+export type PatchCatalystV1GalleryByIdByIdDocumentData = {
+    body?: UpdateCatalystGalleryRevision;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/document';
+};
+
+export type PatchCatalystV1GalleryByIdByIdDocumentErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PatchCatalystV1GalleryByIdByIdDocumentError = PatchCatalystV1GalleryByIdByIdDocumentErrors[keyof PatchCatalystV1GalleryByIdByIdDocumentErrors];
+
+export type PatchCatalystV1GalleryByIdByIdDocumentResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PatchCatalystV1GalleryByIdByIdDocumentResponse = PatchCatalystV1GalleryByIdByIdDocumentResponses[keyof PatchCatalystV1GalleryByIdByIdDocumentResponses];
+
+export type DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdData = {
+    body?: never;
+    path: {
+        id: string;
+        domainId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/domains/{domainId}';
+};
+
+export type DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdError = DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdErrors[keyof DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdErrors];
+
+export type DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdResponse = DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdResponses[keyof DeleteCatalystV1GalleryByIdByIdDomainsByDomainIdResponses];
+
+export type PutCatalystV1GalleryByIdByIdDomainsByDomainIdData = {
+    body?: never;
+    path: {
+        id: string;
+        domainId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/domains/{domainId}';
+};
+
+export type PutCatalystV1GalleryByIdByIdDomainsByDomainIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PutCatalystV1GalleryByIdByIdDomainsByDomainIdError = PutCatalystV1GalleryByIdByIdDomainsByDomainIdErrors[keyof PutCatalystV1GalleryByIdByIdDomainsByDomainIdErrors];
+
+export type PutCatalystV1GalleryByIdByIdDomainsByDomainIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PutCatalystV1GalleryByIdByIdDomainsByDomainIdResponse = PutCatalystV1GalleryByIdByIdDomainsByDomainIdResponses[keyof PutCatalystV1GalleryByIdByIdDomainsByDomainIdResponses];
+
+export type PostCatalystV1GalleryByIdByIdDomainsData = {
+    body?: CreateCatalystGalleryDomain;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/domains';
+};
+
+export type PostCatalystV1GalleryByIdByIdDomainsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryByIdByIdDomainsError = PostCatalystV1GalleryByIdByIdDomainsErrors[keyof PostCatalystV1GalleryByIdByIdDomainsErrors];
+
+export type PostCatalystV1GalleryByIdByIdDomainsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1GalleryByIdByIdDomainsResponse = PostCatalystV1GalleryByIdByIdDomainsResponses[keyof PostCatalystV1GalleryByIdByIdDomainsResponses];
+
+export type PostCatalystV1GalleryByIdByIdPublishData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/publish';
+};
+
+export type PostCatalystV1GalleryByIdByIdPublishErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryByIdByIdPublishError = PostCatalystV1GalleryByIdByIdPublishErrors[keyof PostCatalystV1GalleryByIdByIdPublishErrors];
+
+export type PostCatalystV1GalleryByIdByIdPublishResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PostCatalystV1GalleryByIdByIdPublishResponse = PostCatalystV1GalleryByIdByIdPublishResponses[keyof PostCatalystV1GalleryByIdByIdPublishResponses];
+
+export type DeleteCatalystV1GalleryByIdByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}';
+};
+
+export type DeleteCatalystV1GalleryByIdByIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteCatalystV1GalleryByIdByIdError = DeleteCatalystV1GalleryByIdByIdErrors[keyof DeleteCatalystV1GalleryByIdByIdErrors];
+
+export type DeleteCatalystV1GalleryByIdByIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1GalleryByIdByIdResponse = DeleteCatalystV1GalleryByIdByIdResponses[keyof DeleteCatalystV1GalleryByIdByIdResponses];
+
+export type GetCatalystV1GalleryByIdByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}';
+};
+
+export type GetCatalystV1GalleryByIdByIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV1GalleryByIdByIdError = GetCatalystV1GalleryByIdByIdErrors[keyof GetCatalystV1GalleryByIdByIdErrors];
+
+export type GetCatalystV1GalleryByIdByIdResponses = {
+    /**
+     * OK
+     */
+    200: GalleryResponse;
+};
+
+export type GetCatalystV1GalleryByIdByIdResponse = GetCatalystV1GalleryByIdByIdResponses[keyof GetCatalystV1GalleryByIdByIdResponses];
+
+export type PatchCatalystV1GalleryByIdByIdData = {
+    body?: UpdateCatalystGallery;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}';
+};
+
+export type PatchCatalystV1GalleryByIdByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PatchCatalystV1GalleryByIdByIdError = PatchCatalystV1GalleryByIdByIdErrors[keyof PatchCatalystV1GalleryByIdByIdErrors];
+
+export type PatchCatalystV1GalleryByIdByIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PatchCatalystV1GalleryByIdByIdResponse = PatchCatalystV1GalleryByIdByIdResponses[keyof PatchCatalystV1GalleryByIdByIdResponses];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdData = {
+    body?: never;
+    path: {
+        id: string;
+        sectionId: string;
+        itemId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}';
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdError = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponse = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses];
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdData = {
+    body?: UpdateCatalystGallerySectionItem;
+    path: {
+        id: string;
+        sectionId: string;
+        itemId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}';
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdError = PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors[keyof PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdErrors];
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponse = PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses[keyof PatchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdResponses];
+
+export type PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsData = {
+    body?: CreateCatalystGallerySectionItem;
+    path: {
+        id: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items';
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsError = PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors[keyof PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors];
+
+export type PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponse = PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses[keyof PostCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses];
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsData = {
+    body?: ReorderCatalystGallerySectionItems;
+    path: {
+        id: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items';
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsError = PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors[keyof PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsErrors];
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponse = PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses[keyof PutCatalystV1GalleryByIdByIdSectionsBySectionIdItemsResponses];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdData = {
+    body?: never;
+    path: {
+        id: string;
+        sectionId: string;
+        sourceId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}';
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdError = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponse = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses];
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdData = {
+    body?: UpsertCatalystGallerySectionItemOverride;
+    path: {
+        id: string;
+        sectionId: string;
+        sourceId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}';
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdError = PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors[keyof PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdErrors];
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponse = PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses[keyof PutCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdResponses];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdData = {
+    body?: never;
+    path: {
+        id: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}';
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdError = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdErrors[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdErrors];
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdResponse = DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdResponses[keyof DeleteCatalystV1GalleryByIdByIdSectionsBySectionIdResponses];
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdData = {
+    body?: UpdateCatalystGallerySection;
+    path: {
+        id: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}';
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdError = PatchCatalystV1GalleryByIdByIdSectionsBySectionIdErrors[keyof PatchCatalystV1GalleryByIdByIdSectionsBySectionIdErrors];
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PatchCatalystV1GalleryByIdByIdSectionsBySectionIdResponse = PatchCatalystV1GalleryByIdByIdSectionsBySectionIdResponses[keyof PatchCatalystV1GalleryByIdByIdSectionsBySectionIdResponses];
+
+export type PostCatalystV1GalleryByIdByIdSectionsData = {
+    body?: CreateCatalystGallerySection;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections';
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsError = PostCatalystV1GalleryByIdByIdSectionsErrors[keyof PostCatalystV1GalleryByIdByIdSectionsErrors];
+
+export type PostCatalystV1GalleryByIdByIdSectionsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1GalleryByIdByIdSectionsResponse = PostCatalystV1GalleryByIdByIdSectionsResponses[keyof PostCatalystV1GalleryByIdByIdSectionsResponses];
+
+export type PutCatalystV1GalleryByIdByIdSectionsData = {
+    body?: ReorderCatalystGallerySections;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sections';
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsError = PutCatalystV1GalleryByIdByIdSectionsErrors[keyof PutCatalystV1GalleryByIdByIdSectionsErrors];
+
+export type PutCatalystV1GalleryByIdByIdSectionsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PutCatalystV1GalleryByIdByIdSectionsResponse = PutCatalystV1GalleryByIdByIdSectionsResponses[keyof PutCatalystV1GalleryByIdByIdSectionsResponses];
+
+export type PostCatalystV1GalleryByIdByIdSourcesData = {
+    body?: AddCatalystGallerySource;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/gallery/by/id/{id}/sources';
+};
+
+export type PostCatalystV1GalleryByIdByIdSourcesErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryByIdByIdSourcesError = PostCatalystV1GalleryByIdByIdSourcesErrors[keyof PostCatalystV1GalleryByIdByIdSourcesErrors];
+
+export type PostCatalystV1GalleryByIdByIdSourcesResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1GalleryByIdByIdSourcesResponse = PostCatalystV1GalleryByIdByIdSourcesResponses[keyof PostCatalystV1GalleryByIdByIdSourcesResponses];
+
+export type GetCatalystV1GalleryData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/gallery';
+};
+
+export type GetCatalystV1GalleryErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV1GalleryError = GetCatalystV1GalleryErrors[keyof GetCatalystV1GalleryErrors];
+
+export type GetCatalystV1GalleryResponses = {
+    /**
+     * OK
+     */
+    200: Array<GalleryResponse>;
+};
+
+export type GetCatalystV1GalleryResponse = GetCatalystV1GalleryResponses[keyof GetCatalystV1GalleryResponses];
+
+export type PostCatalystV1GalleryData = {
+    body?: CreateCatalystGallery;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/gallery';
+};
+
+export type PostCatalystV1GalleryErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1GalleryError = PostCatalystV1GalleryErrors[keyof PostCatalystV1GalleryErrors];
+
+export type PostCatalystV1GalleryResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1GalleryResponse = PostCatalystV1GalleryResponses[keyof PostCatalystV1GalleryResponses];
+
 export type GetCatalystV1PrivacySettingsData = {
     body?: never;
     path?: never;
@@ -4448,6 +5797,37 @@ export type PostCatalystV1SmartAlbumByIdByIdBookResponses = {
 };
 
 export type PostCatalystV1SmartAlbumByIdByIdBookResponse = PostCatalystV1SmartAlbumByIdByIdBookResponses[keyof PostCatalystV1SmartAlbumByIdByIdBookResponses];
+
+export type GetCatalystV1SmartAlbumByIdByIdRandomData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/smart-album/by/id/{id}/random';
+};
+
+export type GetCatalystV1SmartAlbumByIdByIdRandomErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1SmartAlbumByIdByIdRandomError = GetCatalystV1SmartAlbumByIdByIdRandomErrors[keyof GetCatalystV1SmartAlbumByIdByIdRandomErrors];
+
+export type GetCatalystV1SmartAlbumByIdByIdRandomResponses = {
+    /**
+     * OK
+     */
+    200: StatusV10Response;
+};
+
+export type GetCatalystV1SmartAlbumByIdByIdRandomResponse = GetCatalystV1SmartAlbumByIdByIdRandomResponses[keyof GetCatalystV1SmartAlbumByIdByIdRandomResponses];
 
 export type PostCatalystV1SmartAlbumByIdByIdReportData = {
     body?: CreateCatalystReport;
@@ -5576,6 +6956,176 @@ export type PostCatalystV1UserByIdReportResponses = {
 };
 
 export type PostCatalystV1UserByIdReportResponse = PostCatalystV1UserByIdReportResponses[keyof PostCatalystV1UserByIdReportResponses];
+
+export type DeleteCatalystV1UserByIdWatchData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/user/{id}/watch';
+};
+
+export type DeleteCatalystV1UserByIdWatchErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type DeleteCatalystV1UserByIdWatchError = DeleteCatalystV1UserByIdWatchErrors[keyof DeleteCatalystV1UserByIdWatchErrors];
+
+export type DeleteCatalystV1UserByIdWatchResponses = {
+    /**
+     * OK
+     */
+    200: {
+        ret: boolean;
+    };
+};
+
+export type DeleteCatalystV1UserByIdWatchResponse = DeleteCatalystV1UserByIdWatchResponses[keyof DeleteCatalystV1UserByIdWatchResponses];
+
+export type GetCatalystV1UserByIdWatchData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/user/{id}/watch';
+};
+
+export type GetCatalystV1UserByIdWatchErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1UserByIdWatchError = GetCatalystV1UserByIdWatchErrors[keyof GetCatalystV1UserByIdWatchErrors];
+
+export type GetCatalystV1UserByIdWatchResponses = {
+    /**
+     * OK
+     */
+    200: UserWatchSubscriptionResponse;
+};
+
+export type GetCatalystV1UserByIdWatchResponse = GetCatalystV1UserByIdWatchResponses[keyof GetCatalystV1UserByIdWatchResponses];
+
+export type PatchCatalystV1UserByIdWatchData = {
+    body?: UpdateCatalystWatchUser;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/user/{id}/watch';
+};
+
+export type PatchCatalystV1UserByIdWatchErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PatchCatalystV1UserByIdWatchError = PatchCatalystV1UserByIdWatchErrors[keyof PatchCatalystV1UserByIdWatchErrors];
+
+export type PatchCatalystV1UserByIdWatchResponses = {
+    /**
+     * OK
+     */
+    200: {
+        ret: boolean;
+    };
+};
+
+export type PatchCatalystV1UserByIdWatchResponse = PatchCatalystV1UserByIdWatchResponses[keyof PatchCatalystV1UserByIdWatchResponses];
+
+export type PostCatalystV1UserByIdWatchData = {
+    body?: CreateCatalystWatchUser;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/user/{id}/watch';
+};
+
+export type PostCatalystV1UserByIdWatchErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1UserByIdWatchError = PostCatalystV1UserByIdWatchErrors[keyof PostCatalystV1UserByIdWatchErrors];
+
+export type PostCatalystV1UserByIdWatchResponses = {
+    /**
+     * OK
+     */
+    200: {
+        ret: boolean;
+    };
+};
+
+export type PostCatalystV1UserByIdWatchResponse = PostCatalystV1UserByIdWatchResponses[keyof PostCatalystV1UserByIdWatchResponses];
 
 export type GetCatalystV1WeeklyThemesBySlugBySlugData = {
     body?: never;
