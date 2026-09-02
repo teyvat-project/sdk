@@ -76,8 +76,18 @@ export type StatusV11Response = {
     };
     createdAt: string;
     updatedAt: string;
-    visitor?: unknown;
+    visitor?: {
+        favorite: boolean;
+        reactions?: Array<string>;
+        reposted?: boolean;
+        repostable?: boolean;
+    };
     privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+    repost?: {
+        id: string;
+        createdAt: string;
+    };
+    cursor?: string;
 };
 
 export type ErrorResponse = {
@@ -232,8 +242,18 @@ export type LuckyV12Response = {
     };
     createdAt: string;
     updatedAt: string;
-    visitor?: unknown;
+    visitor?: {
+        favorite: boolean;
+        reactions?: Array<string>;
+        reposted?: boolean;
+        repostable?: boolean;
+    };
     privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+    repost?: {
+        id: string;
+        createdAt: string;
+    };
+    cursor?: string;
     type: 'status';
 } | {
     id: string;
@@ -474,8 +494,18 @@ export type StatusV12Response = {
     };
     createdAt: string;
     updatedAt: string;
-    visitor?: unknown;
+    visitor?: {
+        favorite: boolean;
+        reactions?: Array<string>;
+        reposted?: boolean;
+        repostable?: boolean;
+    };
     privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+    repost?: {
+        id: string;
+        createdAt: string;
+    };
+    cursor?: string;
     advertisement: {
         id: string;
         url: string;
@@ -6447,6 +6477,123 @@ export type PostCatalystV1StatusByIdReportResponses = {
 
 export type PostCatalystV1StatusByIdReportResponse = PostCatalystV1StatusByIdReportResponses[keyof PostCatalystV1StatusByIdReportResponses];
 
+export type DeleteCatalystV1StatusByIdRepostData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/status/{id}/repost';
+};
+
+export type DeleteCatalystV1StatusByIdRepostErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type DeleteCatalystV1StatusByIdRepostError = DeleteCatalystV1StatusByIdRepostErrors[keyof DeleteCatalystV1StatusByIdRepostErrors];
+
+export type DeleteCatalystV1StatusByIdRepostResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type DeleteCatalystV1StatusByIdRepostResponse = DeleteCatalystV1StatusByIdRepostResponses[keyof DeleteCatalystV1StatusByIdRepostResponses];
+
+export type GetCatalystV1StatusByIdRepostData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/status/{id}/repost';
+};
+
+export type GetCatalystV1StatusByIdRepostErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV1StatusByIdRepostError = GetCatalystV1StatusByIdRepostErrors[keyof GetCatalystV1StatusByIdRepostErrors];
+
+export type GetCatalystV1StatusByIdRepostResponses = {
+    /**
+     * OK
+     */
+    200: boolean;
+};
+
+export type GetCatalystV1StatusByIdRepostResponse = GetCatalystV1StatusByIdRepostResponses[keyof GetCatalystV1StatusByIdRepostResponses];
+
+export type PostCatalystV1StatusByIdRepostData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/status/{id}/repost';
+};
+
+export type PostCatalystV1StatusByIdRepostErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1StatusByIdRepostError = PostCatalystV1StatusByIdRepostErrors[keyof PostCatalystV1StatusByIdRepostErrors];
+
+export type PostCatalystV1StatusByIdRepostResponses = {
+    /**
+     * OK
+     */
+    200: {
+        result: boolean;
+    };
+};
+
+export type PostCatalystV1StatusByIdRepostResponse = PostCatalystV1StatusByIdRepostResponses[keyof PostCatalystV1StatusByIdRepostResponses];
+
 export type DeleteCatalystV1StatusByIdData = {
     body?: never;
     path: {
@@ -7724,6 +7871,7 @@ export type GetEpicleseV1ItemsData = {
     query?: {
         q?: string;
         type?: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
+        author?: string;
         offset?: number | null;
         limit?: number;
     };
