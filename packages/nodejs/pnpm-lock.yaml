@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      js-sha256:
-        specifier: ^0.11.1
-        version: 0.11.1
     devDependencies:
       '@hey-api/openapi-ts':
         specifier: ^0.99.0
@@ -745,9 +741,6 @@ packages:
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
-
-  js-sha256@0.11.1:
-    resolution: {integrity: sha512-o6WSo/LUvY2uC4j7mO50a2ms7E/EAdbP0swigLV+nzHKTTaYnaLIWJ02VdXrsJX0vGedDESQnLsOekr94ryfjg==}
 
   js-yaml@4.2.0:
     resolution: {integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==}
@@ -1594,8 +1587,6 @@ snapshots:
   jiti@2.7.0: {}
 
   joycon@3.1.1: {}
-
-  js-sha256@0.11.1: {}
 
   js-yaml@4.2.0:
     dependencies:

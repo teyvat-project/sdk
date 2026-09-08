@@ -1,12 +1,10 @@
-import { sha256 } from "js-sha256";
-
 export class PKCE {
   readonly method = "S256";
 
   private constructor(
     readonly verifier: string,
     readonly challenge: string,
-  ) {}
+  ) { }
 
   static async create(): Promise<PKCE> {
     const verifier = PKCE.generateVerifier();
@@ -22,10 +20,8 @@ export class PKCE {
 
   private static async computeChallenge(verifier: string): Promise<string> {
     const encoded = new TextEncoder().encode(verifier);
-    const hash = sha256.create();
-    hash.update(encoded);
+    const digest = await globalThis.crypto.subtle.digest("SHA-256", encoded);
 
-    const digest = hash.array();
     return PKCE.base64url(new Uint8Array(digest));
   }
 

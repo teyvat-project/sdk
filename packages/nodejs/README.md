@@ -8,6 +8,12 @@ Official Catalyst SDK for TypeScript / JavaScript / Node.js, built for both brow
 $ npm install @natsuneko-laboratory/catalyst-sdk --save
 ```
 
+If you are using React Native, you may need to install `@natsuneko-laboratory/react-native-webcrypto-digest` or other polyfills for `crypto.subtle.digest` depending on your environment:
+
+```bash
+$ npm install @natsuneko-laboratory/react-native-webcrypto-digest --save
+```
+
 ## Usage
 
 ### Authentication (OAuth 2.0 + PKCE)
