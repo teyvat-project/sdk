@@ -346,7 +346,7 @@
 ### Task 7: composite actions と CI
 
 **Files:**
-- Create: `.github/actions/setup-pnpm/action.yml`、`.github/actions/build-nodejs/action.yml`、`.github/actions/build-swift/action.yml`、`.github/actions/build-dotnet/action.yml`、`.github/actions/build-kotlin/action.yml`、`.github/workflows/ci.yml`
+- Create: `.github/actions/setup-pnpm/action.yml`、`.github/actions/build-nodejs/action.yml`、`.github/actions/build-swift/action.yml`、`.github/actions/build-dotnet/action.yml`、`.github/actions/build-kotlin/action.yml`、`.github/workflows/ci.yml`、`.github/dependabot.yml`（spec §5「archon の更新は PR で」に対応。ecosystem は `npm`（`/`）、`github-actions`（`/`）、`nuget`（`/packages/dotnet`）、`gradle`（`/packages/kotlin`）で、いずれも weekly）
 
 **Interfaces:**
 - Produces:
