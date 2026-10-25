@@ -12,6 +12,12 @@ export class PKCE {
     return new PKCE(verifier, challenge);
   }
 
+  /** Builds a PKCE pair from a known verifier (e.g. for tests against RFC 7636 vectors). */
+  static async fromVerifier(verifier: string): Promise<PKCE> {
+    const challenge = await PKCE.computeChallenge(verifier);
+    return new PKCE(verifier, challenge);
+  }
+
   private static generateVerifier(): string {
     const bytes = new Uint8Array(32);
     globalThis.crypto.getRandomValues(bytes);

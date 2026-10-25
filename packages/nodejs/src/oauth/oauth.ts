@@ -1,4 +1,5 @@
 import { PUBLIC_API_ENDPOINT, PUBLIC_AUTHORIZE_ENDPOINT } from "../types/constants.js";
+import type { AccessTokenResponse } from "../generated/index.js";
 import type { Token } from "../types/token.js";
 import type { PKCE } from "./pkce.js";
 
@@ -13,11 +14,29 @@ export class OAuthError extends Error {
   }
 }
 
+export interface OAuthOptions {
+  /** Base URL of the API; the token endpoint is `<baseUrl>/token`. */
+  baseUrl?: string;
+  /** Authorization endpoint used by `getAuthorizeURL`. */
+  authorizeEndpoint?: string;
+  /** Replacement for the global `fetch`, used for token requests. */
+  fetch?: typeof fetch;
+}
+
 export class OAuth {
+  private readonly baseUrl: string;
+  private readonly authorizeEndpoint: string;
+  private readonly fetchImpl: typeof fetch;
+
   constructor(
     private readonly clientId: string,
     private readonly clientSecret: string,
-  ) {}
+    options: OAuthOptions = {},
+  ) {
+    this.baseUrl = (options.baseUrl ?? PUBLIC_API_ENDPOINT).replace(/\/+$/, "");
+    this.authorizeEndpoint = options.authorizeEndpoint ?? PUBLIC_AUTHORIZE_ENDPOINT;
+    this.fetchImpl = options.fetch ?? ((input, init) => fetch(input, init));
+  }
 
   async getAccessTokenByCode(code: string, redirectUri: string, pkce: PKCE): Promise<Token> {
     const body = new URLSearchParams({
@@ -43,7 +62,7 @@ export class OAuth {
   }
 
   getAuthorizeURL(redirectUri: string, pkce: PKCE, state: string): URL {
-    const url = new URL(PUBLIC_AUTHORIZE_ENDPOINT);
+    const url = new URL(this.authorizeEndpoint);
     url.searchParams.set("response_type", "code");
     url.searchParams.set("client_id", this.clientId);
     url.searchParams.set("redirect_uri", redirectUri);
@@ -82,7 +101,7 @@ export class OAuth {
   }
 
   private async postToken(body: URLSearchParams): Promise<Token> {
-    const response = await fetch(`${PUBLIC_API_ENDPOINT}/token`, {
+    const response = await this.fetchImpl(`${this.baseUrl}/token`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: body.toString(),
@@ -92,14 +111,24 @@ export class OAuth {
       throw new OAuthError("Invalid token response", "invalidTokenResponse");
     }
 
-    const json = await response.json() as Record<string, string | number>;
+    let json: Partial<AccessTokenResponse>;
+    try {
+      json = (await response.json()) as Partial<AccessTokenResponse>;
+    } catch {
+      throw new OAuthError("Invalid token response", "invalidTokenResponse");
+    }
+
+    if (json == null || typeof json.access_token !== "string" || typeof json.refresh_token !== "string" || typeof json.token_type !== "string") {
+      throw new OAuthError("Invalid token response", "invalidTokenResponse");
+    }
+
     return {
-      accessToken: json["access_token"] as string,
-      refreshToken: json["refresh_token"] as string,
-      tokenType: json["token_type"] as string,
-      scope: json["scope"] as string | undefined,
-      expiresAt: json["expires_at"] as string | undefined,
-      expiresIn: json["expires_in"] as number | undefined,
+      accessToken: json.access_token,
+      refreshToken: json.refresh_token,
+      tokenType: json.token_type,
+      scope: json.scope,
+      expiresAt: json.expires_at,
+      expiresIn: json.expires_in,
     };
   }
 }
