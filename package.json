@@ -1,0 +1,16 @@
+{
+  "name": "catalyst-sdk-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.28.8",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "generate": "archon generate",
+    "test:scripts": "node --test scripts/"
+  },
+  "devDependencies": {
+    "@natsuneko-laboratory/archon": "0.1.1"
+  }
+}
