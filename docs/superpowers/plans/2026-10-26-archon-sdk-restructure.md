@@ -180,7 +180,7 @@
 3. `concurrent401sRefreshOnce`: 2 つの呼び出しを同時に投げ、両方が 401 を受けたとき、`/token` へのリクエストは 1 回で、両方とも成功する。
 4. `missingTokenThrowsAuthError`: トークンなしで bearer 必須操作を呼ぶと、archon の AuthError 型で失敗し、HTTP リクエストは 0 回。
 5. `failedRefreshReturnsOriginal401`: `/token` が 400 のとき、呼び出しは 401 の ApiError で失敗し、`accessToken` は `"at1"` のまま、`/token` は 1 回。
-6. `pkceMatchesRfc7636Vector`: `fromVerifier("dBjftJeZ4CVP-mJ92kHnVlpgs1HbUg3KvLrrFZy0_bM").challenge == "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"`
+6. `pkceMatchesRfc7636Vector`: `fromVerifier("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk").challenge == "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"`
 7. `authorizeUrlHasParams`: `getAuthorizeURL("app://cb", pkce, "st")` のクエリが `response_type=code`、`client_id=cid`、`redirect_uri=app://cb`、`state=st`、`code_challenge=<challenge>`、`code_challenge_method=S256`。
 8. `authorizationCodeRejectsStateMismatch`: `app://cb?code=c&state=other` を `expectedState="st"` で検証すると、`invalidAuthorizationResponse` で失敗する。`app://cb?code=c&state=st` なら `"c"` を返す。
 
