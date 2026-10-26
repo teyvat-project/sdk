@@ -23,7 +23,14 @@ jobs:
         run: pnpm generate
 
       - name: Check for generated code drift
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          status=$(git status --porcelain)
+          if [ -n "$status" ]; then
+            echo "::error::Generated output differs from the committed files (untracked or modified):"
+            echo "$status"
+            exit 1
+          fi
 
   scripts:
     runs-on: ubuntu-latest
