@@ -27,16 +27,28 @@ function betaNumbers(base, tags) {
   });
 }
 
-/** Next `<base>-beta.N`, where N is shared across all languages. */
+function stableTags(base, tags) {
+  const re = new RegExp(`^(nodejs|swift|dotnet|kotlin)/v${escapeRegExp(base)}$`);
+  return tags.filter((t) => re.test(t));
+}
+
+/**
+ * Next `<base>-beta.N`, where N is shared across all languages. Throws when any
+ * language already has a stable tag for `base`: a beta of a released version
+ * would sort below it, so the API must bump `info.version` first.
+ */
 export function nextBeta(base, tags) {
+  const existing = stableTags(base, tags);
+  if (existing.length > 0) {
+    throw new Error(`stable ${base} already released (${existing.join(', ')}); the API must bump info.version`);
+  }
   const max = betaNumbers(base, tags).reduce((acc, { n }) => Math.max(acc, n), 0);
   return `${base}-beta.${max + 1}`;
 }
 
 /** Throws when any language already has a stable tag for `base`. */
 export function assertStableAvailable(base, tags) {
-  const re = new RegExp(`^(nodejs|swift|dotnet|kotlin)/v${escapeRegExp(base)}$`);
-  const existing = tags.filter((t) => re.test(t));
+  const existing = stableTags(base, tags);
   if (existing.length > 0) {
     throw new Error(`stable version ${base} already released: ${existing.join(', ')}`);
   }
