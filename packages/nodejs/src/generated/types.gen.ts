@@ -1480,6 +1480,7 @@ export type LuckyV12Response = {
     slug: string;
     title: string;
     weekKey: string;
+    generatedBannerUrl: string;
     sponsor: {
       name: string;
       url: string | null;
@@ -2047,6 +2048,7 @@ export type ScheduledStatusResponse = {
     slug: string;
     title: string;
     weekKey: string;
+    generatedBannerUrl: string;
     sponsor: {
       name: string;
       url: string | null;
@@ -2295,6 +2297,7 @@ export type StatusV11Response = {
     slug: string;
     title: string;
     weekKey: string;
+    generatedBannerUrl: string;
     sponsor: {
       name: string;
       url: string | null;
@@ -2408,6 +2411,7 @@ export type StatusV12Response = {
     slug: string;
     title: string;
     weekKey: string;
+    generatedBannerUrl: string;
     sponsor: {
       name: string;
       url: string | null;
@@ -2599,6 +2603,7 @@ export type WeeklyThemeResponse = {
   description: string;
   hashtag: string | null;
   bannerUrl: string | null;
+  generatedBannerUrl: string;
   since: string;
   until: string;
   state: 'draft' | 'scheduled' | 'open' | 'closed' | 'cancelled';

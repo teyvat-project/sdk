@@ -10,6 +10,7 @@ public struct WeeklyThemeResponse: Codable, Hashable, Sendable {
     public var description: String
     public var hashtag: String?
     public var bannerUrl: String?
+    public var generatedBannerUrl: String
     public var since: Date
     public var until: Date
     public var state: WeeklyThemeResponseState
@@ -19,13 +20,14 @@ public struct WeeklyThemeResponse: Codable, Hashable, Sendable {
     public var participantCount: Double
     public var visitor: WeeklyThemeResponseVisitor?
 
-    public init(slug: String, weekKey: String, title: String, description: String, hashtag: String?, bannerUrl: String?, since: Date, until: Date, state: WeeklyThemeResponseState, points: Double, sponsor: WeeklyThemeResponseSponsor?, statusCount: Double, participantCount: Double, visitor: WeeklyThemeResponseVisitor? = nil) {
+    public init(slug: String, weekKey: String, title: String, description: String, hashtag: String?, bannerUrl: String?, generatedBannerUrl: String, since: Date, until: Date, state: WeeklyThemeResponseState, points: Double, sponsor: WeeklyThemeResponseSponsor?, statusCount: Double, participantCount: Double, visitor: WeeklyThemeResponseVisitor? = nil) {
         self.slug = slug
         self.weekKey = weekKey
         self.title = title
         self.description = description
         self.hashtag = hashtag
         self.bannerUrl = bannerUrl
+        self.generatedBannerUrl = generatedBannerUrl
         self.since = since
         self.until = until
         self.state = state
@@ -43,6 +45,7 @@ public struct WeeklyThemeResponse: Codable, Hashable, Sendable {
         case description
         case hashtag
         case bannerUrl
+        case generatedBannerUrl
         case since
         case until
         case state
@@ -61,6 +64,7 @@ public struct WeeklyThemeResponse: Codable, Hashable, Sendable {
         self.description = try container.decode(String.self, forKey: .description)
         self.hashtag = try container.decodeIfPresent(String.self, forKey: .hashtag)
         self.bannerUrl = try container.decodeIfPresent(String.self, forKey: .bannerUrl)
+        self.generatedBannerUrl = try container.decode(String.self, forKey: .generatedBannerUrl)
         self.since = try container.decode(Date.self, forKey: .since)
         self.until = try container.decode(Date.self, forKey: .until)
         self.state = try container.decode(WeeklyThemeResponseState.self, forKey: .state)
@@ -79,6 +83,7 @@ public struct WeeklyThemeResponse: Codable, Hashable, Sendable {
         try container.encode(description, forKey: .description)
         try container.encode(hashtag, forKey: .hashtag)
         try container.encode(bannerUrl, forKey: .bannerUrl)
+        try container.encode(generatedBannerUrl, forKey: .generatedBannerUrl)
         try container.encode(since, forKey: .since)
         try container.encode(until, forKey: .until)
         try container.encode(state, forKey: .state)

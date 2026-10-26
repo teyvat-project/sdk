@@ -4490,6 +4490,7 @@ export type GetCatalystV1WeeklyThemesCurrentResponses = {
       description: string;
       hashtag: string | null;
       bannerUrl: string | null;
+      generatedBannerUrl: string;
       since: string;
       until: string;
       state: 'draft' | 'scheduled' | 'open' | 'closed' | 'cancelled';

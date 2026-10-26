@@ -21,6 +21,8 @@ public data class GetCatalystV1WeeklyThemesCurrentResponse200Theme(
     public val hashtag: String?,
     @SerialName("bannerUrl")
     public val bannerUrl: String?,
+    @SerialName("generatedBannerUrl")
+    public val generatedBannerUrl: String,
     @SerialName("since")
     public val since: String,
     @SerialName("until")

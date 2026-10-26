@@ -10,6 +10,7 @@ public struct GetCatalystV1WeeklyThemesCurrentResponse200Theme: Codable, Hashabl
     public var description: String
     public var hashtag: String?
     public var bannerUrl: String?
+    public var generatedBannerUrl: String
     public var since: Date
     public var until: Date
     public var state: GetCatalystV1WeeklyThemesCurrentResponse200ThemeState
@@ -19,13 +20,14 @@ public struct GetCatalystV1WeeklyThemesCurrentResponse200Theme: Codable, Hashabl
     public var participantCount: Double
     public var visitor: GetCatalystV1WeeklyThemesCurrentResponse200ThemeVisitor?
 
-    public init(slug: String, weekKey: String, title: String, description: String, hashtag: String?, bannerUrl: String?, since: Date, until: Date, state: GetCatalystV1WeeklyThemesCurrentResponse200ThemeState, points: Double, sponsor: GetCatalystV1WeeklyThemesCurrentResponse200ThemeSponsor?, statusCount: Double, participantCount: Double, visitor: GetCatalystV1WeeklyThemesCurrentResponse200ThemeVisitor? = nil) {
+    public init(slug: String, weekKey: String, title: String, description: String, hashtag: String?, bannerUrl: String?, generatedBannerUrl: String, since: Date, until: Date, state: GetCatalystV1WeeklyThemesCurrentResponse200ThemeState, points: Double, sponsor: GetCatalystV1WeeklyThemesCurrentResponse200ThemeSponsor?, statusCount: Double, participantCount: Double, visitor: GetCatalystV1WeeklyThemesCurrentResponse200ThemeVisitor? = nil) {
         self.slug = slug
         self.weekKey = weekKey
         self.title = title
         self.description = description
         self.hashtag = hashtag
         self.bannerUrl = bannerUrl
+        self.generatedBannerUrl = generatedBannerUrl
         self.since = since
         self.until = until
         self.state = state
@@ -43,6 +45,7 @@ public struct GetCatalystV1WeeklyThemesCurrentResponse200Theme: Codable, Hashabl
         case description
         case hashtag
         case bannerUrl
+        case generatedBannerUrl
         case since
         case until
         case state
@@ -61,6 +64,7 @@ public struct GetCatalystV1WeeklyThemesCurrentResponse200Theme: Codable, Hashabl
         self.description = try container.decode(String.self, forKey: .description)
         self.hashtag = try container.decodeIfPresent(String.self, forKey: .hashtag)
         self.bannerUrl = try container.decodeIfPresent(String.self, forKey: .bannerUrl)
+        self.generatedBannerUrl = try container.decode(String.self, forKey: .generatedBannerUrl)
         self.since = try container.decode(Date.self, forKey: .since)
         self.until = try container.decode(Date.self, forKey: .until)
         self.state = try container.decode(GetCatalystV1WeeklyThemesCurrentResponse200ThemeState.self, forKey: .state)
@@ -79,6 +83,7 @@ public struct GetCatalystV1WeeklyThemesCurrentResponse200Theme: Codable, Hashabl
         try container.encode(description, forKey: .description)
         try container.encode(hashtag, forKey: .hashtag)
         try container.encode(bannerUrl, forKey: .bannerUrl)
+        try container.encode(generatedBannerUrl, forKey: .generatedBannerUrl)
         try container.encode(since, forKey: .since)
         try container.encode(until, forKey: .until)
         try container.encode(state, forKey: .state)

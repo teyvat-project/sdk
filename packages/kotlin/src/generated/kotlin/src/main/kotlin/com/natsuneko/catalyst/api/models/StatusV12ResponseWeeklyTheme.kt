@@ -15,6 +15,8 @@ public data class StatusV12ResponseWeeklyTheme(
     public val title: String,
     @SerialName("weekKey")
     public val weekKey: String,
+    @SerialName("generatedBannerUrl")
+    public val generatedBannerUrl: String,
     @SerialName("sponsor")
     public val sponsor: StatusV12ResponseWeeklyThemeSponsor?,
 )

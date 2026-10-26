@@ -273,6 +273,10 @@
               "weekKey": {
                 "type": "string"
               },
+              "generatedBannerUrl": {
+                "type": "string",
+                "format": "uri"
+              },
               "sponsor": {
                 "type": [
                   "object",
@@ -312,6 +316,7 @@
               "slug",
               "title",
               "weekKey",
+              "generatedBannerUrl",
               "sponsor"
             ]
           },
@@ -1409,6 +1414,10 @@
                   "weekKey": {
                     "type": "string"
                   },
+                  "generatedBannerUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "sponsor": {
                     "type": [
                       "object",
@@ -1448,6 +1457,7 @@
                   "slug",
                   "title",
                   "weekKey",
+                  "generatedBannerUrl",
                   "sponsor"
                 ]
               },
@@ -2822,6 +2832,10 @@
               "weekKey": {
                 "type": "string"
               },
+              "generatedBannerUrl": {
+                "type": "string",
+                "format": "uri"
+              },
               "sponsor": {
                 "type": [
                   "object",
@@ -2861,6 +2875,7 @@
               "slug",
               "title",
               "weekKey",
+              "generatedBannerUrl",
               "sponsor"
             ]
           },
@@ -8285,6 +8300,10 @@
               "weekKey": {
                 "type": "string"
               },
+              "generatedBannerUrl": {
+                "type": "string",
+                "format": "uri"
+              },
               "sponsor": {
                 "type": [
                   "object",
@@ -8324,6 +8343,7 @@
               "slug",
               "title",
               "weekKey",
+              "generatedBannerUrl",
               "sponsor"
             ]
           },
@@ -9438,6 +9458,10 @@
             ],
             "format": "uri"
           },
+          "generatedBannerUrl": {
+            "type": "string",
+            "format": "uri"
+          },
           "since": {
             "type": "string",
             "format": "date-time"
@@ -9522,6 +9546,7 @@
           "description",
           "hashtag",
           "bannerUrl",
+          "generatedBannerUrl",
           "since",
           "until",
           "state",
@@ -24943,6 +24968,10 @@
                           ],
                           "format": "uri"
                         },
+                        "generatedBannerUrl": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "since": {
                           "type": "string",
                           "format": "date-time"
@@ -25027,6 +25056,7 @@
                         "description",
                         "hashtag",
                         "bannerUrl",
+                        "generatedBannerUrl",
                         "since",
                         "until",
                         "state",

@@ -7,12 +7,14 @@ public struct LuckyV12ResponseStatusWeeklyTheme: Codable, Hashable, Sendable {
     public var slug: String
     public var title: String
     public var weekKey: String
+    public var generatedBannerUrl: String
     public var sponsor: LuckyV12ResponseStatusWeeklyThemeSponsor?
 
-    public init(slug: String, title: String, weekKey: String, sponsor: LuckyV12ResponseStatusWeeklyThemeSponsor?) {
+    public init(slug: String, title: String, weekKey: String, generatedBannerUrl: String, sponsor: LuckyV12ResponseStatusWeeklyThemeSponsor?) {
         self.slug = slug
         self.title = title
         self.weekKey = weekKey
+        self.generatedBannerUrl = generatedBannerUrl
         self.sponsor = sponsor
     }
 
@@ -20,6 +22,7 @@ public struct LuckyV12ResponseStatusWeeklyTheme: Codable, Hashable, Sendable {
         case slug
         case title
         case weekKey
+        case generatedBannerUrl
         case sponsor
     }
 
@@ -28,6 +31,7 @@ public struct LuckyV12ResponseStatusWeeklyTheme: Codable, Hashable, Sendable {
         self.slug = try container.decode(String.self, forKey: .slug)
         self.title = try container.decode(String.self, forKey: .title)
         self.weekKey = try container.decode(String.self, forKey: .weekKey)
+        self.generatedBannerUrl = try container.decode(String.self, forKey: .generatedBannerUrl)
         self.sponsor = try container.decodeIfPresent(LuckyV12ResponseStatusWeeklyThemeSponsor.self, forKey: .sponsor)
     }
 
@@ -36,6 +40,7 @@ public struct LuckyV12ResponseStatusWeeklyTheme: Codable, Hashable, Sendable {
         try container.encode(slug, forKey: .slug)
         try container.encode(title, forKey: .title)
         try container.encode(weekKey, forKey: .weekKey)
+        try container.encode(generatedBannerUrl, forKey: .generatedBannerUrl)
         try container.encode(sponsor, forKey: .sponsor)
     }
 }

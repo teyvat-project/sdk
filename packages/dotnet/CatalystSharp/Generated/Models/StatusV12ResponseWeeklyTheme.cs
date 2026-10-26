@@ -16,6 +16,9 @@ public sealed partial class StatusV12ResponseWeeklyTheme
     [global::System.Text.Json.Serialization.JsonPropertyName("weekKey")]
     public required string WeekKey { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("generatedBannerUrl")]
+    public required string GeneratedBannerUrl { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("sponsor")]
     public required StatusV12ResponseWeeklyThemeSponsor? Sponsor { get; set; }
 }

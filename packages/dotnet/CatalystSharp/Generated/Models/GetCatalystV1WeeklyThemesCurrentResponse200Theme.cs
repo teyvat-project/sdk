@@ -25,6 +25,9 @@ public sealed partial class GetCatalystV1WeeklyThemesCurrentResponse200Theme
     [global::System.Text.Json.Serialization.JsonPropertyName("bannerUrl")]
     public required string? BannerUrl { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("generatedBannerUrl")]
+    public required string GeneratedBannerUrl { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("since")]
     public required global::System.DateTimeOffset Since { get; set; }
 
