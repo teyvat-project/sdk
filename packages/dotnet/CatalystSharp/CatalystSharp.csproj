@@ -1,22 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>CatalystSharp</RootNamespace>
+    <PackageId>CatalystSharp</PackageId>
     <Title>CatalystSharp</Title>
     <Authors>Natsuneko</Authors>
     <Company>Natsuneko Laboratory</Company>
     <Description>CatalystSharp is a .NET library that provides bindings for Natsuneko Laboratory Platform, enabling developers to create Catalyst applications using C# and .NET technologies.</Description>
-    <PackageProjectUrl>https://github.com/mika-f/CatalystSharp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mika-f/CatalystSDK</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/mika-f/CatalystSharp</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mika-f/CatalystSDK</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <FileVersion>0.1.0.0</FileVersion>
-    <Version>0.1.0</Version>
+    <!-- The real version is injected at release time: dotnet pack -p:Version=... -->
+    <Version>0.0.0-dev</Version>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,10 +26,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
 </Project>
