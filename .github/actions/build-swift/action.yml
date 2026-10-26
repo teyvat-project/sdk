@@ -1,0 +1,10 @@
+name: Build Swift SDK
+description: Run the Swift package tests in packages/swift. Requires a macOS runner (CryptoKit). Run from the repository root after checkout.
+
+runs:
+  using: composite
+  steps:
+    - name: Test
+      shell: bash
+      working-directory: packages/swift
+      run: swift test
