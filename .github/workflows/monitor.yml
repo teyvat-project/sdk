@@ -1,0 +1,169 @@
+name: Monitor OpenAPI
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.spec.outputs.changed }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-pnpm
+
+      - name: Fetch OpenAPI spec
+        id: spec
+        run: node scripts/spec.mjs https://api.natsuneko.com/openapi.json openapi/openapi.json >> "$GITHUB_OUTPUT"
+
+      - name: Regenerate clients
+        if: steps.spec.outputs.changed == 'true'
+        run: pnpm generate
+
+      - name: Create regeneration patch
+        if: steps.spec.outputs.changed == 'true'
+        run: |
+          git add -A
+          git diff --cached --binary > "$RUNNER_TEMP/regen.patch"
+          mv "$RUNNER_TEMP/regen.patch" regen.patch
+
+      - name: Upload regeneration patch
+        if: steps.spec.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: regen-patch
+          path: regen.patch
+          if-no-files-found: error
+
+  build-nodejs:
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: regen-patch
+
+      - name: Apply regeneration patch
+        run: git apply regen.patch && rm regen.patch
+
+      - uses: ./.github/actions/build-nodejs
+
+  build-dotnet:
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: regen-patch
+
+      - name: Apply regeneration patch
+        run: git apply regen.patch && rm regen.patch
+
+      - uses: ./.github/actions/build-dotnet
+
+  build-kotlin:
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: regen-patch
+
+      - name: Apply regeneration patch
+        run: git apply regen.patch && rm regen.patch
+
+      - uses: ./.github/actions/build-kotlin
+
+  build-swift:
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: macos-15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: regen-patch
+
+      - name: Apply regeneration patch
+        run: git apply regen.patch && rm regen.patch
+
+      - uses: ./.github/actions/build-swift
+
+  commit:
+    needs: [detect, build-nodejs, build-dotnet, build-kotlin, build-swift]
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      # Credentials stay persisted on purpose: this job pushes to main.
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: regen-patch
+
+      - name: Apply regeneration patch
+        run: |
+          git apply regen.patch
+          rm regen.patch
+          git add -A
+
+      - name: Commit and push
+        run: |
+          spec_version=$(node -p "require('./openapi/openapi.json').info.version")
+          git \
+            -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -m "chore: regenerate SDKs from openapi ${spec_version}"
+          git push origin HEAD:main
+
+      - name: Dispatch beta release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --tags
+          version=$(node scripts/next-version.mjs beta --spec openapi/openapi.json)
+          gh workflow run release.yml --ref main -f channel=beta -f version="$version" -f sha="$(git rev-parse HEAD)"
