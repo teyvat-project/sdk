@@ -19,7 +19,7 @@ SwiftPM only resolves a `Package.swift` at the repository root and tags without 
 
 This is a rewrite. The handwritten clients and models are gone, replaced by archon-generated clients plus a thin `Catalyst` layer.
 
-- npm: `1.0.0-alpha.17` -> `2026.x`. The package is now ESM only; CommonJS `require()` is no longer supported.
+- npm: `1.0.0-alpha.17` -> `2026.x`. The package is now ESM only; CommonJS `require()` is no longer supported. `CatalystTS` is now `Catalyst`; the nested calls (`catalyst.catalyst.v11.timeline.home.get()`) keep their old names, but results are archon's `{ data, error, response }` with an `ApiError` in `error`.
 - NuGet: `0.1.0` -> `2026.x` (target framework is now `net10.0`)
 - Swift / Kotlin: the old APIs are replaced; see each package README for the new usage.
 
@@ -73,11 +73,11 @@ npm audit signatures
 ```sh
 pnpm install --frozen-lockfile
 pnpm generate          # archon generate (writes generated code under packages/*)
-pnpm run test:scripts  # node --test "scripts/*.test.mjs"
+pnpm run test:scripts  # node --test "scripts/*.test.mjs" "archon/*.test.ts"
 pnpm -r test           # Node.js package tests
 ```
 
-Generated directories are cleaned on every run; never edit them by hand. Language manifests (`package.json`, `Package.swift`, `.csproj`, `build.gradle.kts`) and the thin layer are handwritten.
+Generated directories are cleaned on every run; never edit them by hand. The Node.js nested API (`packages/nodejs/src/generated/facade.gen.ts`) comes from the local archon plugin in [`archon/facade.ts`](./archon/facade.ts). Language manifests (`package.json`, `Package.swift`, `.csproj`, `build.gradle.kts`) and the thin layer are handwritten.
 
 ## Manual GitHub setup
 

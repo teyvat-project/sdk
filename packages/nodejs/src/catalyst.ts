@@ -7,6 +7,7 @@ import {
   type FetchLike,
   type Middleware,
 } from "./generated/index.js";
+import { createFacade, type Facade } from "./generated/facade.gen.js";
 import { OAuth } from "./oauth/oauth.js";
 import { PUBLIC_API_ENDPOINT, USER_AGENT } from "./types/constants.js";
 import type { Token } from "./types/token.js";
@@ -30,6 +31,7 @@ export class Catalyst {
   readonly client: Client<ApiAuth>;
   readonly oauth: OAuth;
 
+  readonly #facade: Facade;
   #accessToken: string | undefined;
   #refreshToken: string | undefined;
   #inflightRefresh: Promise<Token> | undefined;
@@ -50,9 +52,46 @@ export class Catalyst {
       ],
     });
 
+    this.#facade = createFacade(this.client);
+
     this.#accessToken = opts.accessToken;
     this.#refreshToken = opts.refreshToken;
     this.#applyAuth();
+  }
+
+  /** `/catalyst/...`, e.g. `catalyst.catalyst.v11.timeline.home.get()`. */
+  get catalyst(): Facade["catalyst"] {
+    return this.#facade.catalyst;
+  }
+
+  /** `/egeria/...` */
+  get egeria(): Facade["egeria"] {
+    return this.#facade.egeria;
+  }
+
+  /** `/epiclese/...` */
+  get epiclese(): Facade["epiclese"] {
+    return this.#facade.epiclese;
+  }
+
+  /** `/feature-flags/...` */
+  get featureFlags(): Facade["featureFlags"] {
+    return this.#facade.featureFlags;
+  }
+
+  /** `/giftia/...` */
+  get giftia(): Facade["giftia"] {
+    return this.#facade.giftia;
+  }
+
+  /** `/media/...` */
+  get media(): Facade["media"] {
+    return this.#facade.media;
+  }
+
+  /** `/steambird/...` */
+  get steambird(): Facade["steambird"] {
+    return this.#facade.steambird;
   }
 
   get accessToken(): string | undefined {

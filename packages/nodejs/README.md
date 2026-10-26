@@ -21,7 +21,7 @@ The package is ESM only; CommonJS `require()` is not supported.
 ## Usage
 
 ```ts
-import { Catalyst, getCatalystV11Random } from "@natsuneko-laboratory/catalyst-sdk";
+import { Catalyst } from "@natsuneko-laboratory/catalyst-sdk";
 
 const catalyst = new Catalyst({
   clientId: "your-client-id",
@@ -33,9 +33,28 @@ const catalyst = new Catalyst({
   },
 });
 
-// Pass the configured client to any generated operation.
-const { data, error } = await getCatalystV11Random({ client: catalyst.client });
+// GET /catalyst/v1.1/timeline/home
+const { data, error } = await catalyst.catalyst.v11.timeline.home.get();
+
+// Path parameters, query parameters and the body go in `path`, `query` and `body`.
+const status = await catalyst.catalyst.v11.status.id.get({ path: { id: "status-id" } });
+await catalyst.catalyst.v1.relationships.bulk.create({ body: { userIds: ["user-id"] } });
+
+// With `throwOnError: true`, a non-2xx response throws an `ApiError` instead of being returned.
+const { data: me } = await catalyst.egeria.v1.me.get({ throwOnError: true });
 ```
+
+Every operation is reachable from `Catalyst` by its path, as in the old CatalystTS SDK. The first path segment is the service (`catalyst`, `egeria`, `epiclese`, `featureFlags`, `giftia`, `media`, `steambird`); every following segment is camelCased (`v1.1` → `v11`, `on-this-day` → `onThisDay`, `{id}` → `id`); the method is named after the HTTP method (`GET` → `get`, `POST` → `create`, `PUT` → `update`, `PATCH` → `patch`, `DELETE` → `delete`). Each call returns `{ data, error, response }`.
+
+The nested methods call the generated operation functions, which are also exported. Pass `catalyst.client` to call one directly:
+
+```ts
+import { getCatalystV11TimelineHome } from "@natsuneko-laboratory/catalyst-sdk";
+
+const { data } = await getCatalystV11TimelineHome({ client: catalyst.client });
+```
+
+`createFacade(client)` builds the same nested object for a client you created yourself with `createApiClient`.
 
 When a request returns `401` and a refresh token is set, the SDK refreshes the access token once (concurrent requests share a single refresh) and retries. If the refresh fails, the original `401` is returned as an `ApiError`. Calling an operation that needs a bearer token without an access token fails with `AuthError` before any request is sent.
 
