@@ -4,8 +4,14 @@ name: Release
 # with attested assets, then the registry publish, then the release is published.
 # Publishing creates the `<lang>/v<version>` tag, which is immutable from then on.
 #
+# Project code (dependencies, tests, build tools) only runs in the build-* jobs,
+# which have read-only contents. The publish-* jobs hold the environment, OIDC
+# and the write token, and only handle the artifacts the build jobs uploaded.
+#
 # Re-running is safe: a language whose release is already published is skipped,
-# an existing draft is reused, and registry publishes skip existing versions.
+# an existing draft is reused, and a version already on the registry is skipped
+# when its draft exists. A registry or mirror version with no draft (or from
+# another commit) fails the job, so it is never released against a new commit.
 # After a partial stable failure, use "Re-run failed jobs" on the same run
 # (`resolve` refuses a stable version once any `<lang>/v<version>` tag exists).
 #
@@ -142,8 +148,110 @@ jobs:
             echo "npm-tag=${npm_tag}"
           } >> "$GITHUB_OUTPUT"
 
-  nodejs:
+  # Build jobs run project code (dependencies, tests, build tools), so they get
+  # read-only contents and nothing else: no environment, no OIDC, no write token.
+  # They hand the release artifacts to the matching publish job.
+  build-nodejs:
     needs: resolve
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ needs.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      - uses: ./.github/actions/build-nodejs
+
+      - name: Pack
+        working-directory: packages/nodejs
+        run: |
+          set -euo pipefail
+          npm version "$VERSION" --no-git-tag-version --ignore-scripts
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP/release-assets"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-nodejs
+          path: ${{ runner.temp }}/release-assets/
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
+
+  build-dotnet:
+    needs: resolve
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ needs.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      # Sets up .NET 10 and runs the tests.
+      - uses: ./.github/actions/build-dotnet
+
+      - name: Pack
+        working-directory: packages/dotnet
+        run: |
+          set -euo pipefail
+          dotnet pack CatalystSharp/CatalystSharp.csproj -c Release -o ./bin -p:Version="$VERSION"
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          cp "bin/CatalystSharp.${VERSION}.nupkg" "bin/CatalystSharp.${VERSION}.snupkg" "$RUNNER_TEMP/release-assets/"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-dotnet
+          path: ${{ runner.temp }}/release-assets/
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
+
+  build-kotlin:
+    needs: resolve
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ needs.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      # Sets up Java and Gradle, then builds and tests.
+      - uses: ./.github/actions/build-kotlin
+
+      - name: Build release artifacts
+        working-directory: packages/kotlin
+        run: |
+          set -euo pipefail
+          ./gradlew build generatePomFileForMavenPublication -Pversion="$VERSION"
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          cp "build/libs/catalyst-kotlin-${VERSION}.jar" "build/libs/catalyst-kotlin-${VERSION}-sources.jar" "$RUNNER_TEMP/release-assets/"
+          cp build/publications/maven/pom-default.xml "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}.pom"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-kotlin
+          path: ${{ runner.temp }}/release-assets/
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
+
+  # Publish jobs hold the environment, OIDC and the write token. They never
+  # check out or run project code: they only attest, release and publish the
+  # artifacts produced by the build jobs.
+  publish-nodejs:
+    needs: [resolve, build-nodejs]
     runs-on: ubuntu-latest
     environment: npm
     permissions:
@@ -183,24 +291,59 @@ jobs:
           fi
           echo "state=${state}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         if: steps.state.outputs.state != 'published'
         with:
-          ref: ${{ needs.resolve.outputs.sha }}
-          persist-credentials: false
+          name: release-nodejs
+          path: ${{ runner.temp }}/release-assets
 
-      - uses: ./.github/actions/build-nodejs
+      - name: Verify artifacts
         if: steps.state.outputs.state != 'published'
-
-      - name: Pack
-        if: steps.state.outputs.state != 'published'
-        working-directory: packages/nodejs
         run: |
           set -euo pipefail
-          npm version "$VERSION" --no-git-tag-version --ignore-scripts
-          mkdir -p "$RUNNER_TEMP/release-assets"
-          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP/release-assets"
-          test -f "$RUNNER_TEMP/release-assets/natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz"
+          cd "$RUNNER_TEMP/release-assets"
+          tgz="natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz"
+          actual=$(find . -mindepth 1 -printf '%P\n' | sort)
+          if [ "$actual" != "$tgz" ]; then
+            echo "::error::Unexpected artifact contents: ${actual}"
+            exit 1
+          fi
+          manifest=$(tar -xzOf "$tgz" package/package.json | jq -r '.name + "@" + .version')
+          if [ "$manifest" != "${PACKAGE}@${VERSION}" ]; then
+            echo "::error::Tarball contains ${manifest}, expected ${PACKAGE}@${VERSION}"
+            exit 1
+          fi
+
+      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        if: steps.state.outputs.state != 'published'
+        with:
+          node-version: "24.18.0"
+
+      # Before any draft exists: a version already on npm with no draft release
+      # means it came from another attempt, possibly another commit.
+      - name: Check npm
+        id: registry
+        if: steps.state.outputs.state != 'published'
+        env:
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/npm-view.err"
+          exists=false
+          if published=$(npm view "${PACKAGE}@${VERSION}" version 2>"$err"); then
+            if [ "$published" = "$VERSION" ]; then exists=true; fi
+          elif ! grep -q 'E404' "$err"; then
+            cat "$err" >&2
+            exit 1
+          fi
+          if [ "$exists" = true ]; then
+            if [ "$STATE" != draft ]; then
+              echo "::error::${PACKAGE}@${VERSION} is already on npm but ${TAG} has no draft release, so it may come from another commit. Resolve it manually."
+              exit 1
+            fi
+            echo "::notice::${PACKAGE}@${VERSION} is already on npm; skipping publish."
+          fi
+          echo "exists=${exists}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         if: steps.state.outputs.state != 'published'
@@ -225,28 +368,16 @@ jobs:
           fi
 
       - name: Publish to npm
-        if: steps.state.outputs.state != 'published'
+        if: steps.state.outputs.state != 'published' && steps.registry.outputs.exists == 'false'
         env:
           NPM_TAG: ${{ needs.resolve.outputs.npm-tag }}
         run: |
           set -euo pipefail
-          err="$RUNNER_TEMP/npm-view.err"
-          if published=$(npm view "${PACKAGE}@${VERSION}" version 2>"$err"); then
-            if [ "$published" = "$VERSION" ]; then
-              echo "::notice::${PACKAGE}@${VERSION} is already on npm; skipping publish."
-              exit 0
-            fi
-          elif ! grep -q 'E404' "$err"; then
-            cat "$err" >&2
-            exit 1
-          fi
-
           # Trusted publishing (OIDC) needs npm >= 11.5.1. No token is configured.
           if ! printf '%s\n' 11.5.1 "$(npm --version)" | sort -V -C; then
-            npm install -g npm@11
+            npm install -g npm@11.21.1 --ignore-scripts
           fi
           npm --version
-
           npm publish "$RUNNER_TEMP/release-assets/natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz" \
             --tag "$NPM_TAG" --access public --ignore-scripts
 
@@ -263,8 +394,8 @@ jobs:
             echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
           fi
 
-  dotnet:
-    needs: resolve
+  publish-dotnet:
+    needs: [resolve, build-dotnet]
     runs-on: ubuntu-latest
     environment: nuget
     permissions:
@@ -303,24 +434,56 @@ jobs:
           fi
           echo "state=${state}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         if: steps.state.outputs.state != 'published'
         with:
-          ref: ${{ needs.resolve.outputs.sha }}
-          persist-credentials: false
+          name: release-dotnet
+          path: ${{ runner.temp }}/release-assets
 
-      # Sets up .NET 10 and runs the tests.
-      - uses: ./.github/actions/build-dotnet
+      - name: Verify artifacts
         if: steps.state.outputs.state != 'published'
-
-      - name: Pack
-        if: steps.state.outputs.state != 'published'
-        working-directory: packages/dotnet
         run: |
           set -euo pipefail
-          dotnet pack CatalystSharp/CatalystSharp.csproj -c Release -o ./bin -p:Version="$VERSION"
-          mkdir -p "$RUNNER_TEMP/release-assets"
-          cp "bin/CatalystSharp.${VERSION}.nupkg" "bin/CatalystSharp.${VERSION}.snupkg" "$RUNNER_TEMP/release-assets/"
+          cd "$RUNNER_TEMP/release-assets"
+          expected=$(printf '%s\n' "CatalystSharp.${VERSION}.nupkg" "CatalystSharp.${VERSION}.snupkg" | sort)
+          actual=$(find . -mindepth 1 -printf '%P\n' | sort)
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::Unexpected artifact contents: ${actual}"
+            exit 1
+          fi
+          nuspec=$(unzip -p "CatalystSharp.${VERSION}.nupkg" CatalystSharp.nuspec)
+          if ! grep -qF "<id>CatalystSharp</id>" <<<"$nuspec" || ! grep -qF "<version>${VERSION}</version>" <<<"$nuspec"; then
+            echo "::error::CatalystSharp.${VERSION}.nupkg does not declare CatalystSharp ${VERSION}"
+            exit 1
+          fi
+
+      # Before any draft exists: a version already on NuGet with no draft release
+      # means it came from another attempt, possibly another commit.
+      - name: Check NuGet
+        id: registry
+        if: steps.state.outputs.state != 'published'
+        env:
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          url="https://api.nuget.org/v3-flatcontainer/catalystsharp/${VERSION,,}/catalystsharp.nuspec"
+          code=$(curl -sS -o /dev/null -w '%{http_code}' "$url")
+          case "$code" in
+            200) exists=true ;;
+            404) exists=false ;;
+            *)
+              echo "::error::Unexpected HTTP ${code} from ${url}"
+              exit 1
+              ;;
+          esac
+          if [ "$exists" = true ]; then
+            if [ "$STATE" != draft ]; then
+              echo "::error::CatalystSharp ${VERSION} is already on NuGet but ${TAG} has no draft release, so it may come from another commit. Resolve it manually."
+              exit 1
+            fi
+            echo "::notice::CatalystSharp ${VERSION} is already on NuGet; skipping push."
+          fi
+          echo "exists=${exists}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         if: steps.state.outputs.state != 'published'
@@ -344,30 +507,15 @@ jobs:
             gh release create "$TAG" "${args[@]}" "${files[@]}"
           fi
 
-      - name: Check NuGet
-        id: nuget
-        if: steps.state.outputs.state != 'published'
-        run: |
-          set -euo pipefail
-          url="https://api.nuget.org/v3-flatcontainer/catalystsharp/${VERSION,,}/catalystsharp.nuspec"
-          code=$(curl -sS -o /dev/null -w '%{http_code}' "$url")
-          case "$code" in
-            200)
-              echo "::notice::CatalystSharp ${VERSION} is already on NuGet; skipping push."
-              echo "exists=true" >> "$GITHUB_OUTPUT"
-              ;;
-            404)
-              echo "exists=false" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "::error::Unexpected HTTP ${code} from ${url}"
-              exit 1
-              ;;
-          esac
+      # Only for `dotnet nuget push`, which runs no project code.
+      - uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
+        if: steps.state.outputs.state != 'published' && steps.registry.outputs.exists == 'false'
+        with:
+          dotnet-version: "10.0.x"
 
       - name: NuGet login
         id: login
-        if: steps.state.outputs.state != 'published' && steps.nuget.outputs.exists == 'false'
+        if: steps.state.outputs.state != 'published' && steps.registry.outputs.exists == 'false'
         uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1.1.0
         with:
           user: Mikazuki
@@ -375,12 +523,11 @@ jobs:
       # The .snupkg next to the .nupkg is pushed automatically. --skip-duplicate
       # covers a version pushed moments ago but not yet visible in the index.
       - name: Push to NuGet
-        if: steps.state.outputs.state != 'published' && steps.nuget.outputs.exists == 'false'
+        if: steps.state.outputs.state != 'published' && steps.registry.outputs.exists == 'false'
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        working-directory: packages/dotnet
         run: |
-          dotnet nuget push "bin/CatalystSharp.${VERSION}.nupkg" \
+          dotnet nuget push "$RUNNER_TEMP/release-assets/CatalystSharp.${VERSION}.nupkg" \
             --api-key "$NUGET_API_KEY" \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
@@ -398,8 +545,8 @@ jobs:
             echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
           fi
 
-  kotlin:
-    needs: resolve
+  publish-kotlin:
+    needs: [resolve, build-kotlin]
     runs-on: ubuntu-latest
     environment: kotlin
     permissions:
@@ -438,25 +585,23 @@ jobs:
           fi
           echo "state=${state}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         if: steps.state.outputs.state != 'published'
         with:
-          ref: ${{ needs.resolve.outputs.sha }}
-          persist-credentials: false
+          name: release-kotlin
+          path: ${{ runner.temp }}/release-assets
 
-      # Sets up Java and Gradle, then builds and tests.
-      - uses: ./.github/actions/build-kotlin
+      - name: Verify artifacts
         if: steps.state.outputs.state != 'published'
-
-      - name: Build release artifacts
-        if: steps.state.outputs.state != 'published'
-        working-directory: packages/kotlin
         run: |
           set -euo pipefail
-          ./gradlew build generatePomFileForMavenPublication -Pversion="$VERSION"
-          mkdir -p "$RUNNER_TEMP/release-assets"
-          cp "build/libs/catalyst-kotlin-${VERSION}.jar" "build/libs/catalyst-kotlin-${VERSION}-sources.jar" "$RUNNER_TEMP/release-assets/"
-          cp build/publications/maven/pom-default.xml "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}.pom"
+          cd "$RUNNER_TEMP/release-assets"
+          expected=$(printf '%s\n' "catalyst-kotlin-${VERSION}.jar" "catalyst-kotlin-${VERSION}-sources.jar" "catalyst-kotlin-${VERSION}.pom" | sort)
+          actual=$(find . -mindepth 1 -printf '%P\n' | sort)
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::Unexpected artifact contents: ${actual}"
+            exit 1
+          fi
 
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         if: steps.state.outputs.state != 'published'
@@ -629,11 +774,19 @@ jobs:
           fi
 
           if [ "$tag_exists" = true ]; then
-            if [ "$mirror_state" = published ]; then
-              echo "::notice::${MIRROR_REPO} ${VERSION} is already published; skipping mirror."
+            if [ "$mirror_state" != published ]; then
+              echo "::error::${MIRROR_REPO} has tag ${VERSION} without a published release. Resolve it manually."
+              exit 1
+            fi
+            # Only accept a mirror release made from this very commit.
+            source_ref="${GITHUB_REPOSITORY}@${SHA}"
+            notes=$(gh release view "$VERSION" --repo "$MIRROR_REPO" --json body --jq .body)
+            subject=$(gh api "repos/${MIRROR_REPO}/commits/${VERSION}" --jq .commit.message 2>/dev/null || true)
+            if [[ "$notes" == *"$source_ref"* || "$subject" == *"$source_ref"* ]]; then
+              echo "::notice::${MIRROR_REPO} ${VERSION} is already published from ${source_ref}; skipping mirror."
               exit 0
             fi
-            echo "::error::${MIRROR_REPO} has tag ${VERSION} without a published release. Resolve it manually."
+            echo "::error::${MIRROR_REPO} ${VERSION} is already published, but not from ${source_ref}. Resolve it manually."
             exit 1
           fi
           if [ "$mirror_state" = published ]; then
