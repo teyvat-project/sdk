@@ -2712,6 +2712,54 @@ const getCatalystV1GalleryByIdByIdDocumentSpec: OperationSpec = {
 export const getCatalystV1GalleryByIdByIdDocument = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1GalleryByIdByIdDocumentData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1GalleryByIdByIdDocumentResponse, GetCatalystV1GalleryByIdByIdDocumentError, ThrowOnError>(getCatalystV1GalleryByIdByIdDocumentSpec, options);
 
+export type GetCatalystV1ItemSearchData = {
+  query?: {
+    q?: string;
+    type?: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
+    offset?: number;
+  };
+};
+
+export type GetCatalystV1ItemSearchResponses = {
+  200: {
+    items: {
+      item: EpicleseItemResponse;
+      statusCount: number;
+    }[];
+    nextOffset: number | null;
+  };
+};
+
+export type GetCatalystV1ItemSearchResponse = GetCatalystV1ItemSearchResponses[keyof GetCatalystV1ItemSearchResponses];
+
+export type GetCatalystV1ItemSearchErrors = {
+  400: ErrorResponse;
+};
+
+export type GetCatalystV1ItemSearchError = GetCatalystV1ItemSearchErrors[keyof GetCatalystV1ItemSearchErrors];
+
+const getCatalystV1ItemSearchSpec: OperationSpec = {
+  operationName: 'getCatalystV1ItemSearch',
+  method: 'GET',
+  path: '/catalyst/v1/item/search',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  params: [
+    { name: 'q', in: 'query', style: 'form', explode: true },
+    { name: 'type', in: 'query', style: 'form', explode: true },
+    { name: 'offset', in: 'query', style: 'form', explode: true },
+  ],
+  responses: { '200': 'json', '400': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/item/search
+ *
+ * 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+ */
+export const getCatalystV1ItemSearch = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1ItemSearchData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<GetCatalystV1ItemSearchResponse, GetCatalystV1ItemSearchError, ThrowOnError>(getCatalystV1ItemSearchSpec, options);
+
 export type GetCatalystV1ItemsByIdData = {
   path: {
     id: string;

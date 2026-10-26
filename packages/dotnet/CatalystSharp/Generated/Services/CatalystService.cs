@@ -2339,6 +2339,42 @@ public sealed partial class CatalystService
         .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
+    /// GET /catalyst/v1/item/search
+    ///
+    /// 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<GetCatalystV1ItemSearchResponse200> GetCatalystV1ItemSearchAsync(string? q = null, GetCatalystV1ItemSearchType? type = null, int? offset = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1ItemSearchWithResponseAsync(q, type, offset, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/item/search
+    ///
+    /// 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1ItemSearchResponse200>> GetCatalystV1ItemSearchWithResponseAsync(string? q = null, GetCatalystV1ItemSearchType? type = null, int? offset = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Query("q", q, ApiJsonContext.Default.String)
+            .Query("type", type, ApiJsonContext.Default.NullableGetCatalystV1ItemSearchType)
+            .Query("offset", offset, ApiJsonContext.Default.NullableInt32);
+        return _core.SendAsync(GetCatalystV1ItemSearchSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1ItemSearchResponse200), GetCatalystV1ItemSearchErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1ItemSearchSpec = new(
+        "getCatalystV1ItemSearch",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/item/search",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("type", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1ItemSearchErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
     /// GET /catalyst/v1/items/{id}
     ///
     /// アイテム別ページの概要 (アイテム情報・公開投稿の数・投稿したユーザー・代表的な写真) を返します。非表示のアイテムは 404 になります

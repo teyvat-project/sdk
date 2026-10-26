@@ -19654,6 +19654,106 @@
         }
       }
     },
+    "/catalyst/v1/item/search": {
+      "get": {
+        "summary": "GET /catalyst/v1/item/search",
+        "description": "公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "avatar",
+                "cloth",
+                "accessory",
+                "hair",
+                "gimmick",
+                "other"
+              ]
+            },
+            "required": false,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "item": {
+                            "$ref": "#/components/schemas/EpicleseItemResponse"
+                          },
+                          "statusCount": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "item",
+                          "statusCount"
+                        ]
+                      }
+                    },
+                    "nextOffset": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextOffset"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/items/{id}": {
       "get": {
         "summary": "GET /catalyst/v1/items/{id}",

@@ -1081,6 +1081,24 @@ public struct CatalystService: Sendable {
         return try await core.send(Self.getCatalystV1GalleryByIdByIdDocumentSpec, values, decoder: .json(GalleryDocumentResponse.self), errors: Self.getCatalystV1GalleryByIdByIdDocumentErrors, options: options)
     }
 
+    /// GET /catalyst/v1/item/search
+    ///
+    /// 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+    public func getCatalystV1ItemSearch(q: String? = nil, type: GetCatalystV1ItemSearchType? = nil, offset: Int? = nil, options: RequestOptions? = nil) async throws -> GetCatalystV1ItemSearchResponse200 {
+        try await getCatalystV1ItemSearchWithResponse(q: q, type: type, offset: offset, options: options).data
+    }
+
+    /// GET /catalyst/v1/item/search
+    ///
+    /// 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+    public func getCatalystV1ItemSearchWithResponse(q: String? = nil, type: GetCatalystV1ItemSearchType? = nil, offset: Int? = nil, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1ItemSearchResponse200> {
+        var values = RequestValues()
+        try values.query("q", q)
+        try values.query("type", type)
+        try values.query("offset", offset)
+        return try await core.send(Self.getCatalystV1ItemSearchSpec, values, decoder: .json(GetCatalystV1ItemSearchResponse200.self), errors: Self.getCatalystV1ItemSearchErrors, options: options)
+    }
+
     /// GET /catalyst/v1/items/{id}
     ///
     /// アイテム別ページの概要 (アイテム情報・公開投稿の数・投稿したユーザー・代表的な写真) を返します。非表示のアイテムは 404 になります
@@ -4142,6 +4160,25 @@ extension CatalystService {
         .json("401", ErrorResponse.self)
         .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
+
+    static let getCatalystV1ItemSearchSpec = OperationSpec(
+        operationName: "getCatalystV1ItemSearch",
+        method: .get,
+        path: "/catalyst/v1/item/search",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
+        params: [
+            ParamSpec("q", .query, .form, explode: true),
+            ParamSpec("type", .query, .form, explode: true),
+            ParamSpec("offset", .query, .form, explode: true),
+        ],
+        responses: ["200": .json, "400": .json]
+    )
+
+    static let getCatalystV1ItemSearchErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
 
     static let getCatalystV1ItemsByIdSpec = OperationSpec(
         operationName: "getCatalystV1ItemsById",

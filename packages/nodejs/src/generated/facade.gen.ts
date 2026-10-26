@@ -68,6 +68,7 @@ import {
   getCatalystV1GalleryByHostnameByHostname,
   getCatalystV1GalleryByIdById,
   getCatalystV1GalleryByIdByIdDocument,
+  getCatalystV1ItemSearch,
   getCatalystV1ItemsById,
   getCatalystV1PrivacySettings,
   getCatalystV1ProfileTagsByNameByNameUsers,
@@ -274,6 +275,7 @@ import type {
   GetCatalystV1GalleryByIdByIdData,
   GetCatalystV1GalleryByIdByIdDocumentData,
   GetCatalystV1GalleryData,
+  GetCatalystV1ItemSearchData,
   GetCatalystV1ItemsByIdData,
   GetCatalystV1PrivacySettingsData,
   GetCatalystV1ProfileTagsByNameByNameUsersData,
@@ -1099,6 +1101,17 @@ export function createFacade(client: Client<ApiAuth>) {
                 },
               },
             },
+          },
+        },
+        item: {
+          search: {
+            /**
+             * GET /catalyst/v1/item/search
+             *
+             * 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+             */
+            get: <ThrowOnError extends boolean = false>(options?: Omit<Options<GetCatalystV1ItemSearchData, ThrowOnError>, 'client'>) =>
+              getCatalystV1ItemSearch<ThrowOnError>({ ...options, client }),
           },
         },
         items: {

@@ -1290,6 +1290,27 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     }
 
     /**
+     * GET /catalyst/v1/item/search
+     *
+     * 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+     */
+    public suspend fun getCatalystV1ItemSearch(q: String? = null, type: GetCatalystV1ItemSearchType? = null, offset: Int? = null, requestOptions: RequestOptions? = null): GetCatalystV1ItemSearchResponse200 =
+        getCatalystV1ItemSearchWithResponse(q, type, offset, requestOptions).data
+
+    /**
+     * GET /catalyst/v1/item/search
+     *
+     * 公開投稿に写っているアイテムを、名前・作者名・説明文から検索します。投稿数の多い順に返します
+     */
+    public suspend fun getCatalystV1ItemSearchWithResponse(q: String? = null, type: GetCatalystV1ItemSearchType? = null, offset: Int? = null, requestOptions: RequestOptions? = null): ApiResult<GetCatalystV1ItemSearchResponse200> {
+        val values = RequestValues()
+            .query("q", q, String.serializer().nullable)
+            .query("type", type, GetCatalystV1ItemSearchType.Serializer.nullable)
+            .query("offset", offset, Int.serializer().nullable)
+        return core.send(GET_CATALYST_V1_ITEM_SEARCH, values, ResponseDecoder.json(GetCatalystV1ItemSearchResponse200.serializer()), GET_CATALYST_V1_ITEM_SEARCH_ERRORS, requestOptions)
+    }
+
+    /**
      * GET /catalyst/v1/items/{id}
      *
      * アイテム別ページの概要 (アイテム情報・公開投稿の数・投稿したユーザー・代表的な写真) を返します。非表示のアイテムは 404 になります
@@ -4433,6 +4454,21 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             .json("401", ErrorResponse.serializer())
             .json("403", ErrorResponse.serializer())
             .json("404", ErrorResponse.serializer())
+
+        val GET_CATALYST_V1_ITEM_SEARCH: OperationSpec = OperationSpec(
+            "getCatalystV1ItemSearch",
+            HttpMethod.Get,
+            "/catalyst/v1/item/search",
+            listOf("catalyst"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("type", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true)),
+            null,
+            null,
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json),
+        )
+
+        val GET_CATALYST_V1_ITEM_SEARCH_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", ErrorResponse.serializer())
 
         val GET_CATALYST_V1_ITEMS_BY_ID: OperationSpec = OperationSpec(
             "getCatalystV1ItemsById",
