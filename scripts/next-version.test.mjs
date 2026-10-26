@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { assertStableAvailable, latestBetaTag, nextBeta, normalizeVersion } from './next-version.mjs';
+import { assertStableAvailable, latestBetaTag, nextBeta, normalizeVersion, specVersion } from './next-version.mjs';
 
 test('normalizeVersion strips leading zeros', () => {
   assert.equal(normalizeVersion('2026.10.25'), '2026.10.25');
@@ -17,6 +17,25 @@ test('normalizeVersion strips leading zeros', () => {
 test('normalizeVersion rejects malformed versions', () => {
   for (const v of ['2026.10', '2026.10.25.1', 'v2026.10.25', '2026.10.x']) {
     assert.throws(() => normalizeVersion(v), undefined, v);
+  }
+});
+
+test('specVersion normalizes info.version', () => {
+  assert.equal(specVersion(JSON.stringify({ info: { version: '2026.01.05' } })), '2026.1.5');
+  assert.throws(() => specVersion(JSON.stringify({ info: {} })), /missing info\.version/);
+  assert.throws(() => specVersion(JSON.stringify({ info: { version: '2026.10' } })), /invalid version/);
+});
+
+test('spec-version CLI prints the normalized info.version', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'next-version-test-'));
+  try {
+    writeFileSync(join(dir, 'openapi.json'), JSON.stringify({ openapi: '3.1.0', info: { version: '2026.01.05' } }));
+    const cli = fileURLToPath(new URL('./next-version.mjs', import.meta.url));
+    const run = spawnSync(process.execPath, [cli, 'spec-version', '--spec', 'openapi.json'], { cwd: dir, encoding: 'utf8' });
+    assert.equal(run.status, 0);
+    assert.equal(run.stdout, '2026.1.5\n');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
 });
 

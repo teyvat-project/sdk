@@ -131,12 +131,13 @@ export default defineConfig({
   - `version`: 例 `2026.10.25-beta.1` / `2026.10.25`
   - `sha`: 任意。stable で省略した場合は、`nodejs/v<version>-beta.*` のうち最大 N のタグのコミットを使う
 - 最上位は `permissions: {}`。`main` 以外の ref からは実行しない（`resolve` job の `if: github.ref == 'refs/heads/main'`）。
-- `resolve` job（`contents: read`）が `channel` / `version` / `sha` を検証し、後続 job は検証済みの output だけを使う。`sha` は完全な 40 桁の SHA で、`origin/main` の祖先でなければならない。
-- nodejs / dotnet / kotlin は、**build と publish を別 job に分ける**（`build-<lang>` と `publish-<lang>`）。swift は 1 job。
+- `resolve` job（`contents: read`）が `channel` / `version` / `sha` を検証し、後続 job は検証済みの output だけを使う。`sha` は完全な 40 桁の SHA で、`origin/main` の祖先でなければならない。また `version` の base（`-beta.N` を除いた部分）は、その `sha` の `openapi/openapi.json` の `info.version` を正規化したもの（`scripts/next-version.mjs` の `normalizeVersion`）と一致しなければならない。
+- nodejs / dotnet / kotlin は、**build と publish を別 job に分ける**（`build-<lang>` と `publish-<lang>`）。swift の公開は 1 job だが、その前に読み取り専用の `build-swift` でテストする。
 
 | job | Environment | permissions | 役割 / 公開先 |
 | --- | --- | --- | --- |
 | `build-nodejs` / `build-dotnet` / `build-kotlin` | なし | `contents: read` のみ | プロジェクトのコード（依存パッケージ、テスト、ビルドツール）を実行し、成果物を artifact（保持 7 日）として渡す |
+| `build-swift` | なし | `contents: read` のみ | `macos-15` で `swift test` を実行する。artifact は渡さず、失敗すれば `swift` job（`needs: build-swift`）はミラーしない |
 | `publish-nodejs` | `npm` | `contents: write`, `id-token: write`, `attestations: write` | npm（OIDC Trusted Publishing。dist-tag は beta なら `beta`、stable なら `latest`） |
 | `publish-dotnet` | `nuget` | 同上 | NuGet（`NuGet/login` による OIDC） |
 | `publish-kotlin` | `kotlin` | 同上 | なし（GitHub Release asset のみ） |

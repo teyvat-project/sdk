@@ -140,6 +140,20 @@ jobs:
             exit 1
           fi
 
+          # The version must belong to the API spec of the commit being released.
+          # The script comes from this (main) checkout; only the spec is read
+          # from the resolved commit.
+          spec="$RUNNER_TEMP/openapi.json"
+          if ! git show "${resolved}:openapi/openapi.json" > "$spec"; then
+            echo "::error::commit ${resolved} has no openapi/openapi.json"
+            exit 1
+          fi
+          spec_version=$(node scripts/next-version.mjs spec-version --spec "$spec")
+          if [ "${VERSION%%-*}" != "$spec_version" ]; then
+            echo "::error::version ${VERSION} does not match info.version ${spec_version} of openapi/openapi.json at ${resolved}"
+            exit 1
+          fi
+
           echo "Releasing ${CHANNEL} ${VERSION} from ${resolved}"
           {
             echo "sha=${resolved}"
@@ -246,6 +260,21 @@ jobs:
           if-no-files-found: error
           retention-days: 7
           overwrite: true
+
+  build-swift:
+    needs: resolve
+    # CryptoKit needs macOS. Nothing is uploaded: the swift job archives the
+    # sources itself, but only after the package has passed its tests here.
+    runs-on: macos-15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      - uses: ./.github/actions/build-swift
 
   # Publish jobs hold the environment, OIDC and the write token. They never
   # check out or run project code: they only attest, release and publish the
@@ -644,8 +673,8 @@ jobs:
           fi
 
   swift:
-    needs: resolve
-    # Packaging only; the package is built and tested by CI and monitor.yml.
+    needs: [resolve, build-swift]
+    # Packaging only; build-swift has tested the package at this commit.
     runs-on: ubuntu-latest
     environment: swift-mirror
     permissions:
