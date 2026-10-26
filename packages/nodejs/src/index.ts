@@ -1,4 +1,5 @@
 export * from "./generated/index.js";
+export * from "./generated/facade.gen.js";
 
 export { Catalyst } from "./catalyst.js";
 export type { CatalystOptions } from "./catalyst.js";

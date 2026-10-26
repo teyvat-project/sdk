@@ -8,7 +8,7 @@
   },
   "scripts": {
     "generate": "archon generate",
-    "test:scripts": "node --test \"scripts/*.test.mjs\""
+    "test:scripts": "node --test \"scripts/*.test.mjs\" \"archon/*.test.ts\""
   },
   "devDependencies": {
     "@natsuneko-laboratory/archon": "0.1.1"
