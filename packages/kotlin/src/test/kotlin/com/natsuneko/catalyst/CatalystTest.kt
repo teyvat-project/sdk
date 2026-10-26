@@ -16,6 +16,7 @@ import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicInteger
@@ -125,8 +126,11 @@ class CatalystTest {
         val mock = Mock { request ->
             when {
                 request.isToken -> {
-                    // Hold the refresh until both calls have been rejected, so neither can start a second one.
+                    // Hold the refresh until both calls have been rejected, then a little longer so the second
+                    // caller's 401 handler has joined the in-flight refresh before it completes (a 401 handled
+                    // after the refresh finished would start a new one, which is outside what this test covers).
                     bothUnauthorized.await()
+                    delay(200)
                     json(HttpStatusCode.OK, tokenBody)
                 }
                 request.authorization == "Bearer at2" -> ok()
