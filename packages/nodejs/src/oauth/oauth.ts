@@ -100,6 +100,10 @@ export class OAuth {
     }
   }
 
+  /**
+   * Only `access_token`, `refresh_token` and `token_type` are required. The other fields are optional, and a value of
+   * the wrong type (or an `expires_at` that is not an ISO 8601 date-time) counts as absent.
+   */
   private async postToken(body: URLSearchParams): Promise<Token> {
     const response = await this.fetchImpl(`${this.baseUrl}/token`, {
       method: "POST",
@@ -126,9 +130,15 @@ export class OAuth {
       accessToken: json.access_token,
       refreshToken: json.refresh_token,
       tokenType: json.token_type,
-      scope: json.scope,
-      expiresAt: json.expires_at,
-      expiresIn: json.expires_in,
+      scope: typeof json.scope === "string" ? json.scope : undefined,
+      expiresAt: typeof json.expires_at === "string" && isIsoDateTime(json.expires_at) ? json.expires_at : undefined,
+      expiresIn: typeof json.expires_in === "number" && Number.isFinite(json.expires_in) ? json.expires_in : undefined,
     };
   }
+}
+
+const ISO_DATE_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?$/i;
+
+function isIsoDateTime(text: string): boolean {
+  return ISO_DATE_TIME.test(text) && !Number.isNaN(Date.parse(text));
 }
