@@ -103,6 +103,7 @@ export default defineConfig({
 - トリガー: `schedule: cron '0 */6 * * *'` と `workflow_dispatch`
 - `concurrency: { group: monitor, cancel-in-progress: false }`
 - permissions: `contents: write`（push 用）, `actions: write`（`gh workflow run` 用）
+- 実装では job を分けている。`detect`（`contents: read`。取得・正規化・生成し、差分を patch artifact にする）→ 言語ごとの `build-<lang>`（`contents: read`。patch を適用して build / test。Swift は `macos-15`）→ `commit`（`contents: write`, `actions: write`。patch を適用してコミットと push、beta の dispatch）。プロジェクトのコードを実行する job に書き込み権限を渡さないための分離で、`main` 以外の ref からは実行しない。
 
 手順:
 
@@ -127,26 +128,31 @@ export default defineConfig({
   - `channel`: `beta` | `stable`
   - `version`: 例 `2026.10.25-beta.1` / `2026.10.25`
   - `sha`: 任意。stable で省略した場合は、`nodejs/v<version>-beta.*` のうち最大 N のタグのコミットを使う
-- 最上位は `permissions: {}`。言語ごとに 1 job とし、各 job に Environment を割り当てる。
+- 最上位は `permissions: {}`。`main` 以外の ref からは実行しない（`resolve` job の `if: github.ref == 'refs/heads/main'`）。
+- `resolve` job（`contents: read`）が `channel` / `version` / `sha` を検証し、後続 job は検証済みの output だけを使う。`sha` は完全な 40 桁の SHA で、`origin/main` の祖先でなければならない。
+- nodejs / dotnet / kotlin は、**build と publish を別 job に分ける**（`build-<lang>` と `publish-<lang>`）。swift は 1 job。
 
-| job | Environment | permissions | 公開先 |
+| job | Environment | permissions | 役割 / 公開先 |
 | --- | --- | --- | --- |
-| nodejs | `npm` | `contents: write`, `id-token: write`, `attestations: write` | npm（OIDC Trusted Publishing。dist-tag は beta なら `beta`、stable なら `latest`） |
-| dotnet | `nuget` | 同上 | NuGet（`NuGet/login` による OIDC） |
-| swift | `swift-mirror` | 同上 | `mika-f/CatalystSwift`（GitHub App token） |
-| kotlin | `kotlin` | `contents: write`, `id-token: write`, `attestations: write` | なし（GitHub Release asset のみ） |
+| `build-nodejs` / `build-dotnet` / `build-kotlin` | なし | `contents: read` のみ | プロジェクトのコード（依存パッケージ、テスト、ビルドツール）を実行し、成果物を artifact（保持 7 日）として渡す |
+| `publish-nodejs` | `npm` | `contents: write`, `id-token: write`, `attestations: write` | npm（OIDC Trusted Publishing。dist-tag は beta なら `beta`、stable なら `latest`） |
+| `publish-dotnet` | `nuget` | 同上 | NuGet（`NuGet/login` による OIDC） |
+| `publish-kotlin` | `kotlin` | 同上 | なし（GitHub Release asset のみ） |
+| `swift` | `swift-mirror` | 同上 | `mika-f/CatalystSwift`（GitHub App token） |
 
-各 job の流れ:
+**build / publish を分ける理由**: OIDC トークン・Environment・書き込み権限を持つ job で、プロジェクトのコード（依存パッケージの postinstall、テスト、ビルドスクリプト）を実行させないため。build job は読み取り専用で OIDC を使えず、侵害されても公開できない。publish job は build を行わず、build job の artifact に対して検証（想定ファイルのみか）・attest・release・publish だけを行う。swift はミラー用のソースを `git archive` するだけでプロジェクトのコードを実行しないため、1 job にしている。
 
-1. `sha` を checkout し、build / test を実行する。
-2. 成果物を作る。
+各言語の流れ:
+
+1. （build job）`sha` を checkout し、build / test を実行する。
+2. （build job）成果物を作る。
    - nodejs: `npm pack` の tgz
    - dotnet: nupkg / snupkg
    - kotlin: jar / sources jar / pom
    - swift: `packages/swift` のソース zip
-3. `actions/attest-build-provenance` で成果物に provenance を付ける。
+3. （publish job）artifact を検証し、`actions/attest-build-provenance` で成果物に provenance を付ける。
 4. `gh release create <lang>/v<version> --draft --target <sha>` で下書きを作り、成果物を添付する。下書きがすでにあれば再利用する。
-5. レジストリに publish する。すでに同じ version が公開済みならスキップする（再実行で続きから進められるようにするため）。
+5. レジストリに publish する。すでに同じ version が公開済みで、**対応する下書きリリースがある場合に限り**スキップする（再実行で続きから進められるようにするため）。レジストリ（Swift ミラーを含む）に version があるのに対応する下書きがない場合は、別のコミットから公開されたものかもしれないため、公開せずに失敗する（`Resolve manually`）。ミラーのリリースは `mika-f/CatalystSDK@<sha>` を参照する。
    - **nodejs**: `npm publish --tag <dist-tag>`（npm >= 11.5.1、provenance は自動）
    - **dotnet**: `dotnet nuget push`（`NuGet/login` で取得した短命 API key）
    - **swift**:
@@ -158,35 +164,36 @@ export default defineConfig({
 
 ### 正式版への昇格
 
-`release.yml` を手動で `channel=stable, version=2026.10.25`（sha 省略）として実行する。最新の beta と同じコミットから、全言語の正式版が公開される。
+`release.yml` を手動で `channel=stable, version=2026.10.25`（sha 省略）として実行する。最新の beta と同じコミットから、全言語の正式版が公開される。いずれかの言語で `<lang>/v<base>` タグがすでにあれば、再度 dispatch できない。部分的に失敗した場合は、同じ run の「Re-run failed jobs」で再開する（build の artifact は 7 日間保持。GitHub が再実行を許す期間は 30 日）。
 
 ## 5. セキュリティ
 
 - action はすべてコミット SHA で固定する（コメントにバージョンを書く）。
 - 全 workflow で最上位を `permissions: {}` とし、job 単位で最小限の権限を付ける。
 - `pnpm install --frozen-lockfile`。依存パッケージの lifecycle script は許可しない（`pnpm-workspace.yaml` の `allowBuilds` / `onlyBuiltDependencies` を空にする）。
-- archon は exact version で固定し、更新は Renovate / Dependabot の PR で行う。
+- archon は exact version で固定し、更新は Renovate / Dependabot の PR で行う。Dependabot の `github-actions` は `/` と `/.github/actions/*`（composite action）の両方を対象にする。
 - 生成の入力はコミット済みのスナップショットとし、spec の変化はコミット差分として追えるようにする。
+- `monitor.yml` と `release.yml` は `refs/heads/main` からのみ動作する。`release.yml` は `sha` が `origin/main` の祖先であることを要求する。
 - 保存する secret は Swift ミラー用の GitHub App の private key（`swift-mirror` Environment）だけにする。
 
 ### GitHub 側の手動設定（README に手順を書く）
 
-1. npm: `@natsuneko-laboratory/catalyst-sdk` の Trusted Publisher に `mika-f/CatalystSDK` / `release.yml` / Environment `npm` を登録する。
-2. NuGet: Trusted Publishing policy に `mika-f/CatalystSDK` / `release.yml` を登録する。
+1. npm: `@natsuneko-laboratory/catalyst-sdk` の Trusted Publisher に `mika-f/CatalystSDK` / `release.yml` / Environment `npm` を登録する（旧 `publish-nodejs.yml` のエントリから移行する）。
+2. NuGet: Trusted Publishing policy に `mika-f/CatalystSDK` / `release.yml` を登録し、**Environment `nuget` に紐付ける（必須）**。
 3. `CatalystSDK` と `CatalystSwift` の両方で Immutable Releases を有効にする。
 4. Tag ruleset: `*/v*`（CatalystSDK）と `*`（CatalystSwift）の更新・削除を禁止し、作成は GitHub Actions / App のみに限定する。
-5. Branch ruleset: main への直接 push を GitHub Actions（CatalystSDK）と GitHub App（CatalystSwift）に限って許可する。
+5. Branch ruleset: main への直接 push を GitHub Actions（CatalystSDK）と GitHub App（CatalystSwift）に限って許可する。ミラーのコミットは署名されないため、CatalystSwift の main では署名付きコミットを必須にしないか、App を bypass actor にする。
 6. Environments `npm` / `nuget` / `swift-mirror` / `kotlin` を作成し、deployment を main ブランチに限定する。
-7. GitHub App を作成する（`mika-f/CatalystSwift` のみにインストール、`contents: write`）。App ID は vars、private key は `swift-mirror` Environment の secret に置く。
+7. GitHub App を作成する（`mika-f/CatalystSwift` のみにインストール、`contents: write`）。App ID は変数 `SWIFT_MIRROR_APP_ID`、private key は secret `SWIFT_MIRROR_APP_PRIVATE_KEY` として、どちらも `swift-mirror` Environment に置く。
 
 ## 6. CI（`ci.yml`）
 
 - トリガー: `pull_request` と `push`（main）
 - jobs:
-  - `generate-check`: `pnpm generate` の後に `git diff --exit-code`（生成物がスナップショットと一致するかを確認）
-  - `scripts`: `node --test scripts/`
+  - `generate-check`: `pnpm generate` の後に `git diff --exit-code` と `git status --porcelain` の空確認（生成物がコミット済みのものと一致し、未追跡の生成ファイルもないことを確認）
+  - `scripts`: `pnpm run test:scripts`（`node --test "scripts/*.test.mjs"`）
   - `nodejs`: typecheck / build / test（Node 24）
-  - `swift`: `swift build && swift test`（ubuntu の Swift 6 コンテナ）
+  - `swift`: `swift build && swift test`（`macos-15`。手書きの PKCE が CryptoKit を使うため、ubuntu の Swift コンテナでは build できない）
   - `dotnet`: `dotnet build && dotnet test`（.NET 10）
   - `kotlin`: `./gradlew build`（JDK 17）
 - 各言語の build / test 手順は `.github/actions/build-<lang>/action.yml` の composite action にまとめ、`monitor.yml` / `release.yml` と共有する。
@@ -198,13 +205,17 @@ export default defineConfig({
 | spec の取得失敗・JSON 不正 | `monitor.yml` が失敗する（通知）。スナップショットは変更しない |
 | 生成・build・test の失敗 | コミットしない。`monitor.yml` が失敗する |
 | main への push 失敗（競合） | 失敗する。次回の実行で再試行する |
-| `release.yml` の一部の言語だけ失敗 | 他の言語は継続する。失敗した job は再実行でき、公開済みのレジストリ publish はスキップする |
+| `release.yml` の一部の言語だけ失敗 | 他の言語は継続する。「Re-run failed jobs」で再実行でき、公開済みの言語・レジストリ publish はスキップする |
+| レジストリ / ミラーに version があるが下書きがない | 公開せずに失敗する（`Resolve manually`） |
+| `monitor.yml` が push した後に dispatch が失敗 | `release.yml` を `channel=beta`、表示された version、push 済みの sha で手動実行する |
+| beta の下書きだけが残っている | 採番はタグだけを数えるため、次回の `monitor.yml` が同じ番号を使って失敗する。下書きを削除する |
 | stable のタグがすでに存在する | `next-version.mjs` / `release.yml` が開始前にエラーにする |
 
 ## 8. 移行と README
 
 - ルートの README に、新しい構成、利用方法、採番ルール、上記の手動設定手順を書く。
 - 各パッケージの README を archon 生成物ベースの使い方に書き換える。
+- 運用上の注意（採番はタグのみを数える、再実行、手動 dispatch）も README に書く。
 - 破壊的変更であることを明記する。npm は `1.0.0-alpha.17` から `2026.x` に、NuGet は `0.1.0` から `2026.x` に上がる。
 
 ## 対象外
