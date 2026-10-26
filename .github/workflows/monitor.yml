@@ -19,9 +19,12 @@ jobs:
       contents: read
     outputs:
       changed: ${{ steps.spec.outputs.changed }}
+      version: ${{ steps.version.outputs.version }}
     steps:
+      # Full history and tags: next-version.mjs reads `git tag -l`.
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: ./.github/actions/setup-pnpm
@@ -29,6 +32,16 @@ jobs:
       - name: Fetch OpenAPI spec
         id: spec
         run: node scripts/spec.mjs https://api.natsuneko.com/openapi.json openapi/openapi.json >> "$GITHUB_OUTPUT"
+
+      # Before anything is generated or pushed, so a bad info.version or an
+      # already released stable version stops the run here.
+      - name: Compute beta version
+        id: version
+        if: steps.spec.outputs.changed == 'true'
+        run: |
+          version=$(node scripts/next-version.mjs beta --spec openapi/openapi.json)
+          echo "::notice title=Beta version::${version}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
 
       - name: Regenerate clients
         if: steps.spec.outputs.changed == 'true'
@@ -60,12 +73,17 @@ jobs:
         with:
           persist-credentials: false
 
+      # Outside the workspace, so the artifact cannot overwrite checked-out files.
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: regen-patch
+          path: ${{ runner.temp }}/regen
+
+      - name: Check regeneration patch paths
+        run: node scripts/check-patch-paths.mjs "$RUNNER_TEMP/regen/regen.patch"
 
       - name: Apply regeneration patch
-        run: git apply regen.patch && rm regen.patch
+        run: git apply "$RUNNER_TEMP/regen/regen.patch"
 
       - uses: ./.github/actions/build-nodejs
 
@@ -80,12 +98,17 @@ jobs:
         with:
           persist-credentials: false
 
+      # Outside the workspace, so the artifact cannot overwrite checked-out files.
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: regen-patch
+          path: ${{ runner.temp }}/regen
+
+      - name: Check regeneration patch paths
+        run: node scripts/check-patch-paths.mjs "$RUNNER_TEMP/regen/regen.patch"
 
       - name: Apply regeneration patch
-        run: git apply regen.patch && rm regen.patch
+        run: git apply "$RUNNER_TEMP/regen/regen.patch"
 
       - uses: ./.github/actions/build-dotnet
 
@@ -100,12 +123,17 @@ jobs:
         with:
           persist-credentials: false
 
+      # Outside the workspace, so the artifact cannot overwrite checked-out files.
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: regen-patch
+          path: ${{ runner.temp }}/regen
+
+      - name: Check regeneration patch paths
+        run: node scripts/check-patch-paths.mjs "$RUNNER_TEMP/regen/regen.patch"
 
       - name: Apply regeneration patch
-        run: git apply regen.patch && rm regen.patch
+        run: git apply "$RUNNER_TEMP/regen/regen.patch"
 
       - uses: ./.github/actions/build-kotlin
 
@@ -120,12 +148,17 @@ jobs:
         with:
           persist-credentials: false
 
+      # Outside the workspace, so the artifact cannot overwrite checked-out files.
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: regen-patch
+          path: ${{ runner.temp }}/regen
+
+      - name: Check regeneration patch paths
+        run: node scripts/check-patch-paths.mjs "$RUNNER_TEMP/regen/regen.patch"
 
       - name: Apply regeneration patch
-        run: git apply regen.patch && rm regen.patch
+        run: git apply "$RUNNER_TEMP/regen/regen.patch"
 
       - uses: ./.github/actions/build-swift
 
@@ -136,35 +169,53 @@ jobs:
     permissions:
       contents: write
       actions: write
+    env:
+      VERSION: ${{ needs.detect.outputs.version }}
     steps:
       # Credentials stay persisted on purpose: this job pushes to main.
+      # No code from the patch runs in this job: the path check runs from the
+      # unpatched checkout, and the version was computed in `detect`.
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
+      - name: Validate version
+        run: |
+          num='(0|[1-9][0-9]*)'
+          if ! [[ "$VERSION" =~ ^${num}\.${num}\.${num}-beta\.[1-9][0-9]*$ ]]; then
+            echo "::error::detect did not output a valid beta version"
+            exit 1
+          fi
+
+      # Outside the workspace, so the artifact cannot overwrite checked-out files.
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: regen-patch
+          path: ${{ runner.temp }}/regen
+
+      - name: Check regeneration patch paths
+        run: node scripts/check-patch-paths.mjs "$RUNNER_TEMP/regen/regen.patch"
 
       - name: Apply regeneration patch
         run: |
-          git apply regen.patch
-          rm regen.patch
-          git add -A
+          git apply "$RUNNER_TEMP/regen/regen.patch"
+          git add -A -- openapi/openapi.json \
+            packages/nodejs/src/generated \
+            packages/swift/Generated \
+            packages/dotnet/CatalystSharp/Generated \
+            packages/kotlin/src/generated/kotlin
 
       - name: Commit and push
         run: |
-          spec_version=$(node -p "require('./openapi/openapi.json').info.version")
           git \
             -c user.name='github-actions[bot]' \
             -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-            commit -m "chore: regenerate SDKs from openapi ${spec_version}"
+            commit -m "chore: regenerate SDKs from openapi ${VERSION%-beta.*}"
           git push origin HEAD:main
 
       - name: Dispatch beta release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch --tags
-          version=$(node scripts/next-version.mjs beta --spec openapi/openapi.json)
-          gh workflow run release.yml --ref main -f channel=beta -f version="$version" -f sha="$(git rev-parse HEAD)"
+          echo "Dispatching ${VERSION}"
+          gh workflow run release.yml --ref main -f channel=beta -f version="$VERSION" -f sha="$(git rev-parse HEAD)"
