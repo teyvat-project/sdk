@@ -7,8 +7,16 @@ The API client is generated from the OpenAPI spec by [archon](https://github.com
 ## Install
 
 ```sh
+# Stable releases
 npm install @natsuneko-laboratory/catalyst-sdk
+
+# Betas (published to the `beta` dist-tag)
+npm install @natsuneko-laboratory/catalyst-sdk@beta
 ```
+
+Until the first stable `2026.x` release, the `latest` dist-tag still points to the old `1.0.0-alpha.17`, so use `@beta` to get this SDK.
+
+The package is ESM only; CommonJS `require()` is not supported.
 
 ## Usage
 

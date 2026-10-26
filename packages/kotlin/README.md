@@ -8,9 +8,22 @@ Requires Java 11 or later. HTTP is sent with Ktor, so add a Ktor client engine (
 
 ## Installation
 
+CatalystKotlin is not published to Maven Central or any other repository. Each version is attached to the GitHub Release `kotlin/v<version>` of [mika-f/CatalystSDK](https://github.com/mika-f/CatalystSDK/releases) as `catalyst-kotlin-<version>.jar`, `catalyst-kotlin-<version>-sources.jar` and `catalyst-kotlin-<version>.pom`.
+
+```sh
+gh release download kotlin/v2026.10.25 --repo mika-f/CatalystSDK --dir libs
+
+# Check that the jar was built by this repository's release workflow
+gh attestation verify libs/catalyst-kotlin-2026.10.25.jar --repo mika-f/CatalystSDK
+```
+
+A local jar brings no transitive dependencies, so add the ones from the `.pom` and a Ktor client engine yourself:
+
 ```kotlin
 dependencies {
-    implementation("com.natsuneko.catalyst:catalyst-kotlin:<version>")
+    implementation(files("libs/catalyst-kotlin-2026.10.25.jar"))
+    implementation("io.ktor:ktor-client-core:3.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
     implementation("io.ktor:ktor-client-cio:3.6.0") // any Ktor client engine
 }
 ```

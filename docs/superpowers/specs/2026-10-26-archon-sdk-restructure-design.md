@@ -102,25 +102,27 @@ export default defineConfig({
 
 - トリガー: `schedule: cron '0 */6 * * *'` と `workflow_dispatch`
 - `concurrency: { group: monitor, cancel-in-progress: false }`
-- permissions: `contents: write`（push 用）, `actions: write`（`gh workflow run` 用）
-- 実装では job を分けている。`detect`（`contents: read`。取得・正規化・生成し、差分を patch artifact にする）→ 言語ごとの `build-<lang>`（`contents: read`。patch を適用して build / test。Swift は `macos-15`）→ `commit`（`contents: write`, `actions: write`。patch を適用してコミットと push、beta の dispatch）。プロジェクトのコードを実行する job に書き込み権限を渡さないための分離で、`main` 以外の ref からは実行しない。
+- permissions: 最上位は `permissions: {}`。書き込み権限（`contents: write`（push 用）, `actions: write`（`gh workflow run` 用））は `commit` job だけに付け、他の job は `contents: read` のみとする。
+- 実装では job を分けている。`detect`（`contents: read`。取得・正規化し、beta の version を算出してから生成し、差分を patch artifact にする。version は job output にする）→ 言語ごとの `build-<lang>`（`contents: read`。patch を検査・適用して build / test。Swift は `macos-15`）→ `commit`（`contents: write`, `actions: write`。patch を検査・適用してコミットと push、beta の dispatch）。プロジェクトのコードを実行する job に書き込み権限を渡さないための分離で、`main` 以外の ref からは実行しない。
+- patch の検査: `git apply` の前に毎回 `scripts/check-patch-paths.mjs <patch>` を実行する。patch を HEAD から作った一時 index に `git apply --cached` し、実際に変わるパス（rename / copy の元と先、削除、mode 変更を含む）が `openapi/openapi.json` か `packages/nodejs/src/generated/` / `packages/swift/Generated/` / `packages/dotnet/CatalystSharp/Generated/` / `packages/kotlin/src/generated/kotlin/` 配下だけであることを確かめる。symlink と submodule も拒否する。artifact は workspace の外（`$RUNNER_TEMP`）に展開する。
+- `commit` job は patch 由来のコードを実行しない。検査スクリプトは patch 適用前の checkout から実行し、version は `detect` の output を使う。
 
 手順:
 
-1. main を checkout し、`https://api.natsuneko.com/openapi.json` を取得する。JSON として妥当でなければ失敗させる。
+1. main を（タグを含めて）checkout し、`https://api.natsuneko.com/openapi.json` を取得する。JSON として妥当でなければ失敗させる。
 2. 取得した JSON を `JSON.stringify(JSON.parse(body), null, 2) + '\n'` で正規化し（キー順は維持）、`openapi/openapi.json` とバイト比較する。差分がなければ正常終了する。差分があれば正規化後の内容でスナップショットを上書きする。
-3. `pnpm install --frozen-lockfile` を実行し、`pnpm generate`（`archon generate`）を実行する。
-4. 4 言語を build / test する（`ci.yml` と同じ手順を composite action などで共有する）。1 つでも失敗したら、コミットせずに workflow を失敗させる。
-5. `chore: regenerate SDKs from openapi <info.version>` としてコミットし、main に push する。
-6. `node scripts/next-version.mjs --channel beta --spec openapi/openapi.json` で `base` と `N` を算出する。
-7. `gh workflow run release.yml -f channel=beta -f version=<base>-beta.<N> -f sha=<push したコミット SHA>` を実行する。
+3. `node scripts/next-version.mjs beta --spec openapi/openapi.json` で `<base>-beta.<N>` を算出し、`detect` の output にする（ログにも表示する）。算出できなければ（不正な `info.version`、stable 公開済みの base）ここで失敗する。
+4. `pnpm install --frozen-lockfile` を実行し、`pnpm generate`（`archon generate`）を実行する。
+5. 4 言語を build / test する（`ci.yml` と同じ手順を composite action などで共有する）。1 つでも失敗したら、コミットせずに workflow を失敗させる。
+6. `chore: regenerate SDKs from openapi <base>` としてコミットし、main に push する。
+7. `gh workflow run release.yml -f channel=beta -f version=<base>-beta.<N> -f sha=<push したコミット SHA>` を実行する（version は手順 3 の output）。
 
 ## 3. 採番（`scripts/next-version.mjs`）
 
 - `base`: `info.version` の各ドット区切り要素から先頭の 0 を除き、semver にする（`2026.01.05` → `2026.1.5`、`2026.10.25` → `2026.10.25`）。3 要素の数値でなければエラーにする。
-- beta: `git tag -l '*/v<base>-beta.*'` の最大の `N` に 1 を足す（全言語で共通の N）。初回は 1。
+- beta: `git tag -l '*/v<base>-beta.*'` の最大の `N` に 1 を足す（全言語で共通の N）。初回は 1。いずれかの言語ですでに `<lang>/v<base>`（stable）が存在すればエラーにする（"stable <base> already released; the API must bump info.version"）。stable の後に同じ base の beta を出すと、stable より小さい version になるため。
 - stable: `<base>`。いずれかの言語ですでに `<lang>/v<base>` が存在すればエラーにする。
-- 単体テスト: 正規化、既存タグがない場合・ある場合の N、不正な version、stable の重複検出。
+- 単体テスト: 正規化、既存タグがない場合・ある場合の N、不正な version、stable の重複検出、stable 公開済みの base での beta の拒否。
 
 ## 4. リリース（`release.yml`）
 
@@ -207,7 +209,9 @@ export default defineConfig({
 | main への push 失敗（競合） | 失敗する。次回の実行で再試行する |
 | `release.yml` の一部の言語だけ失敗 | 他の言語は継続する。「Re-run failed jobs」で再実行でき、公開済みの言語・レジストリ publish はスキップする |
 | レジストリ / ミラーに version があるが下書きがない | 公開せずに失敗する（`Resolve manually`） |
-| `monitor.yml` が push した後に dispatch が失敗 | `release.yml` を `channel=beta`、表示された version、push 済みの sha で手動実行する |
+| `monitor.yml` が push した後に dispatch が失敗 | `release.yml` を `channel=beta`、`detect` job が表示した version（output `version`）、push 済みの sha で手動実行する |
+| spec が変わったが `info.version` が stable 公開済みの base のまま | `detect` が version の算出で失敗し、何もコミットしない。API 側で `info.version` を上げる |
+| regeneration patch が許可外のパスを含む | `build-<lang>` / `commit` が `git apply` の前に失敗し、何もコミットしない |
 | beta の下書きだけが残っている | 採番はタグだけを数えるため、次回の `monitor.yml` が同じ番号を使って失敗する。下書きを削除する |
 | stable のタグがすでに存在する | `next-version.mjs` / `release.yml` が開始前にエラーにする |
 
