@@ -8,47 +8,30 @@ import java.security.MessageDigest
 import java.security.SecureRandom
 import java.util.Base64
 
-/**
- * PKCE (Proof Key for Code Exchange) implementation
- * Used for OAuth 2.0 authorization code flow with enhanced security
- */
-class Pkce {
-    /**
-     * The code verifier
-     */
-    val verifier: String
+/** A PKCE (RFC 7636) verifier / challenge pair using the `S256` method. */
+public class Pkce private constructor(
+    /** The code verifier. */
+    public val verifier: String,
+    /** The code challenge derived from [verifier]. */
+    public val challenge: String,
+) {
+    /** The challenge method (always `S256`). */
+    public val method: String = "S256"
 
-    /**
-     * The code challenge derived from the verifier
-     */
-    val challenge: String
+    public companion object {
+        /** Creates a pair from 32 random bytes. */
+        public fun create(): Pkce {
+            val bytes = ByteArray(32)
+            SecureRandom().nextBytes(bytes)
+            return fromVerifier(base64UrlEncode(bytes))
+        }
 
-    /**
-     * The challenge method (always S256 for SHA-256)
-     */
-    val method: String = "S256"
+        /** Builds a pair from a known verifier (e.g. for tests against RFC 7636 vectors). */
+        public fun fromVerifier(verifier: String): Pkce {
+            val hash = MessageDigest.getInstance("SHA-256").digest(verifier.toByteArray(Charsets.UTF_8))
+            return Pkce(verifier, base64UrlEncode(hash))
+        }
 
-    init {
-        verifier = generateVerifier()
-        challenge = computeChallenge(verifier)
-    }
-
-    private fun generateVerifier(): String {
-        val random = SecureRandom()
-        val bytes = ByteArray(32)
-        random.nextBytes(bytes)
-        return base64UrlEncode(bytes)
-    }
-
-    private fun computeChallenge(verifier: String): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        val hash = digest.digest(verifier.toByteArray(Charsets.UTF_8))
-        return base64UrlEncode(hash)
-    }
-
-    private fun base64UrlEncode(bytes: ByteArray): String {
-        return Base64.getUrlEncoder()
-            .withoutPadding()
-            .encodeToString(bytes)
+        private fun base64UrlEncode(bytes: ByteArray): String = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
     }
 }

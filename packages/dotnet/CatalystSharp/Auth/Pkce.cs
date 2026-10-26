@@ -3,35 +3,31 @@ using System.Text;
 
 namespace CatalystSharp.Auth;
 
-public class Pkce
+/// <summary>A PKCE (RFC 7636) verifier / challenge pair using the <c>S256</c> method.</summary>
+public sealed class Pkce
 {
+    private Pkce(string verifier, string challenge)
+    {
+        Verifier = verifier;
+        Challenge = challenge;
+    }
+
     public string Verifier { get; }
+
     public string Challenge { get; }
+
     public string Method => "S256";
 
-    public Pkce()
-    {
-        Verifier = GenerateVerifier();
-        Challenge = ComputeChallenge(Verifier);
-    }
+    /// <summary>Creates a pair from 32 random bytes.</summary>
+    public static Pkce Create() => FromVerifier(Base64UrlEncode(RandomNumberGenerator.GetBytes(32)));
 
-    private static string GenerateVerifier()
+    /// <summary>Builds a pair from a known verifier (e.g. for tests against RFC 7636 vectors).</summary>
+    public static Pkce FromVerifier(string verifier)
     {
-        var bytes = RandomNumberGenerator.GetBytes(32);
-        return Base64UrlEncode(bytes);
-    }
-
-    private static string ComputeChallenge(string verifier)
-    {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(verifier));
-        return Base64UrlEncode(bytes);
+        ArgumentNullException.ThrowIfNull(verifier);
+        return new Pkce(verifier, Base64UrlEncode(SHA256.HashData(Encoding.UTF8.GetBytes(verifier))));
     }
 
     private static string Base64UrlEncode(byte[] bytes)
-    {
-        return Convert.ToBase64String(bytes)
-            .Replace("+", "-")
-            .Replace("/", "_")
-            .TrimEnd('=');
-    }
+        => Convert.ToBase64String(bytes).Replace('+', '-').Replace('/', '_').TrimEnd('=');
 }

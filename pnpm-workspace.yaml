@@ -1,0 +1,7 @@
+packages:
+  - packages/nodejs
+minimumReleaseAgeExclude:
+  - '@natsuneko-laboratory/archon@0.1.1'
+onlyBuiltDependencies: []
+allowBuilds:
+  esbuild: false

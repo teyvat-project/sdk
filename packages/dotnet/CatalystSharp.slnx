@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="CatalystSharp/CatalystSharp.csproj" />
+  <Project Path="CatalystSharp.Tests/CatalystSharp.Tests.csproj" />
 </Solution>
