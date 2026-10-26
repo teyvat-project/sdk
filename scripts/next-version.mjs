@@ -15,6 +15,11 @@ export function normalizeVersion(v) {
   return m.slice(1).map((p) => String(Number(p))).join('.');
 }
 
+/** The normalized `info.version` of an OpenAPI document. */
+export function specVersion(body) {
+  return normalizeVersion(JSON.parse(normalizeSpec(body)).info.version);
+}
+
 function escapeRegExp(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -79,10 +84,10 @@ function main(argv) {
   const [command, ...args] = argv;
 
   switch (command) {
-    case 'beta': {
-      const spec = JSON.parse(normalizeSpec(readFileSync(option(args, '--spec'), 'utf8')));
-      return nextBeta(normalizeVersion(spec.info.version), gitTags());
-    }
+    case 'beta':
+      return nextBeta(specVersion(readFileSync(option(args, '--spec'), 'utf8')), gitTags());
+    case 'spec-version':
+      return specVersion(readFileSync(option(args, '--spec'), 'utf8'));
     case 'stable': {
       const base = normalizeVersion(option(args, '--version'));
       assertStableAvailable(base, gitTags());
@@ -95,7 +100,7 @@ function main(argv) {
       return tag;
     }
     default:
-      throw new Error('usage: node scripts/next-version.mjs <beta --spec <path> | stable --version <v> | latest-beta --version <v>>');
+      throw new Error('usage: node scripts/next-version.mjs <beta --spec <path> | spec-version --spec <path> | stable --version <v> | latest-beta --version <v>>');
   }
 }
 

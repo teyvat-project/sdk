@@ -11,6 +11,7 @@ public sealed class Catalyst
     private readonly Func<Token, ValueTask>? _onTokenRefreshed;
     private string? _accessToken;
     private string? _refreshToken;
+    private int _generation; // bumped on every credential change, so a refresh that finishes after one does not overwrite it
     private Task<Token>? _inflightRefresh;
 
     public Catalyst(CatalystOptions options)
@@ -60,6 +61,7 @@ public sealed class Catalyst
         {
             _accessToken = accessToken;
             _refreshToken = refreshToken;
+            _generation++;
             ApplyAuth();
         }
     }
@@ -70,13 +72,15 @@ public sealed class Catalyst
         {
             _accessToken = null;
             _refreshToken = null;
+            _generation++;
             ApplyAuth();
         }
     }
 
     /// <summary>
     /// Exchanges the refresh token for new credentials. Concurrent calls share a single request. The cancellation token
-    /// only stops this call from waiting; the shared request keeps running for the other callers.
+    /// only stops this call from waiting; the shared request keeps running for the other callers. If the credentials are
+    /// set or cleared while the request is in flight, its token is returned but neither stored nor reported.
     /// </summary>
     /// <exception cref="InvalidOperationException">No refresh token is available.</exception>
     public async Task<Token> RefreshAsync(CancellationToken cancellationToken = default)
@@ -111,11 +115,21 @@ public sealed class Catalyst
 
     private async Task<Token> PerformRefreshAsync()
     {
-        var refreshToken = RefreshToken;
+        string? refreshToken;
+        int generation;
+        lock (_credentialLock)
+        {
+            refreshToken = _refreshToken;
+            generation = _generation;
+        }
         if (string.IsNullOrEmpty(refreshToken)) throw new InvalidOperationException("No refresh token is available");
 
         var token = await OAuth.GetAccessTokenByRefreshTokenAsync(refreshToken).ConfigureAwait(false);
-        SetCredential(token.AccessToken, token.RefreshToken);
+        lock (_credentialLock)
+        {
+            if (generation != _generation) return token;
+            SetCredential(token.AccessToken, token.RefreshToken);
+        }
         if (_onTokenRefreshed is { } callback) await callback(token).ConfigureAwait(false);
         return token;
     }

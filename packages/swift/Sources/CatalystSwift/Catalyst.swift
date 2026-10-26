@@ -67,7 +67,8 @@ public final class Catalyst: Sendable {
     await store.clearCredential()
   }
 
-  /// Exchanges the refresh token for new credentials. Concurrent calls share a single request.
+  /// Exchanges the refresh token for new credentials. Concurrent calls share a single request. If the credentials are
+  /// set or cleared while the request is in flight, its token is returned but neither stored nor reported.
   public func refresh() async throws -> Token {
     try await store.refresh()
   }
@@ -78,6 +79,8 @@ actor CredentialStore {
   private(set) var accessToken: String?
   private(set) var refreshToken: String?
 
+  /// Bumped on every credential change, so a refresh that finishes after one does not overwrite it.
+  private var generation = 0
   private var inflightRefresh: Task<Token, any Error>?
   private weak var api: ApiClient?
   private let oauth: OAuth
@@ -100,12 +103,14 @@ actor CredentialStore {
   func setCredential(accessToken: String, refreshToken: String?) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
+    generation += 1
     applyAuth()
   }
 
   func clearCredential() {
     accessToken = nil
     refreshToken = nil
+    generation += 1
     applyAuth()
   }
 
@@ -154,7 +159,9 @@ actor CredentialStore {
   private func performRefresh() async throws -> Token {
     guard let refreshToken, !refreshToken.isEmpty else { throw CatalystError.noRefreshToken }
 
+    let generation = generation
     let token = try await oauth.getAccessTokenByRefreshToken(refreshToken)
+    guard generation == self.generation else { return token }
     setCredential(accessToken: token.accessToken, refreshToken: token.refreshToken)
     try await onTokenRefreshed?(token)
     return token

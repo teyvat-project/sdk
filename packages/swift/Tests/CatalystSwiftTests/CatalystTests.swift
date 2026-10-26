@@ -104,4 +104,34 @@ final class CatalystTests: XCTestCase {
     XCTAssertEqual(mock.tokenRequests.count, 1)
     XCTAssertEqual(mock.apiRequests.count, 1)
   }
+
+  func testClearDuringRefreshIsNotOverwritten() async throws {
+    let released = Box(false)
+    let refreshed = Box<[Token]>([])
+    let mock = MockTransport { request in
+      while !released.current { try await Task.sleep(nanoseconds: 1_000_000) }
+      return MockTransport.json(200, tokenBody, for: request)
+    }
+    let catalyst = Catalyst(
+      clientId: "cid",
+      clientSecret: "cs",
+      accessToken: "at1",
+      refreshToken: "rt1",
+      transport: mock,
+      onTokenRefreshed: { token in refreshed.withLock { $0.append(token) } }
+    )
+
+    let refresh = Task { try await catalyst.refresh() }
+    while mock.requests.isEmpty { try await Task.sleep(nanoseconds: 1_000_000) }
+    await catalyst.clearCredential()
+    released.withLock { $0 = true }
+    let token = try await refresh.value
+
+    XCTAssertEqual(token.accessToken, "at2")
+    let accessToken = await catalyst.accessToken
+    let refreshToken = await catalyst.refreshToken
+    XCTAssertNil(accessToken)
+    XCTAssertNil(refreshToken)
+    XCTAssertTrue(refreshed.current.isEmpty)
+  }
 }

@@ -136,4 +136,42 @@ public class CatalystTests
         Assert.Single(mock.TokenRequests);
         Assert.Single(mock.ApiRequests);
     }
+
+    [Fact]
+    public async Task ClearDuringRefreshIsNotOverwritten()
+    {
+        var requested = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var refreshed = new List<Token>();
+        var mock = new MockHandler(async _ =>
+        {
+            requested.TrySetResult();
+            await release.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            return MockHandler.Json(HttpStatusCode.OK, TokenBody);
+        });
+        var catalyst = new Catalyst(new CatalystOptions
+        {
+            ClientId = "cid",
+            ClientSecret = "cs",
+            AccessToken = "at1",
+            RefreshToken = "rt1",
+            HttpClient = new HttpClient(mock),
+            OnTokenRefreshed = token =>
+            {
+                lock (refreshed) refreshed.Add(token);
+                return ValueTask.CompletedTask;
+            },
+        });
+
+        var refresh = catalyst.RefreshAsync();
+        await requested.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        catalyst.ClearCredential();
+        release.SetResult();
+        var token = await refresh;
+
+        Assert.Equal("at2", token.AccessToken);
+        Assert.Null(catalyst.AccessToken);
+        Assert.Null(catalyst.RefreshToken);
+        Assert.Empty(refreshed);
+    }
 }

@@ -38,4 +38,31 @@ describe("PKCE / OAuth", () => {
     expect((thrown as OAuthError).kind).toBe("invalidAuthorizationResponse");
     expect(oauth.getAuthorizationCode(new URL("app://cb?code=c&state=st"), "st", "app://cb")).toBe("c");
   });
+
+  it("tokenResponseWithOnlyRequiredFields", async () => {
+    const respond = (body: unknown) => async () =>
+      new Response(JSON.stringify(body), { status: 200, headers: { "Content-Type": "application/json" } });
+    const oauth = new OAuth("cid", "cs", {
+      fetch: respond({ access_token: "at", refresh_token: "rt", token_type: "Bearer", expires_at: "not-a-date" }),
+    });
+
+    const token = await oauth.getAccessTokenByRefreshToken("rt0");
+
+    expect(token.accessToken).toBe("at");
+    expect(token.refreshToken).toBe("rt");
+    expect(token.tokenType).toBe("Bearer");
+    expect(token.scope).toBeUndefined();
+    expect(token.expiresAt).toBeUndefined();
+    expect(token.expiresIn).toBeUndefined();
+
+    const incomplete = new OAuth("cid", "cs", { fetch: respond({ access_token: "at", token_type: "Bearer" }) });
+    let thrown: unknown;
+    try {
+      await incomplete.getAccessTokenByRefreshToken("rt0");
+    } catch (error) {
+      thrown = error;
+    }
+    expect(thrown).toBeInstanceOf(OAuthError);
+    expect((thrown as OAuthError).kind).toBe("invalidTokenResponse");
+  });
 });

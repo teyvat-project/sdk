@@ -30,6 +30,7 @@ public class Catalyst(options: CatalystOptions) : AutoCloseable {
 
     private var currentAccessToken: String? = options.accessToken
     private var currentRefreshToken: String? = options.refreshToken
+    private var generation = 0 // bumped on every credential change, so a refresh that finishes after one does not overwrite it
     private var inflightRefresh: Deferred<Token>? = null // guarded by refreshGate
 
     /** Token requests and OAuth helpers. */
@@ -59,6 +60,7 @@ public class Catalyst(options: CatalystOptions) : AutoCloseable {
         synchronized(credentialLock) {
             currentAccessToken = accessToken
             currentRefreshToken = refreshToken
+            generation++
             applyAuth()
         }
     }
@@ -67,13 +69,15 @@ public class Catalyst(options: CatalystOptions) : AutoCloseable {
         synchronized(credentialLock) {
             currentAccessToken = null
             currentRefreshToken = null
+            generation++
             applyAuth()
         }
     }
 
     /**
      * Exchanges the refresh token for new credentials. Concurrent calls share a single request. Cancelling the caller
-     * only stops it from waiting; the shared request keeps running for the other callers.
+     * only stops it from waiting; the shared request keeps running for the other callers. If the credentials are set or
+     * cleared while the request is in flight, its token is returned but neither stored nor reported.
      *
      * @throws IllegalStateException No refresh token is available.
      */
@@ -100,11 +104,14 @@ public class Catalyst(options: CatalystOptions) : AutoCloseable {
     }
 
     private suspend fun performRefresh(): Token {
-        val refreshToken = refreshToken
+        val (refreshToken, generation) = synchronized(credentialLock) { currentRefreshToken to generation }
         check(!refreshToken.isNullOrEmpty()) { "No refresh token is available" }
 
         val token = oauth.getAccessTokenByRefreshToken(refreshToken)
-        setCredential(token.accessToken, token.refreshToken)
+        synchronized(credentialLock) {
+            if (generation != this.generation) return token
+            setCredential(token.accessToken, token.refreshToken)
+        }
         onTokenRefreshed?.invoke(token)
         return token
     }
