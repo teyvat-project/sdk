@@ -508,7 +508,7 @@ jobs:
           fi
 
       # Only for `dotnet nuget push`, which runs no project code.
-      - uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         if: steps.state.outputs.state != 'published' && steps.registry.outputs.exists == 'false'
         with:
           dotnet-version: "10.0.x"
