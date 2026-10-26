@@ -8,13 +8,13 @@ Requires Java 11 or later. HTTP is sent with Ktor, so add a Ktor client engine (
 
 ## Installation
 
-CatalystKotlin is not published to Maven Central or any other repository. Each version is attached to the GitHub Release `kotlin/v<version>` of [mika-f/CatalystSDK](https://github.com/mika-f/CatalystSDK/releases) as `catalyst-kotlin-<version>.jar`, `catalyst-kotlin-<version>-sources.jar` and `catalyst-kotlin-<version>.pom`.
+CatalystKotlin is not published to Maven Central or any other repository. Each version is attached to the GitHub Release `kotlin/v<version>` of [teyvat-project/sdk](https://github.com/teyvat-project/sdk/releases) as `catalyst-kotlin-<version>.jar`, `catalyst-kotlin-<version>-sources.jar` and `catalyst-kotlin-<version>.pom`.
 
 ```sh
-gh release download kotlin/v2026.10.25 --repo mika-f/CatalystSDK --dir libs
+gh release download kotlin/v2026.10.25 --repo teyvat-project/sdk --dir libs
 
 # Check that the jar was built by this repository's release workflow
-gh attestation verify libs/catalyst-kotlin-2026.10.25.jar --repo mika-f/CatalystSDK
+gh attestation verify libs/catalyst-kotlin-2026.10.25.jar --repo teyvat-project/sdk
 ```
 
 A local jar brings no transitive dependencies, so add the ones from the `.pom` and a Ktor client engine yourself:

@@ -10,9 +10,9 @@
     <Authors>Natsuneko</Authors>
     <Company>Natsuneko Laboratory</Company>
     <Description>CatalystSharp is a .NET library that provides bindings for Natsuneko Laboratory Platform, enabling developers to create Catalyst applications using C# and .NET technologies.</Description>
-    <PackageProjectUrl>https://github.com/mika-f/CatalystSDK</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/teyvat-project/sdk</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/mika-f/CatalystSDK</RepositoryUrl>
+    <RepositoryUrl>https://github.com/teyvat-project/sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <!-- The real version is injected at release time: dotnet pack -p:Version=... -->

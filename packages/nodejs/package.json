@@ -24,7 +24,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mika-f/CatalystSDK.git",
+    "url": "git+https://github.com/teyvat-project/sdk.git",
     "directory": "packages/nodejs"
   },
   "license": "MIT",

@@ -49,11 +49,11 @@ gh workflow run release.yml -f channel=stable -f version=2026.10.25
 
 ```sh
 # Release and tag are immutable and match the recorded attestation
-gh release verify nodejs/v2026.10.25 --repo mika-f/CatalystSDK
+gh release verify nodejs/v2026.10.25 --repo teyvat-project/sdk
 
 # Provenance of a release asset
-gh release download nodejs/v2026.10.25 --repo mika-f/CatalystSDK --pattern '*.tgz'
-gh attestation verify natsuneko-laboratory-catalyst-sdk-2026.10.25.tgz --repo mika-f/CatalystSDK
+gh release download nodejs/v2026.10.25 --repo teyvat-project/sdk --pattern '*.tgz'
+gh attestation verify natsuneko-laboratory-catalyst-sdk-2026.10.25.tgz --repo teyvat-project/sdk
 
 # npm provenance and registry signatures (run in a project that installed the package)
 npm audit signatures
@@ -63,7 +63,7 @@ npm audit signatures
 
 - Beta numbering counts git tags only. A beta whose releases all stayed drafts has no tag, so the next monitor run would reuse the same number and fail; delete those drafts first.
 - Partial failures: use "Re-run failed jobs" on the failed `release.yml` run. Build artifacts are kept for 7 days, and GitHub allows re-runs for 30 days. A language that is already published is skipped, an existing draft is reused, and a version already on a registry is skipped when its draft exists.
-- If a registry (or the Swift mirror) already has the version but no matching draft exists, the job fails with "Resolve manually" instead of publishing. Mirror releases must reference `mika-f/CatalystSDK@<sha>`.
+- If a registry (or the Swift mirror) already has the version but no matching draft exists, the job fails with "Resolve manually" instead of publishing. Mirror releases must reference `teyvat-project/sdk@<sha>`.
 - A stable version cannot be dispatched again once any `<lang>/v<base>` tag exists, and `next-version.mjs beta` refuses a base that has a stable tag ("stable <base> already released; the API must bump info.version"), so the `detect` job of `monitor.yml` fails before anything is committed.
 - If `monitor.yml` pushed the regeneration commit but the dispatch step failed, run `release.yml` manually with `channel=beta`, the version shown by the `detect` job (the "Beta version" notice in the run summary, also its `version` output), and the pushed commit SHA.
 - A regeneration patch that touches anything other than `openapi/openapi.json` and the generated directories fails the build jobs ("regeneration patch rejected") and is never committed. Investigate the generator and its dependencies before re-running.
@@ -83,11 +83,11 @@ Generated directories are cleaned on every run; never edit them by hand. Languag
 
 The workflows need the following one-time settings. No long-lived registry token is stored; the only secret is the GitHub App private key.
 
-1. **npm**: on `@natsuneko-laboratory/catalyst-sdk`, set the Trusted Publisher to repository `mika-f/CatalystSDK`, workflow `release.yml`, environment `npm`. (Migrating from the old `publish-nodejs.yml` entry.)
-2. **NuGet**: create a Trusted Publishing policy for repository `mika-f/CatalystSDK`, workflow `release.yml`, **bound to environment `nuget`**. The environment binding is mandatory.
-3. **Immutable Releases**: enable on both `mika-f/CatalystSDK` and `mika-f/CatalystSwift`.
-4. **Tag rulesets**: in `CatalystSDK` for `*/v*`, and in `CatalystSwift` for `*`, forbid update and deletion, and restrict creation to GitHub Actions / the GitHub App.
-5. **Branch rulesets**: allow direct pushes to `main` only from GitHub Actions (`CatalystSDK`) and the GitHub App (`CatalystSwift`). The mirror commits are unsigned, so `CatalystSwift` must not require signed commits on `main`, or the App must be a bypass actor.
+1. **npm**: on `@natsuneko-laboratory/catalyst-sdk`, set the Trusted Publisher to repository `teyvat-project/sdk`, workflow `release.yml`, environment `npm`. (Migrating from the old `publish-nodejs.yml` entry.)
+2. **NuGet**: create a Trusted Publishing policy for repository `teyvat-project/sdk`, workflow `release.yml`, **bound to environment `nuget`**. The environment binding is mandatory.
+3. **Immutable Releases**: enable on both `teyvat-project/sdk` and `mika-f/CatalystSwift`.
+4. **Tag rulesets**: in `teyvat-project/sdk` for `*/v*`, and in `CatalystSwift` for `*`, forbid update and deletion, and restrict creation to GitHub Actions / the GitHub App.
+5. **Branch rulesets**: allow direct pushes to `main` only from GitHub Actions (`teyvat-project/sdk`) and the GitHub App (`CatalystSwift`). The mirror commits are unsigned, so `CatalystSwift` must not require signed commits on `main`, or the App must be a bypass actor.
 6. **Environments**: create `npm`, `nuget`, `swift-mirror` and `kotlin`, and restrict deployment to the `main` branch.
 7. **GitHub App** for the mirror: install it only on `mika-f/CatalystSwift` with `contents: write`. Store the App ID as variable `SWIFT_MIRROR_APP_ID` and the private key as secret `SWIFT_MIRROR_APP_PRIVATE_KEY`, both in the `swift-mirror` environment.
 

@@ -52,7 +52,7 @@ publishing {
             pom {
                 name.set("CatalystKotlin")
                 description.set("Official Catalyst Kotlin SDK for JVM platforms")
-                url.set("https://github.com/mika-f/CatalystSDK")
+                url.set("https://github.com/teyvat-project/sdk")
 
                 licenses {
                     license {
@@ -62,9 +62,9 @@ publishing {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/mika-f/CatalystSDK.git")
-                    developerConnection.set("scm:git:ssh://github.com/mika-f/CatalystSDK.git")
-                    url.set("https://github.com/mika-f/CatalystSDK")
+                    connection.set("scm:git:git://github.com/teyvat-project/sdk.git")
+                    developerConnection.set("scm:git:ssh://github.com/teyvat-project/sdk.git")
+                    url.set("https://github.com/teyvat-project/sdk")
                 }
             }
         }

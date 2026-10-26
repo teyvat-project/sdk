@@ -154,7 +154,7 @@ export default defineConfig({
    - swift: `packages/swift` のソース zip
 3. （publish job）artifact を検証し、`actions/attest-build-provenance` で成果物に provenance を付ける。
 4. `gh release create <lang>/v<version> --draft --target <sha>` で下書きを作り、成果物を添付する。下書きがすでにあれば再利用する。
-5. レジストリに publish する。すでに同じ version が公開済みで、**対応する下書きリリースがある場合に限り**スキップする（再実行で続きから進められるようにするため）。レジストリ（Swift ミラーを含む）に version があるのに対応する下書きがない場合は、別のコミットから公開されたものかもしれないため、公開せずに失敗する（`Resolve manually`）。ミラーのリリースは `mika-f/CatalystSDK@<sha>` を参照する。
+5. レジストリに publish する。すでに同じ version が公開済みで、**対応する下書きリリースがある場合に限り**スキップする（再実行で続きから進められるようにするため）。レジストリ（Swift ミラーを含む）に version があるのに対応する下書きがない場合は、別のコミットから公開されたものかもしれないため、公開せずに失敗する（`Resolve manually`）。ミラーのリリースは `teyvat-project/sdk@<sha>` を参照する。
    - **nodejs**: `npm publish --tag <dist-tag>`（npm >= 11.5.1、provenance は自動）
    - **dotnet**: `dotnet nuget push`（`NuGet/login` で取得した短命 API key）
    - **swift**:
@@ -180,11 +180,11 @@ export default defineConfig({
 
 ### GitHub 側の手動設定（README に手順を書く）
 
-1. npm: `@natsuneko-laboratory/catalyst-sdk` の Trusted Publisher に `mika-f/CatalystSDK` / `release.yml` / Environment `npm` を登録する（旧 `publish-nodejs.yml` のエントリから移行する）。
-2. NuGet: Trusted Publishing policy に `mika-f/CatalystSDK` / `release.yml` を登録し、**Environment `nuget` に紐付ける（必須）**。
-3. `CatalystSDK` と `CatalystSwift` の両方で Immutable Releases を有効にする。
-4. Tag ruleset: `*/v*`（CatalystSDK）と `*`（CatalystSwift）の更新・削除を禁止し、作成は GitHub Actions / App のみに限定する。
-5. Branch ruleset: main への直接 push を GitHub Actions（CatalystSDK）と GitHub App（CatalystSwift）に限って許可する。ミラーのコミットは署名されないため、CatalystSwift の main では署名付きコミットを必須にしないか、App を bypass actor にする。
+1. npm: `@natsuneko-laboratory/catalyst-sdk` の Trusted Publisher に `teyvat-project/sdk` / `release.yml` / Environment `npm` を登録する（旧 `publish-nodejs.yml` のエントリから移行する）。
+2. NuGet: Trusted Publishing policy に `teyvat-project/sdk` / `release.yml` を登録し、**Environment `nuget` に紐付ける（必須）**。
+3. `teyvat-project/sdk` と `CatalystSwift` の両方で Immutable Releases を有効にする。
+4. Tag ruleset: `*/v*`（teyvat-project/sdk）と `*`（CatalystSwift）の更新・削除を禁止し、作成は GitHub Actions / App のみに限定する。
+5. Branch ruleset: main への直接 push を GitHub Actions（teyvat-project/sdk）と GitHub App（CatalystSwift）に限って許可する。ミラーのコミットは署名されないため、CatalystSwift の main では署名付きコミットを必須にしないか、App を bypass actor にする。
 6. Environments `npm` / `nuget` / `swift-mirror` / `kotlin` を作成し、deployment を main ブランチに限定する。
 7. GitHub App を作成する（`mika-f/CatalystSwift` のみにインストール、`contents: write`）。App ID は変数 `SWIFT_MIRROR_APP_ID`、private key は secret `SWIFT_MIRROR_APP_PRIVATE_KEY` として、どちらも `swift-mirror` Environment に置く。
 
