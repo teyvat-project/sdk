@@ -32,6 +32,8 @@ export class Catalyst {
 
   #accessToken: string | undefined;
   #refreshToken: string | undefined;
+  /** Bumped on every credential change, so a refresh that finishes after one does not overwrite it. */
+  #generation = 0;
   #inflightRefresh: Promise<Token> | undefined;
   readonly #onTokenRefreshed: CatalystOptions["onTokenRefreshed"];
 
@@ -66,16 +68,21 @@ export class Catalyst {
   setCredential(accessToken: string, refreshToken?: string): void {
     this.#accessToken = accessToken;
     this.#refreshToken = refreshToken;
+    this.#generation++;
     this.#applyAuth();
   }
 
   clearCredential(): void {
     this.#accessToken = undefined;
     this.#refreshToken = undefined;
+    this.#generation++;
     this.#applyAuth();
   }
 
-  /** Exchanges the refresh token for new credentials. Concurrent calls share a single request. */
+  /**
+   * Exchanges the refresh token for new credentials. Concurrent calls share a single request. If the credentials are
+   * set or cleared while the request is in flight, its token is returned but neither stored nor reported.
+   */
   refresh(): Promise<Token> {
     this.#inflightRefresh ??= this.#performRefresh().finally(() => {
       this.#inflightRefresh = undefined;
@@ -89,7 +96,9 @@ export class Catalyst {
       throw new Error("No refresh token is available");
     }
 
+    const generation = this.#generation;
     const token = await this.oauth.getAccessTokenByRefreshToken(refreshToken);
+    if (generation !== this.#generation) return token;
     this.setCredential(token.accessToken, token.refreshToken);
     await this.#onTokenRefreshed?.(token);
     return token;

@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class CatalystTest {
@@ -192,5 +193,36 @@ class CatalystTest {
         assertEquals("at1", catalyst.accessToken)
         assertEquals(1, mock.tokenRequests.size)
         assertEquals(1, mock.apiRequests.size)
+    }
+
+    @Test
+    fun clearDuringRefreshIsNotOverwritten() = runTest {
+        val requested = CompletableDeferred<Unit>()
+        val release = CompletableDeferred<Unit>()
+        val refreshed = CopyOnWriteArrayList<Token>()
+        val mock = Mock {
+            requested.complete(Unit)
+            release.await()
+            json(HttpStatusCode.OK, tokenBody)
+        }
+        val catalyst = Catalyst(CatalystOptions().apply {
+            clientId = "cid"
+            clientSecret = "cs"
+            accessToken = "at1"
+            refreshToken = "rt1"
+            httpClient = mock.client
+            onTokenRefreshed = { refreshed.add(it) }
+        })
+
+        val refresh = async { catalyst.refresh() }
+        requested.await()
+        catalyst.clearCredential()
+        release.complete(Unit)
+        val token = refresh.await()
+
+        assertEquals("at2", token.accessToken)
+        assertNull(catalyst.accessToken)
+        assertNull(catalyst.refreshToken)
+        assertTrue(refreshed.isEmpty())
     }
 }

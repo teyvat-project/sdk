@@ -140,4 +140,35 @@ describe("Catalyst", () => {
     expect(mock.requests.filter(isToken)).toHaveLength(1);
     expect(mock.requests.filter((r) => !isToken(r))).toHaveLength(1);
   });
+
+  it("clearDuringRefreshIsNotOverwritten", async () => {
+    let release!: () => void;
+    const released = new Promise<void>((resolve) => (release = resolve));
+    const refreshed: Token[] = [];
+    const mock = mockFetch(async () => {
+      await released;
+      return json(200, tokenBody);
+    });
+    const catalyst = new Catalyst({
+      clientId: "cid",
+      clientSecret: "cs",
+      accessToken: "at1",
+      refreshToken: "rt1",
+      fetch: mock.fetch,
+      onTokenRefreshed: (token) => {
+        refreshed.push(token);
+      },
+    });
+
+    const refresh = catalyst.refresh();
+    await expect.poll(() => mock.requests.length).toBe(1);
+    catalyst.clearCredential();
+    release();
+    const token = await refresh;
+
+    expect(token.accessToken).toBe("at2");
+    expect(catalyst.accessToken).toBeUndefined();
+    expect(catalyst.refreshToken).toBeUndefined();
+    expect(refreshed).toHaveLength(0);
+  });
 });
