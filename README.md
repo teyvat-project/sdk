@@ -8,12 +8,12 @@ Every SDK is generated from the Catalyst OpenAPI spec by [archon](https://www.np
 
 | Name           | Programming Languages             | Location          | Distribution                                                      | Tag (this repo)   | README                                |
 | -------------- | --------------------------------- | ----------------- | ----------------------------------------------------------------- | ----------------- | ------------------------------------- |
-| CatalystSwift  | Swift                             | `packages/swift`  | Mirrored to [mika-f/CatalystSwift](https://github.com/mika-f/CatalystSwift) (SwiftPM) | `swift/v<version>` | [README](./packages/swift/README.md)  |
+| CatalystSwift  | Swift                             | `packages/swift`  | Mirrored to [teyvat-project/sdk-swift](https://github.com/teyvat-project/sdk-swift) (SwiftPM) | `swift/v<version>` | [README](./packages/swift/README.md)  |
 | CatalystSharp  | C# / .NET                         | `packages/dotnet` | NuGet (`CatalystSharp`)                                           | `dotnet/v<version>` | [README](./packages/dotnet/README.md) |
 | CatalystKotlin | Kotlin / Java / JVM               | `packages/kotlin` | GitHub Release assets only (jar / sources jar / pom)              | `kotlin/v<version>` | [README](./packages/kotlin/README.md) |
 | CatalystTS     | TypeScript / JavaScript / Node.js | `packages/nodejs` | npm (`@natsuneko-laboratory/catalyst-sdk`)                        | `nodejs/v<version>` | [README](./packages/nodejs/README.md) |
 
-SwiftPM only resolves a `Package.swift` at the repository root and tags without a prefix, so the Swift package is mirrored to `mika-f/CatalystSwift`, where the tag is the bare version (for example `2026.10.25`). Kotlin is not published to a registry (Maven Central is not supported yet); download the jar from the GitHub Release.
+SwiftPM only resolves a `Package.swift` at the repository root and tags without a prefix, so the Swift package is mirrored to `teyvat-project/sdk-swift`, where the tag is the bare version (for example `2026.10.25`). Kotlin is not published to a registry (Maven Central is not supported yet); download the jar from the GitHub Release.
 
 ## Breaking changes
 
@@ -85,11 +85,11 @@ The workflows need the following one-time settings. No long-lived registry token
 
 1. **npm**: on `@natsuneko-laboratory/catalyst-sdk`, set the Trusted Publisher to repository `teyvat-project/sdk`, workflow `release.yml`, environment `npm`. (Migrating from the old `publish-nodejs.yml` entry.)
 2. **NuGet**: create a Trusted Publishing policy for repository `teyvat-project/sdk`, workflow `release.yml`, **bound to environment `nuget`**. The environment binding is mandatory.
-3. **Immutable Releases**: enable on both `teyvat-project/sdk` and `mika-f/CatalystSwift`.
-4. **Tag rulesets**: in `teyvat-project/sdk` for `*/v*`, and in `CatalystSwift` for `*`, forbid update and deletion, and restrict creation to GitHub Actions / the GitHub App.
-5. **Branch rulesets**: allow direct pushes to `main` only from GitHub Actions (`teyvat-project/sdk`) and the GitHub App (`CatalystSwift`). The mirror commits are unsigned, so `CatalystSwift` must not require signed commits on `main`, or the App must be a bypass actor.
+3. **Immutable Releases**: enable on both `teyvat-project/sdk` and `teyvat-project/sdk-swift`.
+4. **Tag rulesets**: in `teyvat-project/sdk` for `*/v*`, and in `teyvat-project/sdk-swift` for `*`, forbid update and deletion, and restrict creation to GitHub Actions / the GitHub App.
+5. **Branch rulesets**: allow direct pushes to `main` only from GitHub Actions (`teyvat-project/sdk`) and the GitHub App (`teyvat-project/sdk-swift`). The mirror commits are unsigned, so `teyvat-project/sdk-swift` must not require signed commits on `main`, or the App must be a bypass actor.
 6. **Environments**: create `npm`, `nuget`, `swift-mirror` and `kotlin`, and restrict deployment to the `main` branch.
-7. **GitHub App** for the mirror: install it only on `mika-f/CatalystSwift` with `contents: write`. Store the App ID as variable `SWIFT_MIRROR_APP_ID` and the private key as secret `SWIFT_MIRROR_APP_PRIVATE_KEY`, both in the `swift-mirror` environment.
+7. **GitHub App** for the mirror: install it only on `teyvat-project/sdk-swift` with `contents: write`. Store the App ID as variable `SWIFT_MIRROR_APP_ID` and the private key as secret `SWIFT_MIRROR_APP_PRIVATE_KEY`, both in the `swift-mirror` environment.
 
 ## License
 

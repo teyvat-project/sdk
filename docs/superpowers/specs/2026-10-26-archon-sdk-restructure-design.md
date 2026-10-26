@@ -16,7 +16,7 @@
 | 対象言語 | TypeScript (npm) / Swift / C# (NuGet) / Kotlin の 4 言語 |
 | 手書きコード | archon 生成物 + 薄い手書き層。旧来の手書き Client・モデルは削除する（破壊的変更） |
 | 採番 | 自動リリースは `-beta.N`。正式版は手動で昇格する |
-| Swift 配布 | 生成物を `mika-f/CatalystSwift` にミラーし、そちらで素の semver タグを打つ |
+| Swift 配布 | 生成物を `teyvat-project/sdk-swift` にミラーし、そちらで素の semver タグを打つ |
 | Kotlin 配布 | GitHub Release の asset のみ（レジストリには publish しない） |
 | C# | `net8.0` から `net10.0` に変更する（archon の前提） |
 | main への反映 | 再生成コミットは bot が main に直接 push する |
@@ -140,7 +140,7 @@ export default defineConfig({
 | `publish-nodejs` | `npm` | `contents: write`, `id-token: write`, `attestations: write` | npm（OIDC Trusted Publishing。dist-tag は beta なら `beta`、stable なら `latest`） |
 | `publish-dotnet` | `nuget` | 同上 | NuGet（`NuGet/login` による OIDC） |
 | `publish-kotlin` | `kotlin` | 同上 | なし（GitHub Release asset のみ） |
-| `swift` | `swift-mirror` | 同上 | `mika-f/CatalystSwift`（GitHub App token） |
+| `swift` | `swift-mirror` | 同上 | `teyvat-project/sdk-swift`（GitHub App token） |
 
 **build / publish を分ける理由**: OIDC トークン・Environment・書き込み権限を持つ job で、プロジェクトのコード（依存パッケージの postinstall、テスト、ビルドスクリプト）を実行させないため。build job は読み取り専用で OIDC を使えず、侵害されても公開できない。publish job は build を行わず、build job の artifact に対して検証（想定ファイルのみか）・attest・release・publish だけを行う。swift はミラー用のソースを `git archive` するだけでプロジェクトのコードを実行しないため、1 job にしている。
 
@@ -182,11 +182,11 @@ export default defineConfig({
 
 1. npm: `@natsuneko-laboratory/catalyst-sdk` の Trusted Publisher に `teyvat-project/sdk` / `release.yml` / Environment `npm` を登録する（旧 `publish-nodejs.yml` のエントリから移行する）。
 2. NuGet: Trusted Publishing policy に `teyvat-project/sdk` / `release.yml` を登録し、**Environment `nuget` に紐付ける（必須）**。
-3. `teyvat-project/sdk` と `CatalystSwift` の両方で Immutable Releases を有効にする。
-4. Tag ruleset: `*/v*`（teyvat-project/sdk）と `*`（CatalystSwift）の更新・削除を禁止し、作成は GitHub Actions / App のみに限定する。
-5. Branch ruleset: main への直接 push を GitHub Actions（teyvat-project/sdk）と GitHub App（CatalystSwift）に限って許可する。ミラーのコミットは署名されないため、CatalystSwift の main では署名付きコミットを必須にしないか、App を bypass actor にする。
+3. `teyvat-project/sdk` と `teyvat-project/sdk-swift` の両方で Immutable Releases を有効にする。
+4. Tag ruleset: `*/v*`（teyvat-project/sdk）と `*`（teyvat-project/sdk-swift）の更新・削除を禁止し、作成は GitHub Actions / App のみに限定する。
+5. Branch ruleset: main への直接 push を GitHub Actions（teyvat-project/sdk）と GitHub App（teyvat-project/sdk-swift）に限って許可する。ミラーのコミットは署名されないため、CatalystSwift の main では署名付きコミットを必須にしないか、App を bypass actor にする。
 6. Environments `npm` / `nuget` / `swift-mirror` / `kotlin` を作成し、deployment を main ブランチに限定する。
-7. GitHub App を作成する（`mika-f/CatalystSwift` のみにインストール、`contents: write`）。App ID は変数 `SWIFT_MIRROR_APP_ID`、private key は secret `SWIFT_MIRROR_APP_PRIVATE_KEY` として、どちらも `swift-mirror` Environment に置く。
+7. GitHub App を作成する（`teyvat-project/sdk-swift` のみにインストール、`contents: write`）。App ID は変数 `SWIFT_MIRROR_APP_ID`、private key は secret `SWIFT_MIRROR_APP_PRIVATE_KEY` として、どちらも `swift-mirror` Environment に置く。
 
 ## 6. CI（`ci.yml`）
 

@@ -10,26 +10,26 @@ Requires macOS 12 / iOS 15 / tvOS 15 / watchOS 8 / visionOS 1 or later (PKCE use
 
 ### Swift Package Manager
 
-Releases are tagged in the [mika-f/CatalystSwift](https://github.com/mika-f/CatalystSwift) mirror with the bare version.
+Releases are tagged in the [teyvat-project/sdk-swift](https://github.com/teyvat-project/sdk-swift) mirror with the bare version.
 
 ```swift
 // Stable releases
-.package(url: "https://github.com/mika-f/CatalystSwift.git", from: "2026.10.25")
+.package(url: "https://github.com/teyvat-project/sdk-swift.git", from: "2026.10.25")
 ```
 
 SwiftPM skips prereleases for a `from:` requirement, so pin a beta explicitly:
 
 ```swift
 // A specific beta
-.package(url: "https://github.com/mika-f/CatalystSwift.git", exact: "2026.10.25-beta.1")
+.package(url: "https://github.com/teyvat-project/sdk-swift.git", exact: "2026.10.25-beta.1")
 
 // 2026.10.25-beta.1 or any later beta / release below 2026.11.0
-.package(url: "https://github.com/mika-f/CatalystSwift.git", .upToNextMinor(from: "2026.10.25-beta.1"))
+.package(url: "https://github.com/teyvat-project/sdk-swift.git", .upToNextMinor(from: "2026.10.25-beta.1"))
 ```
 
 ```swift
 .target(name: "YourApp", dependencies: [
-  .product(name: "CatalystSwift", package: "CatalystSwift"),
+  .product(name: "CatalystSwift", package: "sdk-swift"),
 ])
 ```
 

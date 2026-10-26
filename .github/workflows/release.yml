@@ -657,7 +657,7 @@ jobs:
       VERSION: ${{ needs.resolve.outputs.version }}
       SHA: ${{ needs.resolve.outputs.sha }}
       PRERELEASE: ${{ needs.resolve.outputs.prerelease }}
-      MIRROR_REPO: mika-f/CatalystSwift
+      MIRROR_REPO: teyvat-project/sdk-swift
     steps:
       - name: Check release state
         id: state
@@ -727,11 +727,11 @@ jobs:
         with:
           app-id: ${{ vars.SWIFT_MIRROR_APP_ID }}
           private-key: ${{ secrets.SWIFT_MIRROR_APP_PRIVATE_KEY }}
-          owner: mika-f
-          repositories: CatalystSwift
+          owner: teyvat-project
+          repositories: sdk-swift
           permission-contents: write
 
-      - name: Mirror to CatalystSwift
+      - name: Mirror to teyvat-project/sdk-swift
         if: steps.state.outputs.state != 'published'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
