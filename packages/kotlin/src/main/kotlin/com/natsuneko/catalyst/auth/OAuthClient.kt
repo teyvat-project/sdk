@@ -19,7 +19,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import java.net.URLDecoder
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import kotlin.math.abs
@@ -232,6 +231,31 @@ public class OAuthClient(
                 .map { pair -> decode(pair.substringBefore('=')) to decode(if ('=' in pair) pair.substringAfter('=') else "") }
         }
 
-        fun decode(text: String): String = URLDecoder.decode(text, Charsets.UTF_8)
+        /** Form-decodes `+` and `%XX` (UTF-8); invalid `%` sequences are left as they are instead of throwing. */
+        fun decode(text: String): String {
+            val bytes = java.io.ByteArrayOutputStream()
+            var i = 0
+            while (i < text.length) {
+                val c = text[i]
+                val high = if (c == '%' && i + 2 < text.length) Character.digit(text[i + 1], 16) else -1
+                val low = if (high >= 0) Character.digit(text[i + 2], 16) else -1
+                when {
+                    high >= 0 && low >= 0 -> {
+                        bytes.write(high * 16 + low)
+                        i += 3
+                    }
+                    c == '+' -> {
+                        bytes.write(' '.code)
+                        i++
+                    }
+                    else -> {
+                        val end = if (c.isHighSurrogate() && i + 1 < text.length) i + 2 else i + 1
+                        bytes.write(text.substring(i, end).toByteArray(Charsets.UTF_8))
+                        i = end
+                    }
+                }
+            }
+            return bytes.toByteArray().toString(Charsets.UTF_8)
+        }
     }
 }

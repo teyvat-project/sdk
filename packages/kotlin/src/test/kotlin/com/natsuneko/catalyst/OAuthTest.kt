@@ -53,6 +53,16 @@ class OAuthTest {
     }
 
     @Test
+    fun authorizationCodeToleratesMalformedEscapes() {
+        val oauth = OAuthClient("cid", "cs")
+
+        assertEquals("%", oauth.getAuthorizationCode("app://cb?code=%&state=st", "st", "app://cb"))
+
+        val error = assertFailsWith<OAuthException> { oauth.getAuthorizationCode("app://cb?code=c&state=%zz", "st", "app://cb") }
+        assertEquals(OAuthErrorKind.InvalidAuthorizationResponse, error.kind)
+    }
+
+    @Test
     fun tokenResponseWithOnlyRequiredFields() = runTest {
         val json = headersOf(HttpHeaders.ContentType, "application/json")
         val complete = MockEngine {
