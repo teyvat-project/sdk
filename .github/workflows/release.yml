@@ -1,0 +1,708 @@
+name: Release
+
+# Publishes every SDK for one version. Each language gets a draft GitHub Release
+# with attested assets, then the registry publish, then the release is published.
+# Publishing creates the `<lang>/v<version>` tag, which is immutable from then on.
+#
+# Re-running is safe: a language whose release is already published is skipped,
+# an existing draft is reused, and registry publishes skip existing versions.
+# After a partial stable failure, use "Re-run failed jobs" on the same run
+# (`resolve` refuses a stable version once any `<lang>/v<version>` tag exists).
+#
+# Inputs are untrusted. They only reach shell scripts through `env:`, and the
+# language jobs use the validated outputs of `resolve` instead.
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel
+        type: choice
+        required: true
+        options:
+          - beta
+          - stable
+      version:
+        description: "Version to release, e.g. 2026.10.25-beta.1 (beta) or 2026.10.25 (stable)"
+        type: string
+        required: true
+      sha:
+        description: Full commit SHA on main. Required for beta; for stable, defaults to the commit of the latest nodejs beta tag.
+        type: string
+        required: false
+
+concurrency:
+  group: release-${{ inputs.version }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  resolve:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      sha: ${{ steps.resolve.outputs.sha }}
+      version: ${{ steps.resolve.outputs.version }}
+      prerelease: ${{ steps.resolve.outputs.prerelease }}
+      npm-tag: ${{ steps.resolve.outputs.npm-tag }}
+    steps:
+      # Full history and tags: next-version.mjs reads `git tag -l`, and the
+      # ancestry check needs origin/main.
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: "24.18.0"
+
+      - name: Resolve version and commit
+        id: resolve
+        env:
+          CHANNEL: ${{ inputs.channel }}
+          VERSION: ${{ inputs.version }}
+          INPUT_SHA: ${{ inputs.sha }}
+        run: |
+          set -euo pipefail
+
+          # Validate before anything else. Raw input is never echoed back.
+          # Parts without leading zeros, so the value matches next-version.mjs's
+          # normalized form and is valid semver for npm.
+          num='(0|[1-9][0-9]*)'
+          case "$CHANNEL" in
+            beta)
+              re="^${num}\.${num}\.${num}-beta\.[1-9][0-9]*$"
+              prerelease=true
+              npm_tag=beta
+              ;;
+            stable)
+              re="^${num}\.${num}\.${num}$"
+              prerelease=false
+              npm_tag=latest
+              ;;
+            *)
+              echo "::error::channel must be 'beta' or 'stable'"
+              exit 1
+              ;;
+          esac
+          if ! [[ "$VERSION" =~ $re ]]; then
+            echo "::error::version does not match the ${CHANNEL} format"
+            exit 1
+          fi
+          if [ -n "$INPUT_SHA" ] && ! [[ "$INPUT_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::sha must be a full 40-character lowercase commit SHA"
+            exit 1
+          fi
+
+          if [ "$CHANNEL" = stable ]; then
+            # Fails when any <lang>/v<version> tag already exists.
+            base=$(node scripts/next-version.mjs stable --version "$VERSION")
+            if [ "$base" != "$VERSION" ]; then
+              echo "::error::stable version normalized to ${base}, which differs from the input"
+              exit 1
+            fi
+            if [ -z "$INPUT_SHA" ]; then
+              # Fails when no beta exists for this version.
+              beta_tag=$(node scripts/next-version.mjs latest-beta --version "$VERSION")
+              sha=$(git rev-list -n1 "refs/tags/${beta_tag}")
+              echo "Promoting ${beta_tag} (${sha})"
+            else
+              sha=$INPUT_SHA
+            fi
+          else
+            if [ -z "$INPUT_SHA" ]; then
+              echo "::error::sha is required for beta releases"
+              exit 1
+            fi
+            sha=$INPUT_SHA
+          fi
+
+          if ! resolved=$(git rev-parse --verify --quiet "${sha}^{commit}"); then
+            echo "::error::commit ${sha} not found"
+            exit 1
+          fi
+          if ! [[ "$resolved" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::could not resolve ${sha} to a full commit SHA"
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$resolved" origin/main; then
+            echo "::error::commit ${resolved} is not on main"
+            exit 1
+          fi
+
+          echo "Releasing ${CHANNEL} ${VERSION} from ${resolved}"
+          {
+            echo "sha=${resolved}"
+            echo "version=${VERSION}"
+            echo "prerelease=${prerelease}"
+            echo "npm-tag=${npm_tag}"
+          } >> "$GITHUB_OUTPUT"
+
+  nodejs:
+    needs: resolve
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      TAG: nodejs/v${{ needs.resolve.outputs.version }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      PRERELEASE: ${{ needs.resolve.outputs.prerelease }}
+      PACKAGE: "@natsuneko-laboratory/catalyst-sdk"
+    steps:
+      - name: Check release state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/gh-release-view.err"
+          if info=$(gh release view "$TAG" --json isDraft,targetCommitish --jq '[.isDraft, .targetCommitish] | @tsv' 2>"$err"); then
+            IFS=$'\t' read -r is_draft target <<<"$info"
+            if [ "$target" != "$SHA" ]; then
+              echo "::error::Release ${TAG} (draft=${is_draft}) targets ${target}, not ${SHA}. Resolve it manually."
+              exit 1
+            fi
+            if [ "$is_draft" = true ]; then state=draft; else state=published; fi
+          elif grep -q 'release not found' "$err"; then
+            state=absent
+          else
+            cat "$err" >&2
+            exit 1
+          fi
+          if [ "$state" = published ]; then
+            echo "::notice::${TAG} is already published; skipping."
+          fi
+          echo "state=${state}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      - uses: ./.github/actions/build-nodejs
+        if: steps.state.outputs.state != 'published'
+
+      - name: Pack
+        if: steps.state.outputs.state != 'published'
+        working-directory: packages/nodejs
+        run: |
+          set -euo pipefail
+          npm version "$VERSION" --no-git-tag-version --ignore-scripts
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP/release-assets"
+          test -f "$RUNNER_TEMP/release-assets/natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz"
+
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          subject-path: ${{ runner.temp }}/release-assets/*
+
+      - name: Create or update draft release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          files=("$RUNNER_TEMP/release-assets/natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz")
+          if [ "$STATE" = draft ]; then
+            gh release upload "$TAG" "${files[@]}" --clobber
+          else
+            args=(--draft --target "$SHA" --title "$TAG" --notes "Generated from openapi ${VERSION%%-*} (${SHA})")
+            if [ "$PRERELEASE" = true ]; then args+=(--prerelease); fi
+            gh release create "$TAG" "${args[@]}" "${files[@]}"
+          fi
+
+      - name: Publish to npm
+        if: steps.state.outputs.state != 'published'
+        env:
+          NPM_TAG: ${{ needs.resolve.outputs.npm-tag }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/npm-view.err"
+          if published=$(npm view "${PACKAGE}@${VERSION}" version 2>"$err"); then
+            if [ "$published" = "$VERSION" ]; then
+              echo "::notice::${PACKAGE}@${VERSION} is already on npm; skipping publish."
+              exit 0
+            fi
+          elif ! grep -q 'E404' "$err"; then
+            cat "$err" >&2
+            exit 1
+          fi
+
+          # Trusted publishing (OIDC) needs npm >= 11.5.1. No token is configured.
+          if ! printf '%s\n' 11.5.1 "$(npm --version)" | sort -V -C; then
+            npm install -g npm@11
+          fi
+          npm --version
+
+          npm publish "$RUNNER_TEMP/release-assets/natsuneko-laboratory-catalyst-sdk-${VERSION}.tgz" \
+            --tag "$NPM_TAG" --access public --ignore-scripts
+
+      - name: Publish release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ "$PRERELEASE" = true ]; then flag=--prerelease; else flag=--prerelease=false; fi
+          gh release edit "$TAG" --draft=false "$flag"
+          if [ "$(gh release view "$TAG" --json isImmutable --jq .isImmutable 2>/dev/null || echo unknown)" != true ]; then
+            echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
+          fi
+
+  dotnet:
+    needs: resolve
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      TAG: dotnet/v${{ needs.resolve.outputs.version }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      PRERELEASE: ${{ needs.resolve.outputs.prerelease }}
+    steps:
+      - name: Check release state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/gh-release-view.err"
+          if info=$(gh release view "$TAG" --json isDraft,targetCommitish --jq '[.isDraft, .targetCommitish] | @tsv' 2>"$err"); then
+            IFS=$'\t' read -r is_draft target <<<"$info"
+            if [ "$target" != "$SHA" ]; then
+              echo "::error::Release ${TAG} (draft=${is_draft}) targets ${target}, not ${SHA}. Resolve it manually."
+              exit 1
+            fi
+            if [ "$is_draft" = true ]; then state=draft; else state=published; fi
+          elif grep -q 'release not found' "$err"; then
+            state=absent
+          else
+            cat "$err" >&2
+            exit 1
+          fi
+          if [ "$state" = published ]; then
+            echo "::notice::${TAG} is already published; skipping."
+          fi
+          echo "state=${state}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      # Sets up .NET 10 and runs the tests.
+      - uses: ./.github/actions/build-dotnet
+        if: steps.state.outputs.state != 'published'
+
+      - name: Pack
+        if: steps.state.outputs.state != 'published'
+        working-directory: packages/dotnet
+        run: |
+          set -euo pipefail
+          dotnet pack CatalystSharp/CatalystSharp.csproj -c Release -o ./bin -p:Version="$VERSION"
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          cp "bin/CatalystSharp.${VERSION}.nupkg" "bin/CatalystSharp.${VERSION}.snupkg" "$RUNNER_TEMP/release-assets/"
+
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          subject-path: ${{ runner.temp }}/release-assets/*
+
+      - name: Create or update draft release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          files=("$RUNNER_TEMP/release-assets/CatalystSharp.${VERSION}.nupkg" "$RUNNER_TEMP/release-assets/CatalystSharp.${VERSION}.snupkg")
+          if [ "$STATE" = draft ]; then
+            gh release upload "$TAG" "${files[@]}" --clobber
+          else
+            args=(--draft --target "$SHA" --title "$TAG" --notes "Generated from openapi ${VERSION%%-*} (${SHA})")
+            if [ "$PRERELEASE" = true ]; then args+=(--prerelease); fi
+            gh release create "$TAG" "${args[@]}" "${files[@]}"
+          fi
+
+      - name: Check NuGet
+        id: nuget
+        if: steps.state.outputs.state != 'published'
+        run: |
+          set -euo pipefail
+          url="https://api.nuget.org/v3-flatcontainer/catalystsharp/${VERSION,,}/catalystsharp.nuspec"
+          code=$(curl -sS -o /dev/null -w '%{http_code}' "$url")
+          case "$code" in
+            200)
+              echo "::notice::CatalystSharp ${VERSION} is already on NuGet; skipping push."
+              echo "exists=true" >> "$GITHUB_OUTPUT"
+              ;;
+            404)
+              echo "exists=false" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "::error::Unexpected HTTP ${code} from ${url}"
+              exit 1
+              ;;
+          esac
+
+      - name: NuGet login
+        id: login
+        if: steps.state.outputs.state != 'published' && steps.nuget.outputs.exists == 'false'
+        uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1.1.0
+        with:
+          user: Mikazuki
+
+      # The .snupkg next to the .nupkg is pushed automatically. --skip-duplicate
+      # covers a version pushed moments ago but not yet visible in the index.
+      - name: Push to NuGet
+        if: steps.state.outputs.state != 'published' && steps.nuget.outputs.exists == 'false'
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        working-directory: packages/dotnet
+        run: |
+          dotnet nuget push "bin/CatalystSharp.${VERSION}.nupkg" \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Publish release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ "$PRERELEASE" = true ]; then flag=--prerelease; else flag=--prerelease=false; fi
+          gh release edit "$TAG" --draft=false "$flag"
+          if [ "$(gh release view "$TAG" --json isImmutable --jq .isImmutable 2>/dev/null || echo unknown)" != true ]; then
+            echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
+          fi
+
+  kotlin:
+    needs: resolve
+    runs-on: ubuntu-latest
+    environment: kotlin
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      TAG: kotlin/v${{ needs.resolve.outputs.version }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      PRERELEASE: ${{ needs.resolve.outputs.prerelease }}
+    steps:
+      - name: Check release state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/gh-release-view.err"
+          if info=$(gh release view "$TAG" --json isDraft,targetCommitish --jq '[.isDraft, .targetCommitish] | @tsv' 2>"$err"); then
+            IFS=$'\t' read -r is_draft target <<<"$info"
+            if [ "$target" != "$SHA" ]; then
+              echo "::error::Release ${TAG} (draft=${is_draft}) targets ${target}, not ${SHA}. Resolve it manually."
+              exit 1
+            fi
+            if [ "$is_draft" = true ]; then state=draft; else state=published; fi
+          elif grep -q 'release not found' "$err"; then
+            state=absent
+          else
+            cat "$err" >&2
+            exit 1
+          fi
+          if [ "$state" = published ]; then
+            echo "::notice::${TAG} is already published; skipping."
+          fi
+          echo "state=${state}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      # Sets up Java and Gradle, then builds and tests.
+      - uses: ./.github/actions/build-kotlin
+        if: steps.state.outputs.state != 'published'
+
+      - name: Build release artifacts
+        if: steps.state.outputs.state != 'published'
+        working-directory: packages/kotlin
+        run: |
+          set -euo pipefail
+          ./gradlew build generatePomFileForMavenPublication -Pversion="$VERSION"
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          cp "build/libs/catalyst-kotlin-${VERSION}.jar" "build/libs/catalyst-kotlin-${VERSION}-sources.jar" "$RUNNER_TEMP/release-assets/"
+          cp build/publications/maven/pom-default.xml "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}.pom"
+
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          subject-path: ${{ runner.temp }}/release-assets/*
+
+      - name: Create or update draft release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          files=(
+            "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}.jar"
+            "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}-sources.jar"
+            "$RUNNER_TEMP/release-assets/catalyst-kotlin-${VERSION}.pom"
+          )
+          if [ "$STATE" = draft ]; then
+            gh release upload "$TAG" "${files[@]}" --clobber
+          else
+            args=(--draft --target "$SHA" --title "$TAG" --notes "Generated from openapi ${VERSION%%-*} (${SHA})")
+            if [ "$PRERELEASE" = true ]; then args+=(--prerelease); fi
+            gh release create "$TAG" "${args[@]}" "${files[@]}"
+          fi
+
+      # No registry: the GitHub Release assets are the distribution.
+      - name: Publish release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ "$PRERELEASE" = true ]; then flag=--prerelease; else flag=--prerelease=false; fi
+          gh release edit "$TAG" --draft=false "$flag"
+          if [ "$(gh release view "$TAG" --json isImmutable --jq .isImmutable 2>/dev/null || echo unknown)" != true ]; then
+            echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
+          fi
+
+  swift:
+    needs: resolve
+    # Packaging only; the package is built and tested by CI and monitor.yml.
+    runs-on: ubuntu-latest
+    environment: swift-mirror
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      TAG: swift/v${{ needs.resolve.outputs.version }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      PRERELEASE: ${{ needs.resolve.outputs.prerelease }}
+      MIRROR_REPO: mika-f/CatalystSwift
+    steps:
+      - name: Check release state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          err="$RUNNER_TEMP/gh-release-view.err"
+          if info=$(gh release view "$TAG" --json isDraft,targetCommitish --jq '[.isDraft, .targetCommitish] | @tsv' 2>"$err"); then
+            IFS=$'\t' read -r is_draft target <<<"$info"
+            if [ "$target" != "$SHA" ]; then
+              echo "::error::Release ${TAG} (draft=${is_draft}) targets ${target}, not ${SHA}. Resolve it manually."
+              exit 1
+            fi
+            if [ "$is_draft" = true ]; then state=draft; else state=published; fi
+          elif grep -q 'release not found' "$err"; then
+            state=absent
+          else
+            cat "$err" >&2
+            exit 1
+          fi
+          if [ "$state" = published ]; then
+            echo "::notice::${TAG} is already published; skipping."
+          fi
+          echo "state=${state}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+
+      - name: Archive sources
+        if: steps.state.outputs.state != 'published'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          git archive --format=zip --prefix=CatalystSwift/ -o "$RUNNER_TEMP/release-assets/CatalystSwift-${VERSION}.zip" HEAD:packages/swift
+
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        if: steps.state.outputs.state != 'published'
+        with:
+          subject-path: ${{ runner.temp }}/release-assets/*
+
+      - name: Create or update draft release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          STATE: ${{ steps.state.outputs.state }}
+        run: |
+          set -euo pipefail
+          files=("$RUNNER_TEMP/release-assets/CatalystSwift-${VERSION}.zip")
+          if [ "$STATE" = draft ]; then
+            gh release upload "$TAG" "${files[@]}" --clobber
+          else
+            args=(--draft --target "$SHA" --title "$TAG" --notes "Generated from openapi ${VERSION%%-*} (${SHA})")
+            if [ "$PRERELEASE" = true ]; then args+=(--prerelease); fi
+            gh release create "$TAG" "${args[@]}" "${files[@]}"
+          fi
+
+      # Scoped to the mirror repository with contents: write only.
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app-token
+        if: steps.state.outputs.state != 'published'
+        with:
+          app-id: ${{ vars.SWIFT_MIRROR_APP_ID }}
+          private-key: ${{ secrets.SWIFT_MIRROR_APP_PRIVATE_KEY }}
+          owner: mika-f
+          repositories: CatalystSwift
+          permission-contents: write
+
+      - name: Mirror to CatalystSwift
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          mirror_url="https://github.com/${MIRROR_REPO}.git"
+          mirror_dir="$RUNNER_TEMP/mirror"
+          message="Release ${VERSION} (${GITHUB_REPOSITORY}@${SHA})"
+
+          # The credential helper reads the token from the environment when git
+          # asks for it, so it never appears on a command line or on disk.
+          # shellcheck disable=SC2016
+          helper='!f() { test "$1" = get || exit 0; echo username=x-access-token; echo "password=${GH_TOKEN}"; }; f'
+          mgit() {
+            git -c credential.helper= -c "credential.helper=${helper}" \
+              -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              "$@"
+          }
+
+          # A mirror tag only appears when its release is published.
+          rc=0
+          mgit ls-remote --exit-code --tags "$mirror_url" "refs/tags/${VERSION}" >/dev/null || rc=$?
+          case "$rc" in
+            0) tag_exists=true ;;
+            2) tag_exists=false ;;
+            *) echo "::error::git ls-remote failed (${rc})"; exit 1 ;;
+          esac
+
+          err="$RUNNER_TEMP/gh-mirror-release-view.err"
+          if info=$(gh release view "$VERSION" --repo "$MIRROR_REPO" --json isDraft,targetCommitish --jq '[.isDraft, .targetCommitish] | @tsv' 2>"$err"); then
+            IFS=$'\t' read -r is_draft mirror_target <<<"$info"
+            if [ "$is_draft" = true ]; then mirror_state=draft; else mirror_state=published; fi
+          elif grep -q 'release not found' "$err"; then
+            mirror_state=absent
+            mirror_target=
+          else
+            cat "$err" >&2
+            exit 1
+          fi
+
+          if [ "$tag_exists" = true ]; then
+            if [ "$mirror_state" = published ]; then
+              echo "::notice::${MIRROR_REPO} ${VERSION} is already published; skipping mirror."
+              exit 0
+            fi
+            echo "::error::${MIRROR_REPO} has tag ${VERSION} without a published release. Resolve it manually."
+            exit 1
+          fi
+          if [ "$mirror_state" = published ]; then
+            echo "::error::${MIRROR_REPO} release ${VERSION} is published but its tag is missing. Resolve it manually."
+            exit 1
+          fi
+
+          # Check out the mirror's main; an empty mirror starts an orphan main.
+          git init -q -b main "$mirror_dir"
+          rc=0
+          mgit ls-remote --exit-code --heads "$mirror_url" refs/heads/main >/dev/null || rc=$?
+          case "$rc" in
+            0)
+              mgit -C "$mirror_dir" fetch -q --depth=1 "$mirror_url" refs/heads/main
+              git -C "$mirror_dir" checkout -q -B main FETCH_HEAD
+              ;;
+            2)
+              echo "Mirror has no main branch yet; creating it."
+              ;;
+            *)
+              echo "::error::git ls-remote failed (${rc})"
+              exit 1
+              ;;
+          esac
+
+          # Export from git (not the working tree) so the mirror holds exactly
+          # the tracked files that went into the attested zip.
+          src_dir="$RUNNER_TEMP/swift-src"
+          mkdir -p "$src_dir"
+          git -C "$GITHUB_WORKSPACE" archive --format=tar HEAD:packages/swift | tar -x -C "$src_dir"
+          rsync -a --delete --exclude .git "$src_dir/" "$mirror_dir/"
+          git -C "$mirror_dir" add -A
+
+          # Reuse the release commit pushed by an earlier attempt of this release.
+          if git -C "$mirror_dir" rev-parse --verify -q HEAD >/dev/null \
+            && [ "$(git -C "$mirror_dir" log -1 --format=%s)" = "$message" ] \
+            && git -C "$mirror_dir" diff --cached --quiet HEAD; then
+            echo "Mirror main already has the release commit."
+          else
+            mgit -C "$mirror_dir" commit -q --allow-empty -m "$message"
+            # Fast-forward only: a concurrent change to the mirror fails the push.
+            mgit -C "$mirror_dir" push "$mirror_url" HEAD:refs/heads/main
+          fi
+          mirror_sha=$(git -C "$mirror_dir" rev-parse HEAD)
+
+          if [ "$mirror_state" = draft ]; then
+            if [ "$mirror_target" != "$mirror_sha" ]; then
+              echo "::error::${MIRROR_REPO} draft ${VERSION} targets ${mirror_target}, not ${mirror_sha}. Resolve it manually."
+              exit 1
+            fi
+          else
+            args=(--repo "$MIRROR_REPO" --draft --target "$mirror_sha" --title "$VERSION"
+              --notes "Mirrored from ${GITHUB_REPOSITORY}@${SHA} (${TAG})")
+            if [ "$PRERELEASE" = true ]; then args+=(--prerelease); fi
+            gh release create "$VERSION" "${args[@]}"
+          fi
+
+          if [ "$PRERELEASE" = true ]; then flag=--prerelease; else flag=--prerelease=false; fi
+          gh release edit "$VERSION" --repo "$MIRROR_REPO" --draft=false "$flag"
+
+      - name: Publish release
+        if: steps.state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ "$PRERELEASE" = true ]; then flag=--prerelease; else flag=--prerelease=false; fi
+          gh release edit "$TAG" --draft=false "$flag"
+          if [ "$(gh release view "$TAG" --json isImmutable --jq .isImmutable 2>/dev/null || echo unknown)" != true ]; then
+            echo "::warning::${TAG} is not reported as immutable. Check the repository's Immutable Releases setting."
+          fi
