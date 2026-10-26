@@ -105,9 +105,9 @@ public final class OAuth: Sendable {
     let response = try await transport.send(request)
     guard (200..<300).contains(response.statusCode) else { throw OAuthError.invalidTokenResponse }
 
-    let decoded: AccessTokenResponse
+    let decoded: TokenResponse
     do {
-      decoded = try ApiJSON.decode(AccessTokenResponse.self, from: response.body)
+      decoded = try JSONDecoder().decode(TokenResponse.self, from: response.body)
     } catch {
       throw OAuthError.invalidTokenResponse
     }
@@ -115,11 +115,41 @@ public final class OAuth: Sendable {
     return Token(
       accessToken: decoded.accessToken,
       refreshToken: decoded.refreshToken,
-      tokenType: decoded.tokenType.rawValue,
-      scope: decoded.scope.rawValue,
+      tokenType: decoded.tokenType,
+      scope: decoded.scope,
       expiresAt: decoded.expiresAt,
       expiresIn: decoded.expiresIn
     )
+  }
+}
+
+/// The token endpoint's JSON. Only `access_token`, `refresh_token` and `token_type` are required; the other fields
+/// are optional, and a value of the wrong type (or an `expires_at` that is not an RFC 3339 date-time) counts as absent.
+private struct TokenResponse: Decodable {
+  let accessToken: String
+  let refreshToken: String
+  let tokenType: String
+  let scope: String?
+  let expiresAt: Date?
+  let expiresIn: Double?
+
+  private enum CodingKeys: String, CodingKey {
+    case accessToken = "access_token"
+    case refreshToken = "refresh_token"
+    case tokenType = "token_type"
+    case scope
+    case expiresAt = "expires_at"
+    case expiresIn = "expires_in"
+  }
+
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    accessToken = try container.decode(String.self, forKey: .accessToken)
+    refreshToken = try container.decode(String.self, forKey: .refreshToken)
+    tokenType = try container.decode(String.self, forKey: .tokenType)
+    scope = (try? container.decodeIfPresent(String.self, forKey: .scope)) ?? nil
+    expiresAt = ((try? container.decodeIfPresent(String.self, forKey: .expiresAt)) ?? nil).flatMap(RFC3339.parse)
+    expiresIn = (try? container.decodeIfPresent(Double.self, forKey: .expiresIn)) ?? nil
   }
 }
 

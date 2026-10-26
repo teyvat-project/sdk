@@ -47,4 +47,28 @@ final class OAuthTests: XCTestCase {
     )
     XCTAssertEqual(code, "c")
   }
+
+  func testTokenResponseWithOnlyRequiredFields() async throws {
+    let mock = MockTransport { request in
+      MockTransport.json(
+        200, #"{"access_token":"at","refresh_token":"rt","token_type":"Bearer","expires_at":"not-a-date"}"#, for: request)
+    }
+    let oauth = OAuth(clientId: "cid", clientSecret: "cs", transport: mock)
+
+    let token = try await oauth.getAccessTokenByRefreshToken("rt0")
+
+    XCTAssertEqual(token.accessToken, "at")
+    XCTAssertEqual(token.refreshToken, "rt")
+    XCTAssertEqual(token.tokenType, "Bearer")
+    XCTAssertNil(token.scope)
+    XCTAssertNil(token.expiresAt)
+    XCTAssertNil(token.expiresIn)
+
+    let incomplete = MockTransport { MockTransport.json(200, #"{"access_token":"at","token_type":"Bearer"}"#, for: $0) }
+    do {
+      _ = try await OAuth(clientId: "cid", clientSecret: "cs", transport: incomplete).getAccessTokenByRefreshToken("rt0")
+      XCTFail("expected OAuthError.invalidTokenResponse")
+    } catch OAuthError.invalidTokenResponse {
+    }
+  }
 }
