@@ -13,8 +13,6 @@ import com.natsuneko.catalyst.api.core.RequestOptions
 import com.natsuneko.catalyst.api.core.RequestValues
 import com.natsuneko.catalyst.api.core.ResponseDecoder
 import com.natsuneko.catalyst.api.core.ResponseKind
-import com.natsuneko.catalyst.api.core.SecurityRequirement
-import com.natsuneko.catalyst.api.core.SecurityScheme
 import com.natsuneko.catalyst.api.models.*
 import io.ktor.http.HttpMethod
 
@@ -44,7 +42,7 @@ public class CredentialsService internal constructor(private val core: ApiClient
             HttpMethod.Post,
             "/token",
             listOf("credentials"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            emptyList(),
             emptyList(),
             BodyKind.Form, "application/x-www-form-urlencoded",
             mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "500" to ResponseKind.Json),

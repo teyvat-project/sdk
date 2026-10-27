@@ -41,7 +41,7 @@ public sealed partial class CredentialsService
         global::System.Net.Http.HttpMethod.Post,
         "/token",
         ["credentials"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [],
         [],
         BodyKind.Form, "application/x-www-form-urlencoded",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["500"] = ResponseKind.Json });

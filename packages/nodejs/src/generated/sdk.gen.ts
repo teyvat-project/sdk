@@ -720,7 +720,7 @@ const deleteCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1052,7 +1052,7 @@ const getCatalystV11OnThisDaySpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/on-this-day',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1084,7 +1084,7 @@ const getCatalystV11RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1121,7 +1121,7 @@ const getCatalystV11RandomByHashtagSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/random/by/hashtag',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -1167,7 +1167,7 @@ const getCatalystV11StatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1212,7 +1212,7 @@ const getCatalystV11TimelineAlbumByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/album/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -1256,7 +1256,7 @@ const getCatalystV11TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1378,7 +1378,7 @@ const getCatalystV11TimelineSmartAlbumByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/smart-album/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -1416,7 +1416,7 @@ const getCatalystV12RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.2/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1454,7 +1454,7 @@ const getCatalystV12TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.2/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1576,7 +1576,7 @@ const getCatalystV1AlbumByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'limit', in: 'query', style: 'form', explode: true },
@@ -1620,7 +1620,7 @@ const getCatalystV1AlbumByIdByIdBookSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1703,7 +1703,7 @@ const getCatalystV1AlbumByIdByIdMembersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/members',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1741,7 +1741,7 @@ const getCatalystV1AlbumByIdByIdRandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1830,7 +1830,7 @@ const getCatalystV1AlbumByUserByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/user/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'include_smart_albums', in: 'query', style: 'form', explode: true },
@@ -1873,7 +1873,7 @@ const getCatalystV1AlbumSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'include_smart_album', in: 'query', style: 'form', explode: true },
@@ -2023,7 +2023,7 @@ const getCatalystV1ContestBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2063,7 +2063,7 @@ const getCatalystV1ContestBySlugBySlugAcquisitionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}/acquisitions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2232,7 +2232,7 @@ const getCatalystV1ContestByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2268,7 +2268,7 @@ const getCatalystV1ContestCurrentSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/current',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -2306,7 +2306,7 @@ const getCatalystV1ContestSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'state', in: 'query', style: 'form', explode: true },
@@ -2382,7 +2382,7 @@ const getCatalystV1FleetByUserByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/by/user/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'exclude_sensitive', in: 'query', style: 'form', explode: true },
@@ -2461,7 +2461,7 @@ const getCatalystV1FleetByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2743,7 +2743,7 @@ const getCatalystV1ItemSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/item/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'type', in: 'query', style: 'form', explode: true },
@@ -2802,7 +2802,7 @@ const getCatalystV1ItemsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/items/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2875,7 +2875,7 @@ const getCatalystV1ProfileTagsByNameByNameUsersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/by/name/{name}/users',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'name', in: 'path', style: 'simple', explode: false },
     { name: 'cursor', in: 'query', style: 'form', explode: true },
@@ -2914,7 +2914,7 @@ const getCatalystV1ProfileTagsByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2952,7 +2952,7 @@ const getCatalystV1ProfileTagsSuggestionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/suggestions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -2986,7 +2986,7 @@ const getCatalystV1RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -3016,7 +3016,7 @@ const getCatalystV1ReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -3052,7 +3052,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameCountsSpec: OperationSpec = 
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/counts',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
   ],
@@ -3094,7 +3094,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowersSpec: OperationSpec
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followers',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3137,7 +3137,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteSpec: Operati
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followers/remote',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3180,7 +3180,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowingsSpec: OperationSpe
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3298,7 +3298,7 @@ const getCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'limit', in: 'query', style: 'form', explode: true },
@@ -3342,7 +3342,7 @@ const getCatalystV1SmartAlbumByIdByIdBookSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3424,7 +3424,7 @@ const getCatalystV1SmartAlbumByIdByIdRandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3465,7 +3465,7 @@ const getCatalystV1SmartAlbumByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3503,7 +3503,7 @@ const getCatalystV1SmartAlbumSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -3543,7 +3543,7 @@ const getCatalystV1StatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3584,7 +3584,7 @@ const getCatalystV1StatusByIdAlbumsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/albums',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3663,7 +3663,7 @@ const getCatalystV1StatusByIdReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3748,7 +3748,7 @@ const getCatalystV1TimelineArchiveSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/archive',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'year', in: 'query', style: 'form', explode: true },
     { name: 'month', in: 'query', style: 'form', explode: true },
@@ -3795,7 +3795,7 @@ const getCatalystV1TimelineArchiveMonthsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/archive/months',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '500': 'json' },
 };
@@ -3837,7 +3837,7 @@ const getCatalystV1TimelineContestBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/contest/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -3920,7 +3920,7 @@ const getCatalystV1TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -3960,7 +3960,7 @@ const getCatalystV1TimelineGallerySpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -4040,7 +4040,7 @@ const getCatalystV1TimelineItemByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/item/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4083,7 +4083,7 @@ const getCatalystV1TimelineSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4132,7 +4132,7 @@ const getCatalystV1TimelineUserByUsernameByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/user/by/username/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4176,7 +4176,7 @@ const getCatalystV1TimelineUserByUsernameByUsernameGallerySpec: OperationSpec = 
   method: 'GET',
   path: '/catalyst/v1/timeline/user/by/username/{username}/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4223,7 +4223,7 @@ const getCatalystV1TimelineWorldByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/world/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4261,7 +4261,7 @@ const getCatalystV1TrendSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/trend',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'format', in: 'query', style: 'form', explode: true },
   ],
@@ -4419,7 +4419,7 @@ const getCatalystV1WeeklyThemesSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'cursor', in: 'query', style: 'form', explode: true },
     { name: 'take', in: 'query', style: 'form', explode: true },
@@ -4462,7 +4462,7 @@ const getCatalystV1WeeklyThemesBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -4509,7 +4509,7 @@ const getCatalystV1WeeklyThemesBySlugBySlugStatusesSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/by/slug/{slug}/statuses',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'cursor', in: 'query', style: 'form', explode: true },
@@ -4572,7 +4572,7 @@ const getCatalystV1WeeklyThemesCurrentSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/current',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '500': 'json' },
 };
@@ -4700,7 +4700,7 @@ const getCatalystV1WorldsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/worlds/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4796,7 +4796,7 @@ const getEgeriaV1SearchSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/search',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -4836,7 +4836,7 @@ const getEgeriaV1UserByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/user/by/id/{id}',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4876,7 +4876,7 @@ const getEgeriaV1UserByUsernameByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/user/by/username/{username}',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
   ],
@@ -4915,7 +4915,7 @@ const getEpicleseV1AuthorsSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/authors',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'platform', in: 'query', style: 'form', explode: true },
@@ -4958,7 +4958,7 @@ const getEpicleseV1AuthorsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/authors/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4998,7 +4998,7 @@ const getEpicleseV1ItemsSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/items',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'type', in: 'query', style: 'form', explode: true },
@@ -5042,7 +5042,7 @@ const getEpicleseV1ItemsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/items/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5081,7 +5081,7 @@ const getEpicleseV1ItemsByIdStatusesSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/items/{id}/statuses',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'offset', in: 'query', style: 'form', explode: true },
@@ -5116,7 +5116,7 @@ const getEpicleseV1PlatformsSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/platforms',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -5152,7 +5152,7 @@ const getEpicleseV1PlatformsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/platforms/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5188,7 +5188,7 @@ const getEpicleseV1TagByStatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/tag/by/status/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5227,7 +5227,7 @@ const getEpicleseV1WorldsSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/worlds',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'platform', in: 'query', style: 'form', explode: true },
@@ -5294,7 +5294,7 @@ const getEpicleseV1WorldsResolveSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/worlds/resolve',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'platform', in: 'query', style: 'form', explode: true },
     { name: 'name', in: 'query', style: 'form', explode: true },
@@ -5335,7 +5335,7 @@ const getEpicleseV1WorldsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/worlds/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5371,7 +5371,7 @@ const getFeatureFlagsV1MeSpec: OperationSpec = {
   method: 'GET',
   path: '/feature-flags/v1/me',
   tags: ['feature-flags'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -5522,7 +5522,7 @@ const getGiftiaV1PointsRewardsSpec: OperationSpec = {
   method: 'GET',
   path: '/giftia/v1/points/rewards',
   tags: ['giftia'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   responses: { '200': 'json', '500': 'json' },
 };
@@ -6040,7 +6040,7 @@ const patchCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6348,7 +6348,7 @@ const postCatalystV1AlbumByIdByIdBookSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7349,7 +7349,7 @@ const postCatalystV1SmartAlbumByIdByIdBookSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/smart-album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7739,7 +7739,7 @@ const postCatalystV1StatusesReactionsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/statuses/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '500': 'json' },
@@ -7946,7 +7946,7 @@ const postEpicleseV1AuthorsSpec: OperationSpec = {
   method: 'POST',
   path: '/epiclese/v1/authors',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json' },
@@ -8068,7 +8068,7 @@ const postEpicleseV1WorldsSpec: OperationSpec = {
   method: 'POST',
   path: '/epiclese/v1/worlds',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json' },
@@ -8179,7 +8179,7 @@ const postMediaV2UploadSpec: OperationSpec = {
   method: 'POST',
   path: '/media/v2/upload',
   tags: ['media'],
-  security: [],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [],
   responses: { '200': 'json', '401': 'json', '500': 'json' },
 };
@@ -8297,7 +8297,7 @@ const postTokenSpec: OperationSpec = {
   method: 'POST',
   path: '/token',
   tags: ['credentials'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [],
   params: [],
   body: { kind: 'form', mediaType: 'application/x-www-form-urlencoded' },
   responses: { '200': 'json', '400': 'json', '500': 'json' },

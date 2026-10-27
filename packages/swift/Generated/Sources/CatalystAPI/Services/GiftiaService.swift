@@ -149,6 +149,7 @@ extension GiftiaService {
         tags: ["giftia"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "500": .json]

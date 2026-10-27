@@ -280,6 +280,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -299,6 +300,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -316,6 +318,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -336,6 +339,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -353,6 +357,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -370,6 +375,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json]
@@ -384,6 +390,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -400,6 +407,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -416,6 +424,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -435,6 +444,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("platform", .query, .form, explode: true),
@@ -453,6 +463,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -470,6 +481,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         body: .json,
@@ -530,6 +542,7 @@ extension EpicleseService {
         tags: ["epiclese"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         body: .json,

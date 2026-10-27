@@ -12,6 +12,8 @@ import com.natsuneko.catalyst.api.core.RequestOptions
 import com.natsuneko.catalyst.api.core.RequestValues
 import com.natsuneko.catalyst.api.core.ResponseDecoder
 import com.natsuneko.catalyst.api.core.ResponseKind
+import com.natsuneko.catalyst.api.core.SecurityRequirement
+import com.natsuneko.catalyst.api.core.SecurityScheme
 import com.natsuneko.catalyst.api.models.*
 import io.ktor.http.HttpMethod
 
@@ -40,7 +42,7 @@ public class FeatureFlagsService internal constructor(private val core: ApiClien
             HttpMethod.Get,
             "/feature-flags/v1/me",
             listOf("feature-flags"),
-            emptyList(),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
             emptyList(),
             null,
             null,

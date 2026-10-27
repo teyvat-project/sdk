@@ -3277,7 +3277,9 @@ extension CatalystService {
         method: .delete,
         path: "/catalyst/v1/smart-album/by/id/{id}",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -3416,6 +3418,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "404": .json]
@@ -3431,6 +3434,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "404": .json]
@@ -3446,6 +3450,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -3464,6 +3469,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3482,6 +3488,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3504,6 +3511,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -3559,6 +3567,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3581,6 +3590,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "404": .json]
@@ -3596,6 +3606,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -3651,6 +3662,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3669,7 +3681,9 @@ extension CatalystService {
         method: .get,
         path: "/catalyst/v1/album/by/id/{id}/book",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -3710,6 +3724,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3727,6 +3742,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3764,6 +3780,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -3784,6 +3801,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -3850,6 +3868,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3867,6 +3886,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3939,6 +3959,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3956,6 +3977,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "404": .json]
@@ -3971,6 +3993,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -4004,6 +4027,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4041,6 +4065,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4168,6 +4193,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -4187,6 +4213,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4219,6 +4246,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("name", .path, .simple, explode: false),
@@ -4237,6 +4265,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4253,6 +4282,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -4269,6 +4299,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json]
@@ -4283,6 +4314,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json]
@@ -4297,6 +4329,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4314,6 +4347,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4333,6 +4367,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4352,6 +4387,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4404,6 +4440,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4423,7 +4460,9 @@ extension CatalystService {
         method: .get,
         path: "/catalyst/v1/smart-album/by/id/{id}/book",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -4464,6 +4503,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4482,6 +4522,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4500,6 +4541,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -4516,6 +4558,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4531,7 +4574,9 @@ extension CatalystService {
         method: .get,
         path: "/catalyst/v1/status/{id}/albums",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -4567,6 +4612,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4601,6 +4647,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("year", .query, .form, explode: true),
@@ -4625,6 +4672,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "500": .json]
@@ -4640,6 +4688,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -4677,6 +4726,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -4694,6 +4744,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -4726,6 +4777,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4746,6 +4798,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -4765,6 +4818,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4786,6 +4840,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4804,6 +4859,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4824,6 +4880,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("format", .query, .form, explode: true),
@@ -4893,6 +4950,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("cursor", .query, .form, explode: true),
@@ -4912,6 +4970,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -4930,6 +4989,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -4951,6 +5011,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         responses: ["200": .json, "500": .json]
@@ -4996,6 +5057,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5205,7 +5267,9 @@ extension CatalystService {
         method: .patch,
         path: "/catalyst/v1/smart-album/by/id/{id}",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -5324,7 +5388,9 @@ extension CatalystService {
         method: .post,
         path: "/catalyst/v1/album/by/id/{id}/book",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -5807,7 +5873,9 @@ extension CatalystService {
         method: .post,
         path: "/catalyst/v1/smart-album/by/id/{id}/book",
         tags: ["catalyst"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
@@ -6000,6 +6068,7 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [],
         body: .json,

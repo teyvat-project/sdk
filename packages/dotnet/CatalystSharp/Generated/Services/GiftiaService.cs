@@ -144,7 +144,7 @@ public sealed partial class GiftiaService
         global::System.Net.Http.HttpMethod.Get,
         "/giftia/v1/points/rewards",
         ["giftia"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
         [],
         null,
         null,

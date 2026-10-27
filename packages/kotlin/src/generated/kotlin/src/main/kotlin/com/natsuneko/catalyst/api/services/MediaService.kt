@@ -114,7 +114,7 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
             HttpMethod.Post,
             "/media/v2/upload",
             listOf("media"),
-            emptyList(),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
             emptyList(),
             null,
             null,

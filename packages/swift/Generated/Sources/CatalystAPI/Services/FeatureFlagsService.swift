@@ -32,7 +32,9 @@ extension FeatureFlagsService {
         method: .get,
         path: "/feature-flags/v1/me",
         tags: ["feature-flags"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [],
         responses: ["200": .json, "401": .json]
     )

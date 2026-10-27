@@ -170,7 +170,7 @@ public class GiftiaService internal constructor(private val core: ApiClientCore)
             HttpMethod.Get,
             "/giftia/v1/points/rewards",
             listOf("giftia"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
             emptyList(),
             null,
             null,

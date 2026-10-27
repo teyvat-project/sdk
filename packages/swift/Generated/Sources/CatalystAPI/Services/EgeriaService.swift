@@ -115,6 +115,7 @@ extension EgeriaService {
         tags: ["egeria"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("q", .query, .form, explode: true),
@@ -131,6 +132,7 @@ extension EgeriaService {
         tags: ["egeria"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -148,6 +150,7 @@ extension EgeriaService {
         tags: ["egeria"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),

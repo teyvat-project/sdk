@@ -35,9 +35,7 @@ extension CredentialsService {
         method: .post,
         path: "/token",
         tags: ["credentials"],
-        security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
-        ],
+        security: [],
         params: [],
         body: .form,
         bodyMediaType: "application/x-www-form-urlencoded",

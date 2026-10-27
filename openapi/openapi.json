@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.10.26"
+    "version": "2026.10.27"
   },
   "servers": [
     {
@@ -12747,7 +12747,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -12783,7 +12784,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -12839,7 +12841,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -12875,7 +12878,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -12959,7 +12963,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -13051,7 +13056,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -13229,7 +13235,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -13321,7 +13328,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -13357,7 +13365,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -13827,6 +13836,11 @@
         "tags": [
           "catalyst"
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "schema": {
@@ -13898,6 +13912,11 @@
         "description": "アルバム PDF を生成する",
         "tags": [
           "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -14167,7 +14186,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -14335,7 +14355,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -14484,7 +14505,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -14904,7 +14926,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -15062,7 +15085,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -15509,7 +15533,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -15963,7 +15988,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -16369,7 +16395,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -16426,7 +16453,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -16473,7 +16501,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -17173,7 +17202,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -17464,7 +17494,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -19664,7 +19695,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -19764,7 +19796,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -19992,7 +20025,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20046,7 +20080,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20159,7 +20194,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20206,7 +20242,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -20240,7 +20277,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -20403,7 +20441,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20449,7 +20488,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20513,7 +20553,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -20577,7 +20618,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -21232,6 +21274,11 @@
         "tags": [
           "catalyst"
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "schema": {
@@ -21303,6 +21350,11 @@
         "description": "スマートアルバム PDF を生成する",
         "tags": [
           "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -21397,7 +21449,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -21556,7 +21609,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -21630,6 +21684,11 @@
         "summary": "PATCH /catalyst/v1/smart-album/by/id/{id}",
         "tags": [
           "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -21708,6 +21767,11 @@
         "tags": [
           "catalyst"
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "schema": {
@@ -21760,7 +21824,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -21890,7 +21955,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -21933,6 +21999,11 @@
         "description": "投稿が含まれているアルバムの一覧を取得します",
         "tags": [
           "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -22567,7 +22638,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -22957,7 +23029,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23227,7 +23300,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "requestBody": {
           "content": {
@@ -23296,7 +23370,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -23359,7 +23434,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23472,7 +23548,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23610,7 +23687,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23665,7 +23743,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23767,7 +23846,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23850,7 +23930,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23921,7 +24002,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -23983,7 +24065,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -24072,7 +24155,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -24155,7 +24239,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -24859,7 +24944,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -24923,7 +25009,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -25027,7 +25114,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -25197,7 +25285,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -25519,7 +25608,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26032,7 +26122,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26079,7 +26170,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26133,7 +26225,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26187,7 +26280,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26241,7 +26335,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26305,7 +26400,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "requestBody": {
           "content": {
@@ -26358,7 +26454,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26412,7 +26509,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26460,7 +26558,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26627,7 +26726,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26671,7 +26771,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -26708,7 +26809,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26817,7 +26919,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -26871,7 +26974,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -27053,7 +27157,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "parameters": [
           {
@@ -27117,7 +27222,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "requestBody": {
           "content": {
@@ -27166,6 +27272,11 @@
         "description": "有効になっている Feature Flag 一覧を取得します",
         "tags": [
           "feature-flags"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "responses": {
           "200": {
@@ -27466,7 +27577,8 @@
         "security": [
           {
             "bearerAuth": []
-          }
+          },
+          {}
         ],
         "responses": {
           "200": {
@@ -27682,6 +27794,11 @@
         "description": "画像をアップロードするための URL を取得します。",
         "tags": [
           "media"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "responses": {
           "200": {
@@ -27976,11 +28093,6 @@
         "description": "アクセストークンを発行",
         "tags": [
           "credentials"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
         ],
         "requestBody": {
           "content": {

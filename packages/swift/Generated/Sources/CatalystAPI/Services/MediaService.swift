@@ -101,7 +101,9 @@ extension MediaService {
         method: .post,
         path: "/media/v2/upload",
         tags: ["media"],
-        security: [],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
         params: [],
         responses: ["200": .json, "401": .json, "500": .json]
     )

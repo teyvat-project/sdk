@@ -110,7 +110,7 @@ public sealed partial class MediaService
         global::System.Net.Http.HttpMethod.Post,
         "/media/v2/upload",
         ["media"],
-        [],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
         [],
         null,
         null,
