@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ApiError, AuthError, Catalyst, getCatalystV11Random, type Token } from "../src/index.js";
+import { ApiError, AuthError, Catalyst, getCatalystV11TimelineFirehose, getCatalystV11TimelineHome, type Token } from "../src/index.js";
 
 interface Recorded {
   url: string;
@@ -41,10 +41,10 @@ const isToken = (r: Recorded) => r.url.endsWith("/token");
 
 describe("Catalyst", () => {
   it("sendsBearerToken", async () => {
-    const mock = mockFetch(() => json(200, {}));
+    const mock = mockFetch(() => json(200, []));
     const catalyst = new Catalyst({ clientId: "cid", clientSecret: "cs", accessToken: "at1", fetch: mock.fetch });
 
-    const result = await getCatalystV11Random({ client: catalyst.client });
+    const result = await getCatalystV11TimelineFirehose({ client: catalyst.client });
 
     expect(result.error).toBeUndefined();
     expect(mock.requests).toHaveLength(1);
@@ -56,7 +56,7 @@ describe("Catalyst", () => {
     const refreshed: Token[] = [];
     const mock = mockFetch((req) => {
       if (isToken(req)) return json(200, tokenBody);
-      return req.headers.get("Authorization") === "Bearer at2" ? json(200, {}) : json(401, {});
+      return req.headers.get("Authorization") === "Bearer at2" ? json(200, []) : json(401, {});
     });
     const catalyst = new Catalyst({
       clientId: "cid",
@@ -69,7 +69,7 @@ describe("Catalyst", () => {
       },
     });
 
-    const result = await getCatalystV11Random({ client: catalyst.client });
+    const result = await getCatalystV11TimelineFirehose({ client: catalyst.client });
 
     expect(result.error).toBeUndefined();
     expect(mock.requests).toHaveLength(3);
@@ -91,7 +91,7 @@ describe("Catalyst", () => {
         await new Promise((resolve) => setTimeout(resolve, 20));
         return json(200, tokenBody);
       }
-      return req.headers.get("Authorization") === "Bearer at2" ? json(200, {}) : json(401, {});
+      return req.headers.get("Authorization") === "Bearer at2" ? json(200, []) : json(401, {});
     });
     const catalyst = new Catalyst({
       clientId: "cid",
@@ -102,8 +102,8 @@ describe("Catalyst", () => {
     });
 
     const [a, b] = await Promise.all([
-      getCatalystV11Random({ client: catalyst.client }),
-      getCatalystV11Random({ client: catalyst.client }),
+      getCatalystV11TimelineFirehose({ client: catalyst.client }),
+      getCatalystV11TimelineFirehose({ client: catalyst.client }),
     ]);
 
     expect(a.error).toBeUndefined();
@@ -115,10 +115,10 @@ describe("Catalyst", () => {
   });
 
   it("missingTokenThrowsAuthError", async () => {
-    const mock = mockFetch(() => json(200, {}));
+    const mock = mockFetch(() => json(200, []));
     const catalyst = new Catalyst({ clientId: "cid", clientSecret: "cs", fetch: mock.fetch });
 
-    await expect(getCatalystV11Random({ client: catalyst.client })).rejects.toBeInstanceOf(AuthError);
+    await expect(getCatalystV11TimelineHome({ client: catalyst.client })).rejects.toBeInstanceOf(AuthError);
     expect(mock.requests).toHaveLength(0);
   });
 
@@ -132,7 +132,7 @@ describe("Catalyst", () => {
       fetch: mock.fetch,
     });
 
-    const result = await getCatalystV11Random({ client: catalyst.client });
+    const result = await getCatalystV11TimelineFirehose({ client: catalyst.client });
 
     expect(result.error).toBeInstanceOf(ApiError);
     expect(result.error!.status).toBe(401);

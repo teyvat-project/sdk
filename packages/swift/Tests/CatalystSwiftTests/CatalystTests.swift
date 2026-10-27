@@ -10,7 +10,7 @@ final class CatalystTests: XCTestCase {
     let mock = MockTransport { MockTransport.json(200, "[]", for: $0) }
     let catalyst = Catalyst(clientId: "cid", clientSecret: "cs", accessToken: "at1", transport: mock)
 
-    _ = try await catalyst.api.catalyst.getCatalystV1Gallery()
+    _ = try await catalyst.api.catalyst.getCatalystV11TimelineFirehose()
 
     XCTAssertEqual(mock.requests.count, 1)
     XCTAssertEqual(mock.requests[0].headers["Authorization"], "Bearer at1")
@@ -34,7 +34,7 @@ final class CatalystTests: XCTestCase {
       onTokenRefreshed: { token in refreshed.withLock { $0.append(token) } }
     )
 
-    _ = try await catalyst.api.catalyst.getCatalystV1Gallery()
+    _ = try await catalyst.api.catalyst.getCatalystV11TimelineFirehose()
 
     XCTAssertEqual(mock.requests.count, 3)
     let tokenRequest = mock.requests[1]
@@ -64,8 +64,8 @@ final class CatalystTests: XCTestCase {
     }
     let catalyst = Catalyst(clientId: "cid", clientSecret: "cs", accessToken: "at1", refreshToken: "rt1", transport: mock)
 
-    async let first = catalyst.api.catalyst.getCatalystV1Gallery()
-    async let second = catalyst.api.catalyst.getCatalystV1Gallery()
+    async let first = catalyst.api.catalyst.getCatalystV11TimelineFirehose()
+    async let second = catalyst.api.catalyst.getCatalystV11TimelineFirehose()
     _ = try await (first, second)
 
     XCTAssertEqual(mock.tokenRequests.count, 1)
@@ -78,7 +78,7 @@ final class CatalystTests: XCTestCase {
     let catalyst = Catalyst(clientId: "cid", clientSecret: "cs", transport: mock)
 
     do {
-      _ = try await catalyst.api.catalyst.getCatalystV1Gallery()
+      _ = try await catalyst.api.catalyst.getCatalystV11TimelineHome()
       XCTFail("expected AuthError")
     } catch is AuthError {
     }
@@ -94,7 +94,7 @@ final class CatalystTests: XCTestCase {
     let catalyst = Catalyst(clientId: "cid", clientSecret: "cs", accessToken: "at1", refreshToken: "rt1", transport: mock)
 
     do {
-      _ = try await catalyst.api.catalyst.getCatalystV1Gallery()
+      _ = try await catalyst.api.catalyst.getCatalystV11TimelineFirehose()
       XCTFail("expected ApiError")
     } catch let error as ApiError {
       XCTAssertEqual(error.statusCode, 401)
