@@ -22,7 +22,7 @@ public class CatalystTests
             HttpClient = new HttpClient(mock),
         });
 
-        await catalyst.Api.Catalyst.GetCatalystV1GalleryAsync();
+        await catalyst.Api.Catalyst.GetCatalystV11TimelineFirehoseAsync();
 
         var request = Assert.Single(mock.Requests);
         Assert.Equal("Bearer at1", request.Header("Authorization"));
@@ -52,7 +52,7 @@ public class CatalystTests
             },
         });
 
-        await catalyst.Api.Catalyst.GetCatalystV1GalleryAsync();
+        await catalyst.Api.Catalyst.GetCatalystV11TimelineFirehoseAsync();
 
         Assert.Equal(3, mock.Requests.Count);
         var tokenRequest = mock.Requests[1];
@@ -94,8 +94,8 @@ public class CatalystTests
             HttpClient = new HttpClient(mock),
         });
 
-        var first = catalyst.Api.Catalyst.GetCatalystV1GalleryAsync();
-        var second = catalyst.Api.Catalyst.GetCatalystV1GalleryAsync();
+        var first = catalyst.Api.Catalyst.GetCatalystV11TimelineFirehoseAsync();
+        var second = catalyst.Api.Catalyst.GetCatalystV11TimelineFirehoseAsync();
         await Task.WhenAll(first, second);
 
         Assert.Single(mock.TokenRequests);
@@ -109,7 +109,7 @@ public class CatalystTests
         var mock = new MockHandler(_ => Ok());
         var catalyst = new Catalyst(new CatalystOptions { ClientId = "cid", ClientSecret = "cs", HttpClient = new HttpClient(mock) });
 
-        await Assert.ThrowsAsync<ApiAuthException>(() => catalyst.Api.Catalyst.GetCatalystV1GalleryAsync());
+        await Assert.ThrowsAsync<ApiAuthException>(() => catalyst.Api.Catalyst.GetCatalystV11TimelineHomeAsync());
 
         Assert.Empty(mock.Requests);
     }
@@ -129,7 +129,7 @@ public class CatalystTests
             HttpClient = new HttpClient(mock),
         });
 
-        var error = await Assert.ThrowsAnyAsync<ApiException>(() => catalyst.Api.Catalyst.GetCatalystV1GalleryAsync());
+        var error = await Assert.ThrowsAnyAsync<ApiException>(() => catalyst.Api.Catalyst.GetCatalystV11TimelineFirehoseAsync());
 
         Assert.Equal(401, error.StatusCode);
         Assert.Equal("at1", catalyst.AccessToken);

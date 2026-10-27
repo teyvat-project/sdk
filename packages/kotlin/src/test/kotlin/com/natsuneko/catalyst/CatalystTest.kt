@@ -78,7 +78,7 @@ class CatalystTest {
             httpClient = mock.client
         })
 
-        catalyst.api.catalyst.getCatalystV1Gallery()
+        catalyst.api.catalyst.getCatalystV11TimelineFirehose()
 
         val request = mock.requests.single()
         assertEquals("Bearer at1", request.authorization)
@@ -104,7 +104,7 @@ class CatalystTest {
             onTokenRefreshed = { refreshed.add(it) }
         })
 
-        catalyst.api.catalyst.getCatalystV1Gallery()
+        catalyst.api.catalyst.getCatalystV11TimelineFirehose()
 
         assertEquals(3, mock.requests.size)
         val tokenRequest = mock.requests[1]
@@ -150,8 +150,8 @@ class CatalystTest {
         })
 
         listOf(
-            async { catalyst.api.catalyst.getCatalystV1Gallery() },
-            async { catalyst.api.catalyst.getCatalystV1Gallery() },
+            async { catalyst.api.catalyst.getCatalystV11TimelineFirehose() },
+            async { catalyst.api.catalyst.getCatalystV11TimelineFirehose() },
         ).awaitAll()
 
         assertEquals(1, mock.tokenRequests.size)
@@ -168,7 +168,7 @@ class CatalystTest {
             httpClient = mock.client
         })
 
-        assertFailsWith<ApiAuthException> { catalyst.api.catalyst.getCatalystV1Gallery() }
+        assertFailsWith<ApiAuthException> { catalyst.api.catalyst.getCatalystV11TimelineHome() }
 
         assertTrue(mock.requests.isEmpty())
     }
@@ -187,7 +187,7 @@ class CatalystTest {
             httpClient = mock.client
         })
 
-        val error = assertFailsWith<ApiException> { catalyst.api.catalyst.getCatalystV1Gallery() }
+        val error = assertFailsWith<ApiException> { catalyst.api.catalyst.getCatalystV11TimelineFirehose() }
 
         assertEquals(401, error.statusCode)
         assertEquals("at1", catalyst.accessToken)
