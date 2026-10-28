@@ -47,14 +47,14 @@ public struct EpicleseService: Sendable {
 
     /// GET /epiclese/v1/items
     ///
-    /// データカタログに登録されているアイテム一覧を返します
+    /// データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
     public func getEpicleseV1Items(q: String? = nil, type: GetEpicleseV1ItemsType? = nil, author: String? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> EpicleseItemsResponse {
         try await getEpicleseV1ItemsWithResponse(q: q, type: type, author: author, offset: offset, limit: limit, options: options).data
     }
 
     /// GET /epiclese/v1/items
     ///
-    /// データカタログに登録されているアイテム一覧を返します
+    /// データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
     public func getEpicleseV1ItemsWithResponse(q: String? = nil, type: GetEpicleseV1ItemsType? = nil, author: String? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> ApiResult<EpicleseItemsResponse> {
         var values = RequestValues()
         try values.query("q", q)

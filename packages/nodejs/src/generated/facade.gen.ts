@@ -2073,7 +2073,7 @@ export function createFacade(client: Client<ApiAuth>) {
           /**
            * GET /epiclese/v1/items
            *
-           * データカタログに登録されているアイテム一覧を返します
+           * データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
            */
           get: <ThrowOnError extends boolean = false>(options?: Omit<Options<GetEpicleseV1ItemsData, ThrowOnError>, 'client'>) =>
             getEpicleseV1Items<ThrowOnError>({ ...options, client }),

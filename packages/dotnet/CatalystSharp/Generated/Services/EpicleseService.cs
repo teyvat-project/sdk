@@ -89,7 +89,7 @@ public sealed partial class EpicleseService
     /// <summary>
     /// GET /epiclese/v1/items
     ///
-    /// データカタログに登録されているアイテム一覧を返します
+    /// データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
     /// </summary>
     public async global::System.Threading.Tasks.Task<EpicleseItemsResponse> GetEpicleseV1ItemsAsync(string? q = null, GetEpicleseV1ItemsType? type = null, string? author = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
         => (await GetEpicleseV1ItemsWithResponseAsync(q, type, author, offset, limit, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
@@ -97,7 +97,7 @@ public sealed partial class EpicleseService
     /// <summary>
     /// GET /epiclese/v1/items
     ///
-    /// データカタログに登録されているアイテム一覧を返します
+    /// データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
     /// </summary>
     public global::System.Threading.Tasks.Task<ApiResult<EpicleseItemsResponse>> GetEpicleseV1ItemsWithResponseAsync(string? q = null, GetEpicleseV1ItemsType? type = null, string? author = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {

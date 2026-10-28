@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.10.27"
+    "version": "2026.10.28"
   },
   "servers": [
     {
@@ -26551,7 +26551,7 @@
     "/epiclese/v1/items": {
       "get": {
         "summary": "GET /epiclese/v1/items",
-        "description": "データカタログに登録されているアイテム一覧を返します",
+        "description": "データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです",
         "tags": [
           "epiclese"
         ],

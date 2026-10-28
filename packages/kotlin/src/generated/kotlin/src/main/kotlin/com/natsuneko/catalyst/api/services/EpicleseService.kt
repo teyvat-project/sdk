@@ -70,7 +70,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
     /**
      * GET /epiclese/v1/items
      *
-     * データカタログに登録されているアイテム一覧を返します
+     * データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
      */
     public suspend fun getEpicleseV1Items(q: String? = null, type: GetEpicleseV1ItemsType? = null, author: String? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): EpicleseItemsResponse =
         getEpicleseV1ItemsWithResponse(q, type, author, offset, limit, requestOptions).data
@@ -78,7 +78,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
     /**
      * GET /epiclese/v1/items
      *
-     * データカタログに登録されているアイテム一覧を返します
+     * データカタログに登録されているアイテムを、名前・作者名から検索して返します。名前の【】などの飾り括弧の中身は検索対象外です。商品ページの URL を渡すと、その URL のアイテムだけを返します。取得できるのは先頭 1000 件までです
      */
     public suspend fun getEpicleseV1ItemsWithResponse(q: String? = null, type: GetEpicleseV1ItemsType? = null, author: String? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): ApiResult<EpicleseItemsResponse> {
         val values = RequestValues()
