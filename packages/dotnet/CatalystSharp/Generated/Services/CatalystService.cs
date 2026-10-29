@@ -1742,40 +1742,6 @@ public sealed partial class CatalystService
         .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
-    /// GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-    ///
-    /// このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-    /// </summary>
-    public async global::System.Threading.Tasks.Task<GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200> GetCatalystV1ContestBySlugBySlugAcquisitionsAsync(string slug, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-        => (await GetCatalystV1ContestBySlugBySlugAcquisitionsWithResponseAsync(slug, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
-
-    /// <summary>
-    /// GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-    ///
-    /// このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-    /// </summary>
-    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200>> GetCatalystV1ContestBySlugBySlugAcquisitionsWithResponseAsync(string slug, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-    {
-        var values = new RequestValues()
-            .Path("slug", slug, ApiJsonContext.Default.String);
-        return _core.SendAsync(GetCatalystV1ContestBySlugBySlugAcquisitionsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200), GetCatalystV1ContestBySlugBySlugAcquisitionsErrors, requestOptions, cancellationToken);
-    }
-
-    private static readonly OperationSpec GetCatalystV1ContestBySlugBySlugAcquisitionsSpec = new(
-        "getCatalystV1ContestBySlugBySlugAcquisitions",
-        global::System.Net.Http.HttpMethod.Get,
-        "/catalyst/v1/contest/by/slug/{slug}/acquisitions",
-        ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
-        [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
-        null,
-        null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["403"] = ResponseKind.Json });
-
-    private static readonly ErrorDecoders GetCatalystV1ContestBySlugBySlugAcquisitionsErrors = new ErrorDecoders()
-        .Json("403", ApiJsonContext.Default.ErrorResponse);
-
-    /// <summary>
     /// GET /catalyst/v1/contest/by/slug/{slug}/participant-message
     ///
     /// コンテストの応募者全員へ送るメッセージ (参加賞など) と送信状況を取得します。主催者・共同運営者のみ取得できます
@@ -1811,6 +1777,40 @@ public sealed partial class CatalystService
         .Json("403", ApiJsonContext.Default.ErrorResponse)
         .Json("404", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// GET /catalyst/v1/contest/by/slug/{slug}/stats
+    ///
+    /// コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<ContestStatsResponse> GetCatalystV1ContestBySlugBySlugStatsAsync(string slug, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1ContestBySlugBySlugStatsWithResponseAsync(slug, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/contest/by/slug/{slug}/stats
+    ///
+    /// コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<ContestStatsResponse>> GetCatalystV1ContestBySlugBySlugStatsWithResponseAsync(string slug, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("slug", slug, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1ContestBySlugBySlugStatsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.ContestStatsResponse), GetCatalystV1ContestBySlugBySlugStatsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1ContestBySlugBySlugStatsSpec = new(
+        "getCatalystV1ContestBySlugBySlugStats",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/contest/by/slug/{slug}/stats",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["403"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1ContestBySlugBySlugStatsErrors = new ErrorDecoders()
+        .Json("403", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
     /// GET /catalyst/v1/contest/by/slug/{slug}/timeline

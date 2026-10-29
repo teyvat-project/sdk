@@ -14,6 +14,14 @@ public sealed partial class CatalystUserAcquisition
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceId { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("landingSource")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public CatalystUserAcquisitionLandingSource? LandingSource { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("landingSourceId")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? LandingSourceId { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("utmSource")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string? UtmSource { get; set; }

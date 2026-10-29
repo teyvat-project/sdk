@@ -8,7 +8,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200(
-    @SerialName("registrations")
-    public val registrations: Double,
+public data class ContestStatsResponseBreakdownsReferrersItem(
+    @SerialName("domain")
+    public val domain: String?,
+    @SerialName("visitors")
+    public val visitors: Double,
 )

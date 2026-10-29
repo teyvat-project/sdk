@@ -13,6 +13,10 @@ public data class CatalystUserAcquisition(
     public val source: CatalystUserAcquisitionSource,
     @SerialName("sourceId")
     public val sourceId: String? = null,
+    @SerialName("landingSource")
+    public val landingSource: CatalystUserAcquisitionLandingSource? = null,
+    @SerialName("landingSourceId")
+    public val landingSourceId: String? = null,
     @SerialName("utmSource")
     public val utmSource: String? = null,
     @SerialName("utmMedium")

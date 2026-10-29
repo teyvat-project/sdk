@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.10.28"
+    "version": "2026.10.29"
   },
   "servers": [
     {
@@ -5059,6 +5059,276 @@
           "message"
         ]
       },
+      "ContestStatsResponse": {
+        "type": "object",
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "since": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "until": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "since",
+              "until"
+            ]
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "pageviews": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "visitors": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "entries": {
+                "type": "number"
+              },
+              "entrants": {
+                "type": "number"
+              },
+              "exclusions": {
+                "type": "number"
+              },
+              "registrations": {
+                "type": "number"
+              },
+              "newEntrants": {
+                "type": "number"
+              },
+              "votes": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "voters": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "pageviews",
+              "visitors",
+              "entries",
+              "entrants",
+              "exclusions",
+              "registrations",
+              "newEntrants",
+              "votes",
+              "voters"
+            ]
+          },
+          "rates": {
+            "type": "object",
+            "properties": {
+              "entry": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "registration": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "newEntrant": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "entriesPerEntrant": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "exclusion": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "vote": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "entry",
+              "registration",
+              "newEntrant",
+              "entriesPerEntrant",
+              "exclusion",
+              "vote"
+            ]
+          },
+          "daily": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "pageviews": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "visitors": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "entries": {
+                  "type": "number"
+                },
+                "registrations": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "date",
+                "pageviews",
+                "visitors",
+                "entries",
+                "registrations"
+              ]
+            }
+          },
+          "breakdowns": {
+            "type": "object",
+            "properties": {
+              "referrers": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "visitors": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "domain",
+                    "visitors"
+                  ]
+                }
+              },
+              "refs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "registrations": {
+                      "type": "number"
+                    },
+                    "entrants": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "registrations",
+                    "entrants"
+                  ]
+                }
+              },
+              "utmSources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "registrations": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "registrations"
+                  ]
+                }
+              },
+              "utmCampaigns": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "registrations": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "registrations"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "referrers",
+              "refs",
+              "utmSources",
+              "utmCampaigns"
+            ]
+          },
+          "analyticsAvailable": {
+            "type": "boolean"
+          },
+          "visitorsApproximate": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "range",
+          "totals",
+          "rates",
+          "daily",
+          "breakdowns",
+          "analyticsAvailable",
+          "visitorsApproximate"
+        ]
+      },
       "CustomReactionResponse": {
         "type": "object",
         "properties": {
@@ -9254,6 +9524,19 @@
             ]
           },
           "sourceId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 191
+          },
+          "landingSource": {
+            "type": "string",
+            "enum": [
+              "contest",
+              "world",
+              "item"
+            ]
+          },
+          "landingSourceId": {
             "type": "string",
             "minLength": 1,
             "maxLength": 191
@@ -15523,61 +15806,6 @@
         }
       }
     },
-    "/catalyst/v1/contest/by/slug/{slug}/acquisitions": {
-      "get": {
-        "summary": "GET /catalyst/v1/contest/by/slug/{slug}/acquisitions",
-        "description": "このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます",
-        "tags": [
-          "catalyst"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {}
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "name": "slug",
-            "in": "path"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "registrations": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "registrations"
-                  ]
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}": {
       "post": {
         "summary": "POST /catalyst/v1/contest/by/slug/{slug}/exclusions/{status}",
@@ -16022,6 +16250,53 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalyst/v1/contest/by/slug/{slug}/stats": {
+      "get": {
+        "summary": "GET /catalyst/v1/contest/by/slug/{slug}/stats",
+        "description": "コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContestStatsResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
             "content": {
               "application/json": {
                 "schema": {

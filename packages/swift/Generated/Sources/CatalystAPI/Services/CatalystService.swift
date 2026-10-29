@@ -808,22 +808,6 @@ public struct CatalystService: Sendable {
         return try await core.send(Self.getCatalystV1ContestBySlugBySlugSpec, values, decoder: .json(GetCatalystV1ContestBySlugBySlugResponse200.self), errors: Self.getCatalystV1ContestBySlugBySlugErrors, options: options)
     }
 
-    /// GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-    ///
-    /// このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-    public func getCatalystV1ContestBySlugBySlugAcquisitions(slug: String, options: RequestOptions? = nil) async throws -> GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200 {
-        try await getCatalystV1ContestBySlugBySlugAcquisitionsWithResponse(slug: slug, options: options).data
-    }
-
-    /// GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-    ///
-    /// このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-    public func getCatalystV1ContestBySlugBySlugAcquisitionsWithResponse(slug: String, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200> {
-        var values = RequestValues()
-        try values.path("slug", slug)
-        return try await core.send(Self.getCatalystV1ContestBySlugBySlugAcquisitionsSpec, values, decoder: .json(GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200.self), errors: Self.getCatalystV1ContestBySlugBySlugAcquisitionsErrors, options: options)
-    }
-
     /// GET /catalyst/v1/contest/by/slug/{slug}/participant-message
     ///
     /// コンテストの応募者全員へ送るメッセージ (参加賞など) と送信状況を取得します。主催者・共同運営者のみ取得できます
@@ -838,6 +822,22 @@ public struct CatalystService: Sendable {
         var values = RequestValues()
         try values.path("slug", slug)
         return try await core.send(Self.getCatalystV1ContestBySlugBySlugParticipantMessageSpec, values, decoder: .json(ContestParticipantMessageResponse.self), errors: Self.getCatalystV1ContestBySlugBySlugParticipantMessageErrors, options: options)
+    }
+
+    /// GET /catalyst/v1/contest/by/slug/{slug}/stats
+    ///
+    /// コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+    public func getCatalystV1ContestBySlugBySlugStats(slug: String, options: RequestOptions? = nil) async throws -> ContestStatsResponse {
+        try await getCatalystV1ContestBySlugBySlugStatsWithResponse(slug: slug, options: options).data
+    }
+
+    /// GET /catalyst/v1/contest/by/slug/{slug}/stats
+    ///
+    /// コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+    public func getCatalystV1ContestBySlugBySlugStatsWithResponse(slug: String, options: RequestOptions? = nil) async throws -> ApiResult<ContestStatsResponse> {
+        var values = RequestValues()
+        try values.path("slug", slug)
+        return try await core.send(Self.getCatalystV1ContestBySlugBySlugStatsSpec, values, decoder: .json(ContestStatsResponse.self), errors: Self.getCatalystV1ContestBySlugBySlugStatsErrors, options: options)
     }
 
     /// GET /catalyst/v1/contest/by/slug/{slug}/timeline
@@ -3879,24 +3879,6 @@ extension CatalystService {
     static let getCatalystV1ContestBySlugBySlugErrors = ErrorDecoders()
         .json("404", ErrorResponse.self)
 
-    static let getCatalystV1ContestBySlugBySlugAcquisitionsSpec = OperationSpec(
-        operationName: "getCatalystV1ContestBySlugBySlugAcquisitions",
-        method: .get,
-        path: "/catalyst/v1/contest/by/slug/{slug}/acquisitions",
-        tags: ["catalyst"],
-        security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
-            SecurityRequirement([]),
-        ],
-        params: [
-            ParamSpec("slug", .path, .simple, explode: false),
-        ],
-        responses: ["200": .json, "403": .json]
-    )
-
-    static let getCatalystV1ContestBySlugBySlugAcquisitionsErrors = ErrorDecoders()
-        .json("403", ErrorResponse.self)
-
     static let getCatalystV1ContestBySlugBySlugParticipantMessageSpec = OperationSpec(
         operationName: "getCatalystV1ContestBySlugBySlugParticipantMessage",
         method: .get,
@@ -3916,6 +3898,24 @@ extension CatalystService {
         .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
         .json("500", ErrorResponse.self)
+
+    static let getCatalystV1ContestBySlugBySlugStatsSpec = OperationSpec(
+        operationName: "getCatalystV1ContestBySlugBySlugStats",
+        method: .get,
+        path: "/catalyst/v1/contest/by/slug/{slug}/stats",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
+        ],
+        params: [
+            ParamSpec("slug", .path, .simple, explode: false),
+        ],
+        responses: ["200": .json, "403": .json]
+    )
+
+    static let getCatalystV1ContestBySlugBySlugStatsErrors = ErrorDecoders()
+        .json("403", ErrorResponse.self)
 
     static let getCatalystV1ContestBySlugBySlugTimelineSpec = OperationSpec(
         operationName: "getCatalystV1ContestBySlugBySlugTimeline",

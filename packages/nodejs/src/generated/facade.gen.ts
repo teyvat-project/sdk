@@ -51,8 +51,8 @@ import {
   getCatalystV1ContentSettings,
   getCatalystV1ContestByMe,
   getCatalystV1ContestBySlugBySlug,
-  getCatalystV1ContestBySlugBySlugAcquisitions,
   getCatalystV1ContestBySlugBySlugParticipantMessage,
+  getCatalystV1ContestBySlugBySlugStats,
   getCatalystV1ContestBySlugBySlugTimeline,
   getCatalystV1ContestBySlugBySlugVote,
   getCatalystV1ContestByUserById,
@@ -257,9 +257,9 @@ import type {
   GetCatalystV1AnnouncementsData,
   GetCatalystV1ContentSettingsData,
   GetCatalystV1ContestByMeData,
-  GetCatalystV1ContestBySlugBySlugAcquisitionsData,
   GetCatalystV1ContestBySlugBySlugData,
   GetCatalystV1ContestBySlugBySlugParticipantMessageData,
+  GetCatalystV1ContestBySlugBySlugStatsData,
   GetCatalystV1ContestBySlugBySlugTimelineData,
   GetCatalystV1ContestBySlugBySlugVoteData,
   GetCatalystV1ContestByUserByIdData,
@@ -667,15 +667,6 @@ export function createFacade(client: Client<ApiAuth>) {
                  */
                 get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1ContestBySlugBySlugData, ThrowOnError>, 'client'>) =>
                   getCatalystV1ContestBySlugBySlug<ThrowOnError>({ ...options, client }),
-                acquisitions: {
-                  /**
-                   * GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-                   *
-                   * このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-                   */
-                  get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1ContestBySlugBySlugAcquisitionsData, ThrowOnError>, 'client'>) =>
-                    getCatalystV1ContestBySlugBySlugAcquisitions<ThrowOnError>({ ...options, client }),
-                },
                 exclusions: {
                   status: {
                     /**
@@ -709,6 +700,15 @@ export function createFacade(client: Client<ApiAuth>) {
                    */
                   update: <ThrowOnError extends boolean = false>(options: Omit<Options<PutCatalystV1ContestBySlugBySlugParticipantMessageData, ThrowOnError>, 'client'>) =>
                     putCatalystV1ContestBySlugBySlugParticipantMessage<ThrowOnError>({ ...options, client }),
+                },
+                stats: {
+                  /**
+                   * GET /catalyst/v1/contest/by/slug/{slug}/stats
+                   *
+                   * コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+                   */
+                  get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1ContestBySlugBySlugStatsData, ThrowOnError>, 'client'>) =>
+                    getCatalystV1ContestBySlugBySlugStats<ThrowOnError>({ ...options, client }),
                 },
                 timeline: {
                   /**

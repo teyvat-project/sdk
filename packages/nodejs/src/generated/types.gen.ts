@@ -337,6 +337,8 @@ export type CatalystPrivacySettings = {
 export type CatalystUserAcquisition = {
   source: 'referral' | 'contest' | 'world' | 'item' | 'share' | 'campaign' | 'direct';
   sourceId?: string;
+  landingSource?: 'contest' | 'world' | 'item';
+  landingSourceId?: string;
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
@@ -444,6 +446,60 @@ export type ContestResponse = {
   winnersOpenAt: string;
   winnersMessageSendAt: string;
   publishedAt: string;
+};
+
+export type ContestStatsResponse = {
+  range: {
+    since: string;
+    until: string;
+  };
+  totals: {
+    pageviews: number | null;
+    visitors: number | null;
+    entries: number;
+    entrants: number;
+    exclusions: number;
+    registrations: number;
+    newEntrants: number;
+    votes: number | null;
+    voters: number | null;
+  };
+  rates: {
+    entry: number | null;
+    registration: number | null;
+    newEntrant: number | null;
+    entriesPerEntrant: number | null;
+    exclusion: number | null;
+    vote: number | null;
+  };
+  daily: {
+    date: string;
+    pageviews: number | null;
+    visitors: number | null;
+    entries: number;
+    registrations: number;
+  }[];
+  breakdowns: {
+    referrers: {
+      domain: string | null;
+      visitors: number;
+    }[] | null;
+    refs: {
+      label: string;
+      registrations: number;
+      entrants: number;
+    }[];
+    utmSources: {
+      value: string;
+      registrations: number;
+    }[];
+    utmCampaigns: {
+      value: string;
+      registrations: number;
+    }[];
+  };
+  analyticsAvailable: boolean;
+  visitorsApproximate: boolean;
 };
 
 export type CreateAlbumBook = {

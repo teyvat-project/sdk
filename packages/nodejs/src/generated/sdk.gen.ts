@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, OperationSpec } from './core/index.js';
-import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
+import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
 
 export type Options<TData, ThrowOnError extends boolean = boolean> = TData & {
   client?: Client<any>;
@@ -2038,46 +2038,6 @@ const getCatalystV1ContestBySlugBySlugSpec: OperationSpec = {
 export const getCatalystV1ContestBySlugBySlug = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1ContestBySlugBySlugData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1ContestBySlugBySlugResponse, GetCatalystV1ContestBySlugBySlugError, ThrowOnError>(getCatalystV1ContestBySlugBySlugSpec, options);
 
-export type GetCatalystV1ContestBySlugBySlugAcquisitionsData = {
-  path: {
-    slug: string;
-  };
-};
-
-export type GetCatalystV1ContestBySlugBySlugAcquisitionsResponses = {
-  200: {
-    registrations: number;
-  };
-};
-
-export type GetCatalystV1ContestBySlugBySlugAcquisitionsResponse = GetCatalystV1ContestBySlugBySlugAcquisitionsResponses[keyof GetCatalystV1ContestBySlugBySlugAcquisitionsResponses];
-
-export type GetCatalystV1ContestBySlugBySlugAcquisitionsErrors = {
-  403: ErrorResponse;
-};
-
-export type GetCatalystV1ContestBySlugBySlugAcquisitionsError = GetCatalystV1ContestBySlugBySlugAcquisitionsErrors[keyof GetCatalystV1ContestBySlugBySlugAcquisitionsErrors];
-
-const getCatalystV1ContestBySlugBySlugAcquisitionsSpec: OperationSpec = {
-  operationName: 'getCatalystV1ContestBySlugBySlugAcquisitions',
-  method: 'GET',
-  path: '/catalyst/v1/contest/by/slug/{slug}/acquisitions',
-  tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
-  params: [
-    { name: 'slug', in: 'path', style: 'simple', explode: false },
-  ],
-  responses: { '200': 'json', '403': 'json' },
-};
-
-/**
- * GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
- *
- * このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
- */
-export const getCatalystV1ContestBySlugBySlugAcquisitions = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1ContestBySlugBySlugAcquisitionsData, ThrowOnError>) =>
-  (options.client ?? client).request<GetCatalystV1ContestBySlugBySlugAcquisitionsResponse, GetCatalystV1ContestBySlugBySlugAcquisitionsError, ThrowOnError>(getCatalystV1ContestBySlugBySlugAcquisitionsSpec, options);
-
 export type GetCatalystV1ContestBySlugBySlugParticipantMessageData = {
   path: {
     slug: string;
@@ -2118,6 +2078,44 @@ const getCatalystV1ContestBySlugBySlugParticipantMessageSpec: OperationSpec = {
  */
 export const getCatalystV1ContestBySlugBySlugParticipantMessage = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1ContestBySlugBySlugParticipantMessageData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1ContestBySlugBySlugParticipantMessageResponse, GetCatalystV1ContestBySlugBySlugParticipantMessageError, ThrowOnError>(getCatalystV1ContestBySlugBySlugParticipantMessageSpec, options);
+
+export type GetCatalystV1ContestBySlugBySlugStatsData = {
+  path: {
+    slug: string;
+  };
+};
+
+export type GetCatalystV1ContestBySlugBySlugStatsResponses = {
+  200: ContestStatsResponse;
+};
+
+export type GetCatalystV1ContestBySlugBySlugStatsResponse = GetCatalystV1ContestBySlugBySlugStatsResponses[keyof GetCatalystV1ContestBySlugBySlugStatsResponses];
+
+export type GetCatalystV1ContestBySlugBySlugStatsErrors = {
+  403: ErrorResponse;
+};
+
+export type GetCatalystV1ContestBySlugBySlugStatsError = GetCatalystV1ContestBySlugBySlugStatsErrors[keyof GetCatalystV1ContestBySlugBySlugStatsErrors];
+
+const getCatalystV1ContestBySlugBySlugStatsSpec: OperationSpec = {
+  operationName: 'getCatalystV1ContestBySlugBySlugStats',
+  method: 'GET',
+  path: '/catalyst/v1/contest/by/slug/{slug}/stats',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  params: [
+    { name: 'slug', in: 'path', style: 'simple', explode: false },
+  ],
+  responses: { '200': 'json', '403': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/contest/by/slug/{slug}/stats
+ *
+ * コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+ */
+export const getCatalystV1ContestBySlugBySlugStats = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1ContestBySlugBySlugStatsData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1ContestBySlugBySlugStatsResponse, GetCatalystV1ContestBySlugBySlugStatsError, ThrowOnError>(getCatalystV1ContestBySlugBySlugStatsSpec, options);
 
 export type GetCatalystV1ContestBySlugBySlugTimelineData = {
   path: {

@@ -3,24 +3,34 @@
 import Foundation
 import CatalystAPICore
 
-public struct GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200: Codable, Hashable, Sendable {
+public struct ContestStatsResponseBreakdownsRefsItem: Codable, Hashable, Sendable {
+    public var label: String
     public var registrations: Double
+    public var entrants: Double
 
-    public init(registrations: Double) {
+    public init(label: String, registrations: Double, entrants: Double) {
+        self.label = label
         self.registrations = registrations
+        self.entrants = entrants
     }
 
     private enum CodingKeys: String, CodingKey {
+        case label
         case registrations
+        case entrants
     }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.label = try container.decode(String.self, forKey: .label)
         self.registrations = try container.decode(Double.self, forKey: .registrations)
+        self.entrants = try container.decode(Double.self, forKey: .entrants)
     }
 
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(label, forKey: .label)
         try container.encode(registrations, forKey: .registrations)
+        try container.encode(entrants, forKey: .entrants)
     }
 }

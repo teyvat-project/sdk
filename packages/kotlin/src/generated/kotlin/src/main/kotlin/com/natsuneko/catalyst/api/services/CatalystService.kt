@@ -966,25 +966,6 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     }
 
     /**
-     * GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-     *
-     * このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-     */
-    public suspend fun getCatalystV1ContestBySlugBySlugAcquisitions(slug: String, requestOptions: RequestOptions? = null): GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200 =
-        getCatalystV1ContestBySlugBySlugAcquisitionsWithResponse(slug, requestOptions).data
-
-    /**
-     * GET /catalyst/v1/contest/by/slug/{slug}/acquisitions
-     *
-     * このコンテストのページから来て Catalyst に登録した人数を返します。主催者・コラボレーターのみ取得できます
-     */
-    public suspend fun getCatalystV1ContestBySlugBySlugAcquisitionsWithResponse(slug: String, requestOptions: RequestOptions? = null): ApiResult<GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200> {
-        val values = RequestValues()
-            .path("slug", slug, String.serializer())
-        return core.send(GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_ACQUISITIONS, values, ResponseDecoder.json(GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200.serializer()), GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_ACQUISITIONS_ERRORS, requestOptions)
-    }
-
-    /**
      * GET /catalyst/v1/contest/by/slug/{slug}/participant-message
      *
      * コンテストの応募者全員へ送るメッセージ (参加賞など) と送信状況を取得します。主催者・共同運営者のみ取得できます
@@ -1001,6 +982,25 @@ public class CatalystService internal constructor(private val core: ApiClientCor
         val values = RequestValues()
             .path("slug", slug, String.serializer())
         return core.send(GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_PARTICIPANT_MESSAGE, values, ResponseDecoder.json(ContestParticipantMessageResponse.serializer()), GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_PARTICIPANT_MESSAGE_ERRORS, requestOptions)
+    }
+
+    /**
+     * GET /catalyst/v1/contest/by/slug/{slug}/stats
+     *
+     * コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+     */
+    public suspend fun getCatalystV1ContestBySlugBySlugStats(slug: String, requestOptions: RequestOptions? = null): ContestStatsResponse =
+        getCatalystV1ContestBySlugBySlugStatsWithResponse(slug, requestOptions).data
+
+    /**
+     * GET /catalyst/v1/contest/by/slug/{slug}/stats
+     *
+     * コンテストのアクセス数・応募・コンテスト経由の新規登録・投票の集計を返します。主催者・コラボレーターのみ取得できます。Umami の取得に失敗したときはアクセス由来の値が null になります
+     */
+    public suspend fun getCatalystV1ContestBySlugBySlugStatsWithResponse(slug: String, requestOptions: RequestOptions? = null): ApiResult<ContestStatsResponse> {
+        val values = RequestValues()
+            .path("slug", slug, String.serializer())
+        return core.send(GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_STATS, values, ResponseDecoder.json(ContestStatsResponse.serializer()), GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_STATS_ERRORS, requestOptions)
     }
 
     /**
@@ -4182,21 +4182,6 @@ public class CatalystService internal constructor(private val core: ApiClientCor
         val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_ERRORS: ErrorDecoders = ErrorDecoders()
             .json("404", ErrorResponse.serializer())
 
-        val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_ACQUISITIONS: OperationSpec = OperationSpec(
-            "getCatalystV1ContestBySlugBySlugAcquisitions",
-            HttpMethod.Get,
-            "/catalyst/v1/contest/by/slug/{slug}/acquisitions",
-            listOf("catalyst"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
-            listOf(ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)),
-            null,
-            null,
-            mapOf("200" to ResponseKind.Json, "403" to ResponseKind.Json),
-        )
-
-        val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_ACQUISITIONS_ERRORS: ErrorDecoders = ErrorDecoders()
-            .json("403", ErrorResponse.serializer())
-
         val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_PARTICIPANT_MESSAGE: OperationSpec = OperationSpec(
             "getCatalystV1ContestBySlugBySlugParticipantMessage",
             HttpMethod.Get,
@@ -4214,6 +4199,21 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             .json("403", ErrorResponse.serializer())
             .json("404", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
+
+        val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_STATS: OperationSpec = OperationSpec(
+            "getCatalystV1ContestBySlugBySlugStats",
+            HttpMethod.Get,
+            "/catalyst/v1/contest/by/slug/{slug}/stats",
+            listOf("catalyst"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
+            listOf(ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)),
+            null,
+            null,
+            mapOf("200" to ResponseKind.Json, "403" to ResponseKind.Json),
+        )
+
+        val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_STATS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("403", ErrorResponse.serializer())
 
         val GET_CATALYST_V1_CONTEST_BY_SLUG_BY_SLUG_TIMELINE: OperationSpec = OperationSpec(
             "getCatalystV1ContestBySlugBySlugTimeline",

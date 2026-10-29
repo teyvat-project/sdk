@@ -5,8 +5,11 @@
 
 namespace CatalystSharp.Api;
 
-public sealed partial class GetCatalystV1ContestBySlugBySlugAcquisitionsResponse200
+public sealed partial class ContestStatsResponseBreakdownsUtmSourcesItem
 {
+    [global::System.Text.Json.Serialization.JsonPropertyName("value")]
+    public required string Value { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("registrations")]
     public required double Registrations { get; set; }
 }

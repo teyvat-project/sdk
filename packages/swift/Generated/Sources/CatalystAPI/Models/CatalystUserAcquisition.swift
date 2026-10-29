@@ -6,15 +6,19 @@ import CatalystAPICore
 public struct CatalystUserAcquisition: Codable, Hashable, Sendable {
     public var source: CatalystUserAcquisitionSource
     public var sourceId: String?
+    public var landingSource: CatalystUserAcquisitionLandingSource?
+    public var landingSourceId: String?
     public var utmSource: String?
     public var utmMedium: String?
     public var utmCampaign: String?
     public var utmContent: String?
     public var utmTerm: String?
 
-    public init(source: CatalystUserAcquisitionSource, sourceId: String? = nil, utmSource: String? = nil, utmMedium: String? = nil, utmCampaign: String? = nil, utmContent: String? = nil, utmTerm: String? = nil) {
+    public init(source: CatalystUserAcquisitionSource, sourceId: String? = nil, landingSource: CatalystUserAcquisitionLandingSource? = nil, landingSourceId: String? = nil, utmSource: String? = nil, utmMedium: String? = nil, utmCampaign: String? = nil, utmContent: String? = nil, utmTerm: String? = nil) {
         self.source = source
         self.sourceId = sourceId
+        self.landingSource = landingSource
+        self.landingSourceId = landingSourceId
         self.utmSource = utmSource
         self.utmMedium = utmMedium
         self.utmCampaign = utmCampaign
@@ -25,6 +29,8 @@ public struct CatalystUserAcquisition: Codable, Hashable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case source
         case sourceId
+        case landingSource
+        case landingSourceId
         case utmSource
         case utmMedium
         case utmCampaign
@@ -36,6 +42,8 @@ public struct CatalystUserAcquisition: Codable, Hashable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.source = try container.decode(CatalystUserAcquisitionSource.self, forKey: .source)
         self.sourceId = try container.decodeIfPresent(String.self, forKey: .sourceId)
+        self.landingSource = try container.decodeIfPresent(CatalystUserAcquisitionLandingSource.self, forKey: .landingSource)
+        self.landingSourceId = try container.decodeIfPresent(String.self, forKey: .landingSourceId)
         self.utmSource = try container.decodeIfPresent(String.self, forKey: .utmSource)
         self.utmMedium = try container.decodeIfPresent(String.self, forKey: .utmMedium)
         self.utmCampaign = try container.decodeIfPresent(String.self, forKey: .utmCampaign)
@@ -47,6 +55,8 @@ public struct CatalystUserAcquisition: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(source, forKey: .source)
         try container.encodeIfPresent(sourceId, forKey: .sourceId)
+        try container.encodeIfPresent(landingSource, forKey: .landingSource)
+        try container.encodeIfPresent(landingSourceId, forKey: .landingSourceId)
         try container.encodeIfPresent(utmSource, forKey: .utmSource)
         try container.encodeIfPresent(utmMedium, forKey: .utmMedium)
         try container.encodeIfPresent(utmCampaign, forKey: .utmCampaign)
