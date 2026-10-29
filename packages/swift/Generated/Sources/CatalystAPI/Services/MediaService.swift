@@ -28,21 +28,6 @@ public struct MediaService: Sendable {
         return try await core.send(Self.deleteMediaV1UploadSpec, values, decoder: .json(Bool.self), errors: Self.deleteMediaV1UploadErrors, options: options)
     }
 
-    /// POST /media/v1/upload
-    ///
-    /// 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-    public func postMediaV1Upload(options: RequestOptions? = nil) async throws -> MediaUploadResponse {
-        try await postMediaV1UploadWithResponse(options: options).data
-    }
-
-    /// POST /media/v1/upload
-    ///
-    /// 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-    public func postMediaV1UploadWithResponse(options: RequestOptions? = nil) async throws -> ApiResult<MediaUploadResponse> {
-        let values = RequestValues()
-        return try await core.send(Self.postMediaV1UploadSpec, values, decoder: .json(MediaUploadResponse.self), errors: Self.postMediaV1UploadErrors, options: options)
-    }
-
     /// POST /media/v2/upload
     ///
     /// 画像をアップロードするための URL を取得します。
@@ -78,22 +63,6 @@ extension MediaService {
         .json("400", ErrorResponse.self)
         .json("401", ErrorResponse.self)
         .json("403", ErrorResponse.self)
-        .json("500", ErrorResponse.self)
-
-    static let postMediaV1UploadSpec = OperationSpec(
-        operationName: "postMediaV1Upload",
-        method: .post,
-        path: "/media/v1/upload",
-        tags: ["media"],
-        security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
-        ],
-        params: [],
-        responses: ["200": .json, "401": .json, "500": .json]
-    )
-
-    static let postMediaV1UploadErrors = ErrorDecoders()
-        .json("401", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 
     static let postMediaV2UploadSpec = OperationSpec(

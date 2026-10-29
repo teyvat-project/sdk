@@ -53,40 +53,6 @@ public sealed partial class MediaService
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
-    /// POST /media/v1/upload
-    ///
-    /// 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-    /// </summary>
-    public async global::System.Threading.Tasks.Task<MediaUploadResponse> PostMediaV1UploadAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-        => (await PostMediaV1UploadWithResponseAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Data;
-
-    /// <summary>
-    /// POST /media/v1/upload
-    ///
-    /// 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-    /// </summary>
-    public global::System.Threading.Tasks.Task<ApiResult<MediaUploadResponse>> PostMediaV1UploadWithResponseAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-    {
-        var values = new RequestValues();
-        return _core.SendAsync(PostMediaV1UploadSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.MediaUploadResponse), PostMediaV1UploadErrors, requestOptions, cancellationToken);
-    }
-
-    private static readonly OperationSpec PostMediaV1UploadSpec = new(
-        "postMediaV1Upload",
-        global::System.Net.Http.HttpMethod.Post,
-        "/media/v1/upload",
-        ["media"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
-        [],
-        null,
-        null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
-
-    private static readonly ErrorDecoders PostMediaV1UploadErrors = new ErrorDecoders()
-        .Json("401", ApiJsonContext.Default.ErrorResponse)
-        .Json("500", ApiJsonContext.Default.ErrorResponse);
-
-    /// <summary>
     /// POST /media/v2/upload
     ///
     /// 画像をアップロードするための URL を取得します。

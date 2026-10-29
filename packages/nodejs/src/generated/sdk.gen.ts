@@ -8124,39 +8124,6 @@ const postGiftiaV1PointsRewardsByIdRedeemSpec: OperationSpec = {
 export const postGiftiaV1PointsRewardsByIdRedeem = <ThrowOnError extends boolean = false>(options: Options<PostGiftiaV1PointsRewardsByIdRedeemData, ThrowOnError>) =>
   (options.client ?? client).request<PostGiftiaV1PointsRewardsByIdRedeemResponse, PostGiftiaV1PointsRewardsByIdRedeemError, ThrowOnError>(postGiftiaV1PointsRewardsByIdRedeemSpec, options);
 
-export type PostMediaV1UploadData = {};
-
-export type PostMediaV1UploadResponses = {
-  200: MediaUploadResponse;
-};
-
-export type PostMediaV1UploadResponse = PostMediaV1UploadResponses[keyof PostMediaV1UploadResponses];
-
-export type PostMediaV1UploadErrors = {
-  401: ErrorResponse;
-  500: ErrorResponse;
-};
-
-export type PostMediaV1UploadError = PostMediaV1UploadErrors[keyof PostMediaV1UploadErrors];
-
-const postMediaV1UploadSpec: OperationSpec = {
-  operationName: 'postMediaV1Upload',
-  method: 'POST',
-  path: '/media/v1/upload',
-  tags: ['media'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
-  params: [],
-  responses: { '200': 'json', '401': 'json', '500': 'json' },
-};
-
-/**
- * POST /media/v1/upload
- *
- * 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
- */
-export const postMediaV1Upload = <ThrowOnError extends boolean = false>(options: Options<PostMediaV1UploadData, ThrowOnError> = {}) =>
-  (options.client ?? client).request<PostMediaV1UploadResponse, PostMediaV1UploadError, ThrowOnError>(postMediaV1UploadSpec, options);
-
 export type PostMediaV2UploadData = {};
 
 export type PostMediaV2UploadResponses = {

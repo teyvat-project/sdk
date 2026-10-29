@@ -196,7 +196,6 @@ import {
   postEpicleseV1TagByStatusById,
   postEpicleseV1Worlds,
   postGiftiaV1PointsRewardsByIdRedeem,
-  postMediaV1Upload,
   postMediaV2Upload,
   postSteambirdV1NotificationsAll,
   postSteambirdV1NotificationsById,
@@ -403,7 +402,6 @@ import type {
   PostEpicleseV1TagByStatusByIdData,
   PostEpicleseV1WorldsData,
   PostGiftiaV1PointsRewardsByIdRedeemData,
-  PostMediaV1UploadData,
   PostMediaV2UploadData,
   PostSteambirdV1NotificationsAllData,
   PostSteambirdV1NotificationsByIdData,
@@ -2252,13 +2250,6 @@ export function createFacade(client: Client<ApiAuth>) {
     media: {
       v1: {
         upload: {
-          /**
-           * POST /media/v1/upload
-           *
-           * 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-           */
-          create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostMediaV1UploadData, ThrowOnError>, 'client'>) =>
-            postMediaV1Upload<ThrowOnError>({ ...options, client }),
           /**
            * DELETE /media/v1/upload
            *

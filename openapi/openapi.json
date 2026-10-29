@@ -27937,50 +27937,6 @@
       }
     },
     "/media/v1/upload": {
-      "post": {
-        "summary": "POST /media/v1/upload",
-        "description": "画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。",
-        "tags": [
-          "media"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MediaUploadResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
       "delete": {
         "summary": "DELETE /media/v1/upload",
         "description": "画像を削除します",

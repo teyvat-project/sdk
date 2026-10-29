@@ -40,24 +40,6 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
     }
 
     /**
-     * POST /media/v1/upload
-     *
-     * 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-     */
-    public suspend fun postMediaV1Upload(requestOptions: RequestOptions? = null): MediaUploadResponse =
-        postMediaV1UploadWithResponse(requestOptions).data
-
-    /**
-     * POST /media/v1/upload
-     *
-     * 画像をアップロードするための URL を取得します。特に理由がない限りは `POST /media/v2/upload` を使ってください。
-     */
-    public suspend fun postMediaV1UploadWithResponse(requestOptions: RequestOptions? = null): ApiResult<MediaUploadResponse> {
-        val values = RequestValues()
-        return core.send(POST_MEDIA_V1_UPLOAD, values, ResponseDecoder.json(MediaUploadResponse.serializer()), POST_MEDIA_V1_UPLOAD_ERRORS, requestOptions)
-    }
-
-    /**
      * POST /media/v2/upload
      *
      * 画像をアップロードするための URL を取得します。
@@ -91,22 +73,6 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
             .json("400", ErrorResponse.serializer())
             .json("401", ErrorResponse.serializer())
             .json("403", ErrorResponse.serializer())
-            .json("500", ErrorResponse.serializer())
-
-        val POST_MEDIA_V1_UPLOAD: OperationSpec = OperationSpec(
-            "postMediaV1Upload",
-            HttpMethod.Post,
-            "/media/v1/upload",
-            listOf("media"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
-            emptyList(),
-            null,
-            null,
-            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "500" to ResponseKind.Json),
-        )
-
-        val POST_MEDIA_V1_UPLOAD_ERRORS: ErrorDecoders = ErrorDecoders()
-            .json("401", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
 
         val POST_MEDIA_V2_UPLOAD: OperationSpec = OperationSpec(
