@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.10.29"
+    "version": "2026.10.30"
   },
   "servers": [
     {
