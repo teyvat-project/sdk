@@ -61,6 +61,18 @@ export class OAuth {
     return this.postToken(body);
   }
 
+  /** `credential` is the authentication result JSON string returned by Android's Credential Manager, passed as-is. */
+  async getAccessTokenByRestoreCredential(credential: string): Promise<Token> {
+    const body = new URLSearchParams({
+      grant_type: "urn:natsuneko:params:oauth:grant-type:restore_credential",
+      credential,
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+    });
+
+    return this.postToken(body);
+  }
+
   getAuthorizeURL(redirectUri: string, pkce: PKCE, state: string): URL {
     const url = new URL(this.authorizeEndpoint);
     url.searchParams.set("response_type", "code");
@@ -112,7 +124,7 @@ export class OAuth {
     });
 
     if (!response.ok) {
-      throw new OAuthError("Invalid token response", "invalidTokenResponse");
+      throw new OAuthError("Invalid token response", "invalidTokenResponse", await readOAuthErrorInfo(response));
     }
 
     let json: Partial<AccessTokenResponse>;
@@ -134,6 +146,22 @@ export class OAuth {
       expiresAt: typeof json.expires_at === "string" && isIsoDateTime(json.expires_at) ? json.expires_at : undefined,
       expiresIn: typeof json.expires_in === "number" && Number.isFinite(json.expires_in) ? json.expires_in : undefined,
     };
+  }
+}
+
+/** Extracts the OAuth error code from an error body such as `{"error":"invalid_grant","error_description":"..."}`. */
+async function readOAuthErrorInfo(response: Response): Promise<OAuthError["info"]> {
+  try {
+    const json = (await response.json()) as { error?: unknown; error_description?: unknown; error_uri?: unknown } | null;
+    if (json == null || typeof json.error !== "string") return undefined;
+
+    return {
+      error: json.error,
+      description: typeof json.error_description === "string" ? json.error_description : undefined,
+      uri: typeof json.error_uri === "string" ? json.error_uri : undefined,
+    };
+  } catch {
+    return undefined;
   }
 }
 

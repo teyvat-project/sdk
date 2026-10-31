@@ -81,4 +81,6 @@ const token = await catalyst.oauth.getAccessTokenByCode(code, redirectUri, pkce)
 catalyst.setCredential(token.accessToken, token.refreshToken);
 ```
 
+On Android, `catalyst.oauth.getAccessTokenByRestoreCredential(credential)` exchanges a Restore Credentials result (the JSON string as-is) for a token without user interaction. When a token request fails, `OAuthError.info.error` carries the server's OAuth error code (e.g. `invalid_grant`).
+
 Failures are reported as `OAuthError` with `kind` of `authorizationRequestFailed`, `invalidAuthorizationResponse` or `invalidTokenResponse`.

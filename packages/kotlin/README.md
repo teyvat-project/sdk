@@ -83,6 +83,8 @@ val token = oauth.getAccessTokenByCode(code, "myapp://callback", pkce)
 catalyst.setCredential(token.accessToken, token.refreshToken)
 ```
 
+On Android, `oauth.getAccessTokenByRestoreCredential(credential)` exchanges a Restore Credentials result (the JSON string as is) for a token without user interaction. When a token request fails, `OAuthException.error` carries the server's OAuth error code (e.g. `invalid_grant`).
+
 Failures are reported as `OAuthException`; `kind` is `AuthorizationRequestFailed`, `InvalidAuthorizationResponse` or `InvalidTokenResponse`.
 
 ## License

@@ -10,10 +10,12 @@ import com.natsuneko.catalyst.Token
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsBytes
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -38,7 +40,7 @@ public enum class OAuthErrorKind {
 public class OAuthException(
     message: String,
     public val kind: OAuthErrorKind,
-    /** The `error` parameter of a failed authorization request. */
+    /** The OAuth `error` code: the `error` parameter of a failed authorization request, or the `error` of a failed token response (e.g. `invalid_grant`). */
     public val error: String? = null,
     public val errorDescription: String? = null,
     public val errorUri: String? = null,
@@ -142,6 +144,21 @@ public class OAuthClient(
         ),
     )
 
+    /**
+     * Exchanges an Android Restore Credentials result for tokens, without user interaction.
+     *
+     * @param credential The authentication response JSON string returned by Credential Manager, passed as is.
+     * @throws OAuthException `error` is `invalid_grant` when the restore key has expired or been revoked.
+     */
+    public suspend fun getAccessTokenByRestoreCredential(credential: String): Token = postToken(
+        listOf(
+            "grant_type" to "urn:natsuneko:params:oauth:grant-type:restore_credential",
+            "credential" to credential,
+            "client_id" to clientId,
+            "client_secret" to clientSecret,
+        ),
+    )
+
     /** Closes the HTTP client created for token requests; a client passed to the constructor stays open. */
     override fun close() {
         if (http.isInitialized()) http.value.close()
@@ -154,9 +171,29 @@ public class OAuthClient(
             setBody(formEncode(form).toByteArray(Charsets.US_ASCII))
         }
         if (!response.status.isSuccess()) {
-            throw OAuthException("Invalid token response", OAuthErrorKind.InvalidTokenResponse)
+            throw tokenErrorResponse(response)
         }
         return decodeToken(response.bodyAsBytes())
+    }
+
+    /** Carries the OAuth error fields of a body such as `{"error":"invalid_grant","error_description":"..."}`, when there are any. */
+    private suspend fun tokenErrorResponse(response: HttpResponse): OAuthException {
+        val root = try {
+            Json.parseToJsonElement(response.bodyAsBytes().decodeToString())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            return invalidTokenResponse()
+        }
+        val error = (root as? JsonObject)?.optionalString("error") ?: return invalidTokenResponse()
+
+        return OAuthException(
+            "Invalid token response",
+            OAuthErrorKind.InvalidTokenResponse,
+            error = error,
+            errorDescription = root.optionalString("error_description"),
+            errorUri = root.optionalString("error_uri"),
+        )
     }
 
     private companion object {
