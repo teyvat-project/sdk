@@ -65,4 +65,64 @@ describe("PKCE / OAuth", () => {
     expect(thrown).toBeInstanceOf(OAuthError);
     expect((thrown as OAuthError).kind).toBe("invalidTokenResponse");
   });
+
+  it("restoreCredentialGrantPostsCredential", async () => {
+    let sent: URLSearchParams | undefined;
+    const oauth = new OAuth("cid", "cs", {
+      fetch: async (_input, init) => {
+        sent = new URLSearchParams(String(init?.body));
+        return new Response(JSON.stringify({ access_token: "at", refresh_token: "rt", token_type: "Bearer" }), { status: 200 });
+      },
+    });
+
+    const token = await oauth.getAccessTokenByRestoreCredential('{"id":"x"}');
+
+    expect(sent?.get("grant_type")).toBe("urn:natsuneko:params:oauth:grant-type:restore_credential");
+    expect(sent?.get("client_id")).toBe("cid");
+    expect(sent?.get("client_secret")).toBe("cs");
+    expect(sent?.get("credential")).toBe('{"id":"x"}');
+    expect(token.accessToken).toBe("at");
+  });
+
+  const failWith = async (status: number, body: string, call: (oauth: OAuth) => Promise<unknown>): Promise<OAuthError> => {
+    const oauth = new OAuth("cid", "cs", { fetch: async () => new Response(body, { status }) });
+    let thrown: unknown;
+    try {
+      await call(oauth);
+    } catch (error) {
+      thrown = error;
+    }
+    expect(thrown).toBeInstanceOf(OAuthError);
+    return thrown as OAuthError;
+  };
+
+  it("tokenErrorCarriesOAuthErrorCode", async () => {
+    const body = JSON.stringify({ code: 400, error: "invalid_grant", message: "m", error_description: "expired", error_uri: "https://example.com/e" });
+
+    const thrown = await failWith(400, body, (oauth) => oauth.getAccessTokenByRestoreCredential("{}"));
+
+    expect(thrown.kind).toBe("invalidTokenResponse");
+    expect(thrown.info).toEqual({ error: "invalid_grant", description: "expired", uri: "https://example.com/e" });
+  });
+
+  it("tokenErrorWithoutErrorFieldHasNoInfo", async () => {
+    const thrown = await failWith(400, JSON.stringify({ message: "x" }), (oauth) => oauth.getAccessTokenByRestoreCredential("{}"));
+
+    expect(thrown.kind).toBe("invalidTokenResponse");
+    expect(thrown.info).toBeUndefined();
+  });
+
+  it("tokenErrorWithNonJsonBodyHasNoInfo", async () => {
+    const thrown = await failWith(400, "oops", (oauth) => oauth.getAccessTokenByRestoreCredential("{}"));
+
+    expect(thrown.kind).toBe("invalidTokenResponse");
+    expect(thrown.info).toBeUndefined();
+  });
+
+  it("refreshTokenErrorAlsoCarriesInfo", async () => {
+    const thrown = await failWith(400, JSON.stringify({ error: "invalid_grant" }), (oauth) => oauth.getAccessTokenByRefreshToken("rt0"));
+
+    expect(thrown.info?.error).toBe("invalid_grant");
+    expect(thrown.info?.description).toBeUndefined();
+  });
 });
