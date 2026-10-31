@@ -43,6 +43,6 @@ extension CredentialsService {
     )
 
     static let postTokenErrors = ErrorDecoders()
-        .json("400", ErrorResponse.self)
+        .json("400", OauthErrorResponse.self)
         .json("500", ErrorResponse.self)
 }

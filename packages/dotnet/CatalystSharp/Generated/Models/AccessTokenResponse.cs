@@ -14,7 +14,7 @@ public sealed partial class AccessTokenResponse
     public required string RefreshToken { get; set; }
 
     [global::System.Text.Json.Serialization.JsonPropertyName("scope")]
-    public required AccessTokenResponseScope Scope { get; set; }
+    public required string Scope { get; set; }
 
     [global::System.Text.Json.Serialization.JsonPropertyName("token_type")]
     public required AccessTokenResponseTokenType TokenType { get; set; }

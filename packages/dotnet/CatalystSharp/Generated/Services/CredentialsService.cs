@@ -47,6 +47,6 @@ public sealed partial class CredentialsService
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders PostTokenErrors = new ErrorDecoders()
-        .Json("400", ApiJsonContext.Default.ErrorResponse)
+        .Json("400", ApiJsonContext.Default.OauthErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 }

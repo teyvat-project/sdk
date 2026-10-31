@@ -6,12 +6,12 @@ import CatalystAPICore
 public struct AccessTokenResponse: Codable, Hashable, Sendable {
     public var accessToken: String
     public var refreshToken: String
-    public var scope: AccessTokenResponseScope
+    public var scope: String
     public var tokenType: AccessTokenResponseTokenType
     public var expiresAt: Date
     public var expiresIn: Double
 
-    public init(accessToken: String, refreshToken: String, scope: AccessTokenResponseScope = .readWrite, tokenType: AccessTokenResponseTokenType = .bearer, expiresAt: Date, expiresIn: Double) {
+    public init(accessToken: String, refreshToken: String, scope: String, tokenType: AccessTokenResponseTokenType = .bearer, expiresAt: Date, expiresIn: Double) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.scope = scope
@@ -33,7 +33,7 @@ public struct AccessTokenResponse: Codable, Hashable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.accessToken = try container.decode(String.self, forKey: .accessToken)
         self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
-        self.scope = try container.decode(AccessTokenResponseScope.self, forKey: .scope)
+        self.scope = try container.decode(String.self, forKey: .scope)
         self.tokenType = try container.decode(AccessTokenResponseTokenType.self, forKey: .tokenType)
         self.expiresAt = try container.decode(Date.self, forKey: .expiresAt)
         self.expiresIn = try container.decode(Double.self, forKey: .expiresIn)

@@ -17,6 +17,41 @@ public sealed partial class EgeriaService
     }
 
     /// <summary>
+    /// DELETE /egeria/v1/restore-credentials/{credentialId}
+    ///
+    /// 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<global::System.Text.Json.JsonElement> DeleteEgeriaV1RestoreCredentialsByCredentialIdAsync(string credentialId, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await DeleteEgeriaV1RestoreCredentialsByCredentialIdWithResponseAsync(credentialId, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// DELETE /egeria/v1/restore-credentials/{credentialId}
+    ///
+    /// 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<global::System.Text.Json.JsonElement>> DeleteEgeriaV1RestoreCredentialsByCredentialIdWithResponseAsync(string credentialId, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("credentialId", credentialId, ApiJsonContext.Default.String);
+        return _core.SendAsync(DeleteEgeriaV1RestoreCredentialsByCredentialIdSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.JsonElement), DeleteEgeriaV1RestoreCredentialsByCredentialIdErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec DeleteEgeriaV1RestoreCredentialsByCredentialIdSpec = new(
+        "deleteEgeriaV1RestoreCredentialsByCredentialId",
+        global::System.Net.Http.HttpMethod.Delete,
+        "/egeria/v1/restore-credentials/{credentialId}",
+        ["egeria"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new ParamSpec("credentialId", ParamLocation.Path, ParamStyle.Simple, false)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["204"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders DeleteEgeriaV1RestoreCredentialsByCredentialIdErrors = new ErrorDecoders()
+        .Json("401", ApiJsonContext.Default.RestoreCredentialErrorResponse)
+        .Json("404", ApiJsonContext.Default.RestoreCredentialErrorResponse);
+
+    /// <summary>
     /// GET /egeria/v1/me
     ///
     /// ログインユーザーの情報を取得します
@@ -184,4 +219,105 @@ public sealed partial class EgeriaService
         .Json("400", ApiJsonContext.Default.PatchEgeriaV1MeResponse400)
         .Json("401", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials
+    ///
+    /// Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<RestoreCredentialResponse> PostEgeriaV1RestoreCredentialsAsync(RestoreCredentialRegistration? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostEgeriaV1RestoreCredentialsWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials
+    ///
+    /// Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<RestoreCredentialResponse>> PostEgeriaV1RestoreCredentialsWithResponseAsync(RestoreCredentialRegistration? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues();
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.RestoreCredentialRegistration);
+        return _core.SendAsync(PostEgeriaV1RestoreCredentialsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.RestoreCredentialResponse), PostEgeriaV1RestoreCredentialsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostEgeriaV1RestoreCredentialsSpec = new(
+        "postEgeriaV1RestoreCredentials",
+        global::System.Net.Http.HttpMethod.Post,
+        "/egeria/v1/restore-credentials",
+        ["egeria"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [],
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["201"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostEgeriaV1RestoreCredentialsErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.RestoreCredentialErrorResponse)
+        .Json("401", ApiJsonContext.Default.RestoreCredentialErrorResponse);
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials/authentication-options
+    ///
+    /// Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<RestoreCredentialRequestOptionsResponse> PostEgeriaV1RestoreCredentialsAuthenticationOptionsAsync(RestoreCredentialAuthenticationOptionsRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials/authentication-options
+    ///
+    /// Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<RestoreCredentialRequestOptionsResponse>> PostEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponseAsync(RestoreCredentialAuthenticationOptionsRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues();
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.RestoreCredentialAuthenticationOptionsRequest);
+        return _core.SendAsync(PostEgeriaV1RestoreCredentialsAuthenticationOptionsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.RestoreCredentialRequestOptionsResponse), PostEgeriaV1RestoreCredentialsAuthenticationOptionsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostEgeriaV1RestoreCredentialsAuthenticationOptionsSpec = new(
+        "postEgeriaV1RestoreCredentialsAuthenticationOptions",
+        global::System.Net.Http.HttpMethod.Post,
+        "/egeria/v1/restore-credentials/authentication-options",
+        ["egeria"],
+        [],
+        [],
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostEgeriaV1RestoreCredentialsAuthenticationOptionsErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.RestoreCredentialErrorResponse);
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials/registration-options
+    ///
+    /// Android の Restore Credentials に登録する鍵の作成オプションを取得します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<RestoreCredentialCreationOptionsResponse> PostEgeriaV1RestoreCredentialsRegistrationOptionsAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostEgeriaV1RestoreCredentialsRegistrationOptionsWithResponseAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /egeria/v1/restore-credentials/registration-options
+    ///
+    /// Android の Restore Credentials に登録する鍵の作成オプションを取得します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<RestoreCredentialCreationOptionsResponse>> PostEgeriaV1RestoreCredentialsRegistrationOptionsWithResponseAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues();
+        return _core.SendAsync(PostEgeriaV1RestoreCredentialsRegistrationOptionsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.RestoreCredentialCreationOptionsResponse), PostEgeriaV1RestoreCredentialsRegistrationOptionsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostEgeriaV1RestoreCredentialsRegistrationOptionsSpec = new(
+        "postEgeriaV1RestoreCredentialsRegistrationOptions",
+        global::System.Net.Http.HttpMethod.Post,
+        "/egeria/v1/restore-credentials/registration-options",
+        ["egeria"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostEgeriaV1RestoreCredentialsRegistrationOptionsErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.RestoreCredentialErrorResponse)
+        .Json("401", ApiJsonContext.Default.RestoreCredentialErrorResponse);
 }

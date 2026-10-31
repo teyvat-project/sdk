@@ -14,8 +14,8 @@ public final class ApiClient: Sendable {
     /// Sends operation calls; use it for requests the generated services do not cover.
     public let core: ApiClientCore
     public let catalyst: CatalystService
-    public let media: MediaService
     public let egeria: EgeriaService
+    public let media: MediaService
     public let epiclese: EpicleseService
     public let featureFlags: FeatureFlagsService
     public let giftia: GiftiaService
@@ -37,8 +37,8 @@ public final class ApiClient: Sendable {
     public init(options: ClientOptions) {
         core = ApiClientCore(options: options, securitySchemes: ApiClient.securitySchemes)
         catalyst = CatalystService(core: core)
-        media = MediaService(core: core)
         egeria = EgeriaService(core: core)
+        media = MediaService(core: core)
         epiclese = EpicleseService(core: core)
         featureFlags = FeatureFlagsService(core: core)
         giftia = GiftiaService(core: core)

@@ -6,6 +6,7 @@ import CatalystAPICore
 public enum PostTokenBodyGrantType: Codable, Hashable, Sendable, RawRepresentable, CaseIterable {
     case authorizationCode
     case refreshToken
+    case urnNatsunekoParamsOauthGrantTypeRestoreCredential
     /// A value this version of the SDK does not know.
     case unknown(String)
 
@@ -13,6 +14,7 @@ public enum PostTokenBodyGrantType: Codable, Hashable, Sendable, RawRepresentabl
         switch rawValue {
         case "authorization_code": self = .authorizationCode
         case "refresh_token": self = .refreshToken
+        case "urn:natsuneko:params:oauth:grant-type:restore_credential": self = .urnNatsunekoParamsOauthGrantTypeRestoreCredential
         default: self = .unknown(rawValue)
         }
     }
@@ -21,12 +23,13 @@ public enum PostTokenBodyGrantType: Codable, Hashable, Sendable, RawRepresentabl
         switch self {
         case .authorizationCode: return "authorization_code"
         case .refreshToken: return "refresh_token"
+        case .urnNatsunekoParamsOauthGrantTypeRestoreCredential: return "urn:natsuneko:params:oauth:grant-type:restore_credential"
         case .unknown(let value): return value
         }
     }
 
     /// The values the API declares.
-    public static var allCases: [PostTokenBodyGrantType] { [.authorizationCode, .refreshToken] }
+    public static var allCases: [PostTokenBodyGrantType] { [.authorizationCode, .refreshToken, .urnNatsunekoParamsOauthGrantTypeRestoreCredential] }
 
     /// Whether the value is one the API declares.
     public var isKnown: Bool { PostTokenBodyGrantType.allCases.contains(self) }

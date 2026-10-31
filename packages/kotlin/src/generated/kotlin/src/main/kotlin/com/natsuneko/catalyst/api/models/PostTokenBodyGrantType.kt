@@ -17,7 +17,7 @@ public class PostTokenBodyGrantType(public val value: String) {
     /** Whether [value] is one of the values the API declared. */
     public val isKnown: Boolean
         get() = when (value) {
-            "authorization_code", "refresh_token" -> true
+            "authorization_code", "refresh_token", "urn:natsuneko:params:oauth:grant-type:restore_credential" -> true
             else -> false
         }
 
@@ -30,9 +30,10 @@ public class PostTokenBodyGrantType(public val value: String) {
     public companion object {
         public val AuthorizationCode: PostTokenBodyGrantType = PostTokenBodyGrantType("authorization_code")
         public val RefreshToken: PostTokenBodyGrantType = PostTokenBodyGrantType("refresh_token")
+        public val UrnNatsunekoParamsOauthGrantTypeRestoreCredential: PostTokenBodyGrantType = PostTokenBodyGrantType("urn:natsuneko:params:oauth:grant-type:restore_credential")
 
         /** The values the API declared. */
-        public val knownValues: List<PostTokenBodyGrantType> = listOf(AuthorizationCode, RefreshToken)
+        public val knownValues: List<PostTokenBodyGrantType> = listOf(AuthorizationCode, RefreshToken, UrnNatsunekoParamsOauthGrantTypeRestoreCredential)
     }
 
     public object Serializer : KSerializer<PostTokenBodyGrantType> {

@@ -10,6 +10,22 @@ public struct EgeriaService: Sendable {
         self.core = core
     }
 
+    /// DELETE /egeria/v1/restore-credentials/{credentialId}
+    ///
+    /// 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+    public func deleteEgeriaV1RestoreCredentialsByCredentialId(credentialId: String, options: RequestOptions? = nil) async throws -> JSONValue {
+        try await deleteEgeriaV1RestoreCredentialsByCredentialIdWithResponse(credentialId: credentialId, options: options).data
+    }
+
+    /// DELETE /egeria/v1/restore-credentials/{credentialId}
+    ///
+    /// 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+    public func deleteEgeriaV1RestoreCredentialsByCredentialIdWithResponse(credentialId: String, options: RequestOptions? = nil) async throws -> ApiResult<JSONValue> {
+        var values = RequestValues()
+        try values.path("credentialId", credentialId)
+        return try await core.send(Self.deleteEgeriaV1RestoreCredentialsByCredentialIdSpec, values, decoder: .json(JSONValue.self), errors: Self.deleteEgeriaV1RestoreCredentialsByCredentialIdErrors, options: options)
+    }
+
     /// GET /egeria/v1/me
     ///
     /// ログインユーザーの情報を取得します
@@ -90,9 +106,78 @@ public struct EgeriaService: Sendable {
         }
         return try await core.send(Self.patchEgeriaV1MeSpec, values, decoder: .json(PatchEgeriaV1MeResponse200.self), errors: Self.patchEgeriaV1MeErrors, options: options)
     }
+
+    /// POST /egeria/v1/restore-credentials
+    ///
+    /// Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+    public func postEgeriaV1RestoreCredentials(body: RestoreCredentialRegistration? = nil, options: RequestOptions? = nil) async throws -> RestoreCredentialResponse {
+        try await postEgeriaV1RestoreCredentialsWithResponse(body: body, options: options).data
+    }
+
+    /// POST /egeria/v1/restore-credentials
+    ///
+    /// Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+    public func postEgeriaV1RestoreCredentialsWithResponse(body: RestoreCredentialRegistration? = nil, options: RequestOptions? = nil) async throws -> ApiResult<RestoreCredentialResponse> {
+        var values = RequestValues()
+        if let body {
+            try values.json(body)
+        }
+        return try await core.send(Self.postEgeriaV1RestoreCredentialsSpec, values, decoder: .json(RestoreCredentialResponse.self), errors: Self.postEgeriaV1RestoreCredentialsErrors, options: options)
+    }
+
+    /// POST /egeria/v1/restore-credentials/authentication-options
+    ///
+    /// Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+    public func postEgeriaV1RestoreCredentialsAuthenticationOptions(body: RestoreCredentialAuthenticationOptionsRequest? = nil, options: RequestOptions? = nil) async throws -> RestoreCredentialRequestOptionsResponse {
+        try await postEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponse(body: body, options: options).data
+    }
+
+    /// POST /egeria/v1/restore-credentials/authentication-options
+    ///
+    /// Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+    public func postEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponse(body: RestoreCredentialAuthenticationOptionsRequest? = nil, options: RequestOptions? = nil) async throws -> ApiResult<RestoreCredentialRequestOptionsResponse> {
+        var values = RequestValues()
+        if let body {
+            try values.json(body)
+        }
+        return try await core.send(Self.postEgeriaV1RestoreCredentialsAuthenticationOptionsSpec, values, decoder: .json(RestoreCredentialRequestOptionsResponse.self), errors: Self.postEgeriaV1RestoreCredentialsAuthenticationOptionsErrors, options: options)
+    }
+
+    /// POST /egeria/v1/restore-credentials/registration-options
+    ///
+    /// Android の Restore Credentials に登録する鍵の作成オプションを取得します
+    public func postEgeriaV1RestoreCredentialsRegistrationOptions(options: RequestOptions? = nil) async throws -> RestoreCredentialCreationOptionsResponse {
+        try await postEgeriaV1RestoreCredentialsRegistrationOptionsWithResponse(options: options).data
+    }
+
+    /// POST /egeria/v1/restore-credentials/registration-options
+    ///
+    /// Android の Restore Credentials に登録する鍵の作成オプションを取得します
+    public func postEgeriaV1RestoreCredentialsRegistrationOptionsWithResponse(options: RequestOptions? = nil) async throws -> ApiResult<RestoreCredentialCreationOptionsResponse> {
+        let values = RequestValues()
+        return try await core.send(Self.postEgeriaV1RestoreCredentialsRegistrationOptionsSpec, values, decoder: .json(RestoreCredentialCreationOptionsResponse.self), errors: Self.postEgeriaV1RestoreCredentialsRegistrationOptionsErrors, options: options)
+    }
 }
 
 extension EgeriaService {
+    static let deleteEgeriaV1RestoreCredentialsByCredentialIdSpec = OperationSpec(
+        operationName: "deleteEgeriaV1RestoreCredentialsByCredentialId",
+        method: .delete,
+        path: "/egeria/v1/restore-credentials/{credentialId}",
+        tags: ["egeria"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
+        params: [
+            ParamSpec("credentialId", .path, .simple, explode: false),
+        ],
+        responses: ["204": .json, "401": .json, "404": .json]
+    )
+
+    static let deleteEgeriaV1RestoreCredentialsByCredentialIdErrors = ErrorDecoders()
+        .json("401", RestoreCredentialErrorResponse.self)
+        .json("404", RestoreCredentialErrorResponse.self)
+
     static let getEgeriaV1MeSpec = OperationSpec(
         operationName: "getEgeriaV1Me",
         method: .get,
@@ -179,4 +264,53 @@ extension EgeriaService {
         .json("400", PatchEgeriaV1MeResponse400.self)
         .json("401", ErrorResponse.self)
         .json("500", ErrorResponse.self)
+
+    static let postEgeriaV1RestoreCredentialsSpec = OperationSpec(
+        operationName: "postEgeriaV1RestoreCredentials",
+        method: .post,
+        path: "/egeria/v1/restore-credentials",
+        tags: ["egeria"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
+        params: [],
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["201": .json, "400": .json, "401": .json]
+    )
+
+    static let postEgeriaV1RestoreCredentialsErrors = ErrorDecoders()
+        .json("400", RestoreCredentialErrorResponse.self)
+        .json("401", RestoreCredentialErrorResponse.self)
+
+    static let postEgeriaV1RestoreCredentialsAuthenticationOptionsSpec = OperationSpec(
+        operationName: "postEgeriaV1RestoreCredentialsAuthenticationOptions",
+        method: .post,
+        path: "/egeria/v1/restore-credentials/authentication-options",
+        tags: ["egeria"],
+        security: [],
+        params: [],
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["200": .json, "400": .json]
+    )
+
+    static let postEgeriaV1RestoreCredentialsAuthenticationOptionsErrors = ErrorDecoders()
+        .json("400", RestoreCredentialErrorResponse.self)
+
+    static let postEgeriaV1RestoreCredentialsRegistrationOptionsSpec = OperationSpec(
+        operationName: "postEgeriaV1RestoreCredentialsRegistrationOptions",
+        method: .post,
+        path: "/egeria/v1/restore-credentials/registration-options",
+        tags: ["egeria"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
+        params: [],
+        responses: ["200": .json, "400": .json, "401": .json]
+    )
+
+    static let postEgeriaV1RestoreCredentialsRegistrationOptionsErrors = ErrorDecoders()
+        .json("400", RestoreCredentialErrorResponse.self)
+        .json("401", RestoreCredentialErrorResponse.self)
 }

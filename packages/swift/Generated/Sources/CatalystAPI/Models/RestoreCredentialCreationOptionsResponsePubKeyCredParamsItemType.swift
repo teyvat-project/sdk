@@ -3,30 +3,30 @@
 import Foundation
 import CatalystAPICore
 
-public enum AccessTokenResponseScope: Codable, Hashable, Sendable, RawRepresentable, CaseIterable {
-    case readWrite
+public enum RestoreCredentialCreationOptionsResponsePubKeyCredParamsItemType: Codable, Hashable, Sendable, RawRepresentable, CaseIterable {
+    case publicKey
     /// A value this version of the SDK does not know.
     case unknown(String)
 
     public init(rawValue: String) {
         switch rawValue {
-        case "read write": self = .readWrite
+        case "public-key": self = .publicKey
         default: self = .unknown(rawValue)
         }
     }
 
     public var rawValue: String {
         switch self {
-        case .readWrite: return "read write"
+        case .publicKey: return "public-key"
         case .unknown(let value): return value
         }
     }
 
     /// The values the API declares.
-    public static var allCases: [AccessTokenResponseScope] { [.readWrite] }
+    public static var allCases: [RestoreCredentialCreationOptionsResponsePubKeyCredParamsItemType] { [.publicKey] }
 
     /// Whether the value is one the API declares.
-    public var isKnown: Bool { AccessTokenResponseScope.allCases.contains(self) }
+    public var isKnown: Bool { RestoreCredentialCreationOptionsResponsePubKeyCredParamsItemType.allCases.contains(self) }
 
     public init(from decoder: any Decoder) throws {
         self.init(rawValue: try decoder.singleValueContainer().decode(String.self))
@@ -37,7 +37,7 @@ public enum AccessTokenResponseScope: Codable, Hashable, Sendable, RawRepresenta
         try container.encode(rawValue)
     }
 
-    public static func == (lhs: AccessTokenResponseScope, rhs: AccessTokenResponseScope) -> Bool { lhs.rawValue == rhs.rawValue }
+    public static func == (lhs: RestoreCredentialCreationOptionsResponsePubKeyCredParamsItemType, rhs: RestoreCredentialCreationOptionsResponsePubKeyCredParamsItemType) -> Bool { lhs.rawValue == rhs.rawValue }
 
     public func hash(into hasher: inout Hasher) { hasher.combine(rawValue) }
 }

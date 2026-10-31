@@ -14,7 +14,7 @@ public data class AccessTokenResponse(
     @SerialName("refresh_token")
     public val refreshToken: String,
     @SerialName("scope")
-    public val scope: AccessTokenResponseScope,
+    public val scope: String,
     @SerialName("token_type")
     public val tokenType: AccessTokenResponseTokenType,
     @SerialName("expires_at")

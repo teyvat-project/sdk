@@ -26,8 +26,8 @@ public sealed partial class ApiClient
         Options = options ?? throw new global::System.ArgumentNullException(nameof(options));
         Core = new ApiClientCore(options, SecuritySchemes);
         Catalyst = new CatalystService(Core);
-        Media = new MediaService(Core);
         Egeria = new EgeriaService(Core);
+        Media = new MediaService(Core);
         Epiclese = new EpicleseService(Core);
         FeatureFlags = new FeatureFlagsService(Core);
         Giftia = new GiftiaService(Core);
@@ -43,9 +43,9 @@ public sealed partial class ApiClient
 
     public CatalystService Catalyst { get; }
 
-    public MediaService Media { get; }
-
     public EgeriaService Egeria { get; }
+
+    public MediaService Media { get; }
 
     public EpicleseService Epiclese { get; }
 

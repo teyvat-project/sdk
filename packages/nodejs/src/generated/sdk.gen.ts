@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, OperationSpec } from './core/index.js';
-import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
+import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
 
 export type Options<TData, ThrowOnError extends boolean = boolean> = TData & {
   client?: Client<any>;
@@ -992,6 +992,45 @@ const deleteCatalystV1UserByIdWatchSpec: OperationSpec = {
  */
 export const deleteCatalystV1UserByIdWatch = <ThrowOnError extends boolean = false>(options: Options<DeleteCatalystV1UserByIdWatchData, ThrowOnError>) =>
   (options.client ?? client).request<DeleteCatalystV1UserByIdWatchResponse, DeleteCatalystV1UserByIdWatchError, ThrowOnError>(deleteCatalystV1UserByIdWatchSpec, options);
+
+export type DeleteEgeriaV1RestoreCredentialsByCredentialIdData = {
+  path: {
+    credentialId: string;
+  };
+};
+
+export type DeleteEgeriaV1RestoreCredentialsByCredentialIdResponses = {
+  204: null;
+};
+
+export type DeleteEgeriaV1RestoreCredentialsByCredentialIdResponse = DeleteEgeriaV1RestoreCredentialsByCredentialIdResponses[keyof DeleteEgeriaV1RestoreCredentialsByCredentialIdResponses];
+
+export type DeleteEgeriaV1RestoreCredentialsByCredentialIdErrors = {
+  401: RestoreCredentialErrorResponse;
+  404: RestoreCredentialErrorResponse;
+};
+
+export type DeleteEgeriaV1RestoreCredentialsByCredentialIdError = DeleteEgeriaV1RestoreCredentialsByCredentialIdErrors[keyof DeleteEgeriaV1RestoreCredentialsByCredentialIdErrors];
+
+const deleteEgeriaV1RestoreCredentialsByCredentialIdSpec: OperationSpec = {
+  operationName: 'deleteEgeriaV1RestoreCredentialsByCredentialId',
+  method: 'DELETE',
+  path: '/egeria/v1/restore-credentials/{credentialId}',
+  tags: ['egeria'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  params: [
+    { name: 'credentialId', in: 'path', style: 'simple', explode: false },
+  ],
+  responses: { '204': 'json', '401': 'json', '404': 'json' },
+};
+
+/**
+ * DELETE /egeria/v1/restore-credentials/{credentialId}
+ *
+ * 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+ */
+export const deleteEgeriaV1RestoreCredentialsByCredentialId = <ThrowOnError extends boolean = false>(options: Options<DeleteEgeriaV1RestoreCredentialsByCredentialIdData, ThrowOnError>) =>
+  (options.client ?? client).request<DeleteEgeriaV1RestoreCredentialsByCredentialIdResponse, DeleteEgeriaV1RestoreCredentialsByCredentialIdError, ThrowOnError>(deleteEgeriaV1RestoreCredentialsByCredentialIdSpec, options);
 
 export type DeleteMediaV1UploadData = {
   body?: {
@@ -7921,6 +7960,110 @@ const postCatalystV1WeeklyThemesSponsorshipsSpec: OperationSpec = {
 export const postCatalystV1WeeklyThemesSponsorships = <ThrowOnError extends boolean = false>(options: Options<PostCatalystV1WeeklyThemesSponsorshipsData, ThrowOnError> = {}) =>
   (options.client ?? client).request<PostCatalystV1WeeklyThemesSponsorshipsResponse, PostCatalystV1WeeklyThemesSponsorshipsError, ThrowOnError>(postCatalystV1WeeklyThemesSponsorshipsSpec, options);
 
+export type PostEgeriaV1RestoreCredentialsData = {
+  body?: RestoreCredentialRegistration;
+};
+
+export type PostEgeriaV1RestoreCredentialsResponses = {
+  201: RestoreCredentialResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsResponse = PostEgeriaV1RestoreCredentialsResponses[keyof PostEgeriaV1RestoreCredentialsResponses];
+
+export type PostEgeriaV1RestoreCredentialsErrors = {
+  400: RestoreCredentialErrorResponse;
+  401: RestoreCredentialErrorResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsError = PostEgeriaV1RestoreCredentialsErrors[keyof PostEgeriaV1RestoreCredentialsErrors];
+
+const postEgeriaV1RestoreCredentialsSpec: OperationSpec = {
+  operationName: 'postEgeriaV1RestoreCredentials',
+  method: 'POST',
+  path: '/egeria/v1/restore-credentials',
+  tags: ['egeria'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  params: [],
+  body: { kind: 'json', mediaType: 'application/json' },
+  responses: { '201': 'json', '400': 'json', '401': 'json' },
+};
+
+/**
+ * POST /egeria/v1/restore-credentials
+ *
+ * Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+ */
+export const postEgeriaV1RestoreCredentials = <ThrowOnError extends boolean = false>(options: Options<PostEgeriaV1RestoreCredentialsData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<PostEgeriaV1RestoreCredentialsResponse, PostEgeriaV1RestoreCredentialsError, ThrowOnError>(postEgeriaV1RestoreCredentialsSpec, options);
+
+export type PostEgeriaV1RestoreCredentialsAuthenticationOptionsData = {
+  body?: RestoreCredentialAuthenticationOptionsRequest;
+};
+
+export type PostEgeriaV1RestoreCredentialsAuthenticationOptionsResponses = {
+  200: RestoreCredentialRequestOptionsResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsAuthenticationOptionsResponse = PostEgeriaV1RestoreCredentialsAuthenticationOptionsResponses[keyof PostEgeriaV1RestoreCredentialsAuthenticationOptionsResponses];
+
+export type PostEgeriaV1RestoreCredentialsAuthenticationOptionsErrors = {
+  400: RestoreCredentialErrorResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsAuthenticationOptionsError = PostEgeriaV1RestoreCredentialsAuthenticationOptionsErrors[keyof PostEgeriaV1RestoreCredentialsAuthenticationOptionsErrors];
+
+const postEgeriaV1RestoreCredentialsAuthenticationOptionsSpec: OperationSpec = {
+  operationName: 'postEgeriaV1RestoreCredentialsAuthenticationOptions',
+  method: 'POST',
+  path: '/egeria/v1/restore-credentials/authentication-options',
+  tags: ['egeria'],
+  security: [],
+  params: [],
+  body: { kind: 'json', mediaType: 'application/json' },
+  responses: { '200': 'json', '400': 'json' },
+};
+
+/**
+ * POST /egeria/v1/restore-credentials/authentication-options
+ *
+ * Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+ */
+export const postEgeriaV1RestoreCredentialsAuthenticationOptions = <ThrowOnError extends boolean = false>(options: Options<PostEgeriaV1RestoreCredentialsAuthenticationOptionsData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<PostEgeriaV1RestoreCredentialsAuthenticationOptionsResponse, PostEgeriaV1RestoreCredentialsAuthenticationOptionsError, ThrowOnError>(postEgeriaV1RestoreCredentialsAuthenticationOptionsSpec, options);
+
+export type PostEgeriaV1RestoreCredentialsRegistrationOptionsData = {};
+
+export type PostEgeriaV1RestoreCredentialsRegistrationOptionsResponses = {
+  200: RestoreCredentialCreationOptionsResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsRegistrationOptionsResponse = PostEgeriaV1RestoreCredentialsRegistrationOptionsResponses[keyof PostEgeriaV1RestoreCredentialsRegistrationOptionsResponses];
+
+export type PostEgeriaV1RestoreCredentialsRegistrationOptionsErrors = {
+  400: RestoreCredentialErrorResponse;
+  401: RestoreCredentialErrorResponse;
+};
+
+export type PostEgeriaV1RestoreCredentialsRegistrationOptionsError = PostEgeriaV1RestoreCredentialsRegistrationOptionsErrors[keyof PostEgeriaV1RestoreCredentialsRegistrationOptionsErrors];
+
+const postEgeriaV1RestoreCredentialsRegistrationOptionsSpec: OperationSpec = {
+  operationName: 'postEgeriaV1RestoreCredentialsRegistrationOptions',
+  method: 'POST',
+  path: '/egeria/v1/restore-credentials/registration-options',
+  tags: ['egeria'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  params: [],
+  responses: { '200': 'json', '400': 'json', '401': 'json' },
+};
+
+/**
+ * POST /egeria/v1/restore-credentials/registration-options
+ *
+ * Android の Restore Credentials に登録する鍵の作成オプションを取得します
+ */
+export const postEgeriaV1RestoreCredentialsRegistrationOptions = <ThrowOnError extends boolean = false>(options: Options<PostEgeriaV1RestoreCredentialsRegistrationOptionsData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<PostEgeriaV1RestoreCredentialsRegistrationOptionsResponse, PostEgeriaV1RestoreCredentialsRegistrationOptionsError, ThrowOnError>(postEgeriaV1RestoreCredentialsRegistrationOptionsSpec, options);
+
 export type PostEpicleseV1AuthorsData = {
   body?: MetadataAuthor;
 };
@@ -8240,7 +8383,7 @@ export const postSteambirdV1NotificationsById = <ThrowOnError extends boolean = 
 
 export type PostTokenData = {
   body?: {
-    grant_type: 'authorization_code' | 'refresh_token';
+    grant_type: 'authorization_code' | 'refresh_token' | 'urn:natsuneko:params:oauth:grant-type:restore_credential';
   };
 };
 
@@ -8251,7 +8394,7 @@ export type PostTokenResponses = {
 export type PostTokenResponse = PostTokenResponses[keyof PostTokenResponses];
 
 export type PostTokenErrors = {
-  400: ErrorResponse;
+  400: OauthErrorResponse;
   500: ErrorResponse;
 };
 

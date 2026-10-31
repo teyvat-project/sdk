@@ -18,11 +18,12 @@ public readonly partial struct PostTokenBodyGrantType : global::System.IEquatabl
 
     public static PostTokenBodyGrantType AuthorizationCode { get; } = new("authorization_code");
     public static PostTokenBodyGrantType RefreshToken { get; } = new("refresh_token");
+    public static PostTokenBodyGrantType UrnNatsunekoParamsOauthGrantTypeRestoreCredential { get; } = new("urn:natsuneko:params:oauth:grant-type:restore_credential");
 
-    public static global::System.Collections.Generic.IReadOnlyList<PostTokenBodyGrantType> KnownValues { get; } = [AuthorizationCode, RefreshToken];
+    public static global::System.Collections.Generic.IReadOnlyList<PostTokenBodyGrantType> KnownValues { get; } = [AuthorizationCode, RefreshToken, UrnNatsunekoParamsOauthGrantTypeRestoreCredential];
 
     /// <summary>Whether <see cref="Value"/> is one of the values the API declared.</summary>
-    public bool IsKnown => Value switch { "authorization_code" or "refresh_token" => true, _ => false };
+    public bool IsKnown => Value switch { "authorization_code" or "refresh_token" or "urn:natsuneko:params:oauth:grant-type:restore_credential" => true, _ => false };
 
     public bool Equals(PostTokenBodyGrantType other) => string.Equals(Value, other.Value, global::System.StringComparison.Ordinal);
 

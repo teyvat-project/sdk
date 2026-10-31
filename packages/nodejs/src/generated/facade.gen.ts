@@ -25,6 +25,7 @@ import {
   deleteCatalystV1StatusByIdReactionsCustomByCustomReactionId,
   deleteCatalystV1StatusByIdRepost,
   deleteCatalystV1UserByIdWatch,
+  deleteEgeriaV1RestoreCredentialsByCredentialId,
   deleteMediaV1Upload,
   getCatalystV11OnThisDay,
   getCatalystV11Random,
@@ -191,6 +192,9 @@ import {
   postCatalystV1UserByIdReport,
   postCatalystV1UserByIdWatch,
   postCatalystV1WeeklyThemesSponsorships,
+  postEgeriaV1RestoreCredentials,
+  postEgeriaV1RestoreCredentialsAuthenticationOptions,
+  postEgeriaV1RestoreCredentialsRegistrationOptions,
   postEpicleseV1Authors,
   postEpicleseV1MediaByMediaIdDenormalizedMetadata,
   postEpicleseV1TagByStatusById,
@@ -231,6 +235,7 @@ import type {
   DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdData,
   DeleteCatalystV1StatusByIdRepostData,
   DeleteCatalystV1UserByIdWatchData,
+  DeleteEgeriaV1RestoreCredentialsByCredentialIdData,
   DeleteMediaV1UploadData,
   GetCatalystV11OnThisDayData,
   GetCatalystV11RandomByHashtagData,
@@ -397,6 +402,9 @@ import type {
   PostCatalystV1UserByIdReportData,
   PostCatalystV1UserByIdWatchData,
   PostCatalystV1WeeklyThemesSponsorshipsData,
+  PostEgeriaV1RestoreCredentialsAuthenticationOptionsData,
+  PostEgeriaV1RestoreCredentialsData,
+  PostEgeriaV1RestoreCredentialsRegistrationOptionsData,
   PostEpicleseV1AuthorsData,
   PostEpicleseV1MediaByMediaIdDenormalizedMetadataData,
   PostEpicleseV1TagByStatusByIdData,
@@ -2002,6 +2010,42 @@ export function createFacade(client: Client<ApiAuth>) {
            */
           patch: <ThrowOnError extends boolean = false>(options?: Omit<Options<PatchEgeriaV1MeData, ThrowOnError>, 'client'>) =>
             patchEgeriaV1Me<ThrowOnError>({ ...options, client }),
+        },
+        restoreCredentials: {
+          /**
+           * POST /egeria/v1/restore-credentials
+           *
+           * Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+           */
+          create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostEgeriaV1RestoreCredentialsData, ThrowOnError>, 'client'>) =>
+            postEgeriaV1RestoreCredentials<ThrowOnError>({ ...options, client }),
+          authenticationOptions: {
+            /**
+             * POST /egeria/v1/restore-credentials/authentication-options
+             *
+             * Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+             */
+            create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostEgeriaV1RestoreCredentialsAuthenticationOptionsData, ThrowOnError>, 'client'>) =>
+              postEgeriaV1RestoreCredentialsAuthenticationOptions<ThrowOnError>({ ...options, client }),
+          },
+          credentialId: {
+            /**
+             * DELETE /egeria/v1/restore-credentials/{credentialId}
+             *
+             * 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+             */
+            delete: <ThrowOnError extends boolean = false>(options: Omit<Options<DeleteEgeriaV1RestoreCredentialsByCredentialIdData, ThrowOnError>, 'client'>) =>
+              deleteEgeriaV1RestoreCredentialsByCredentialId<ThrowOnError>({ ...options, client }),
+          },
+          registrationOptions: {
+            /**
+             * POST /egeria/v1/restore-credentials/registration-options
+             *
+             * Android の Restore Credentials に登録する鍵の作成オプションを取得します
+             */
+            create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostEgeriaV1RestoreCredentialsRegistrationOptionsData, ThrowOnError>, 'client'>) =>
+              postEgeriaV1RestoreCredentialsRegistrationOptions<ThrowOnError>({ ...options, client }),
+          },
         },
         search: {
           /**

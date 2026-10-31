@@ -3,7 +3,7 @@
 export type AccessTokenResponse = {
   access_token: string;
   refresh_token: string;
-  scope: 'read write';
+  scope: string;
   token_type: 'Bearer';
   expires_at: string;
   expires_in: number;
@@ -1907,6 +1907,13 @@ export type NotificationResponse = {
   read: boolean;
 };
 
+export type OauthErrorResponse = {
+  message: string;
+  code?: string | number;
+  error: string;
+  error_description: string;
+};
+
 export type OriginalReactionResponse = {
   id: string;
   name: string;
@@ -2058,6 +2065,83 @@ export type ReorderCatalystGallerySections = {
 
 export type RespondAlbumInvitation = {
   accept: boolean;
+};
+
+export type RestoreCredentialAuthenticationOptionsRequest = {
+  client_id: string;
+  client_secret: string;
+};
+
+export type RestoreCredentialCreationOptionsResponse = {
+  rp: {
+    id?: string;
+    name: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    displayName: string;
+  };
+  challenge: string;
+  pubKeyCredParams: {
+    alg: number;
+    type: 'public-key';
+  }[];
+  timeout?: number;
+  excludeCredentials?: {
+    id: string;
+    type: string;
+    transports?: string[];
+  }[];
+  authenticatorSelection?: {
+    authenticatorAttachment?: string;
+    requireResidentKey?: boolean;
+    residentKey?: string;
+    userVerification?: string;
+  };
+  attestation?: string;
+  hints?: string[];
+  extensions?: {
+    credProps?: boolean;
+  };
+};
+
+export type RestoreCredentialErrorResponse = {
+  message: string;
+  code?: string | number;
+  error: 'invalid_request' | 'invalid_client' | 'unauthorized' | 'not_found';
+};
+
+export type RestoreCredentialRegistration = {
+  id: string;
+  rawId: string;
+  type: 'public-key';
+  response: {
+    clientDataJSON: string;
+    attestationObject: string;
+    authenticatorData?: string;
+    transports?: string[];
+    publicKeyAlgorithm?: number;
+    publicKey?: string;
+  };
+  authenticatorAttachment?: 'platform' | 'cross-platform';
+  clientExtensionResults: { [key: string]: unknown };
+};
+
+export type RestoreCredentialRequestOptionsResponse = {
+  challenge: string;
+  timeout?: number;
+  rpId?: string;
+  allowCredentials?: {
+    id: string;
+    type: string;
+    transports?: string[];
+  }[];
+  userVerification?: string;
+};
+
+export type RestoreCredentialResponse = {
+  credentialId: string;
 };
 
 export type RichTrendingItemResponse = {

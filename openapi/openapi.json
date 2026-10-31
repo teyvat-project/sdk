@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.10.30"
+    "version": "2026.10.31"
   },
   "servers": [
     {
@@ -10180,6 +10180,301 @@
           }
         }
       },
+      "RestoreCredentialErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "error": {
+            "type": "string",
+            "enum": [
+              "invalid_request",
+              "invalid_client",
+              "unauthorized",
+              "not_found"
+            ]
+          }
+        },
+        "required": [
+          "message",
+          "error"
+        ]
+      },
+      "RestoreCredentialRequestOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string"
+          },
+          "timeout": {
+            "type": "number"
+          },
+          "rpId": {
+            "type": "string"
+          },
+          "allowCredentials": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "transports": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            }
+          },
+          "userVerification": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "challenge"
+        ]
+      },
+      "RestoreCredentialAuthenticationOptionsRequest": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "client_secret"
+        ]
+      },
+      "RestoreCredentialCreationOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "rp": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "displayName"
+            ]
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "pubKeyCredParams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "alg": {
+                  "type": "number"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "public-key"
+                  ]
+                }
+              },
+              "required": [
+                "alg",
+                "type"
+              ]
+            }
+          },
+          "timeout": {
+            "type": "number"
+          },
+          "excludeCredentials": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "transports": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            }
+          },
+          "authenticatorSelection": {
+            "type": "object",
+            "properties": {
+              "authenticatorAttachment": {
+                "type": "string"
+              },
+              "requireResidentKey": {
+                "type": "boolean"
+              },
+              "residentKey": {
+                "type": "string"
+              },
+              "userVerification": {
+                "type": "string"
+              }
+            }
+          },
+          "attestation": {
+            "type": "string"
+          },
+          "hints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "extensions": {
+            "type": "object",
+            "properties": {
+              "credProps": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "required": [
+          "rp",
+          "user",
+          "challenge",
+          "pubKeyCredParams"
+        ]
+      },
+      "RestoreCredentialResponse": {
+        "type": "object",
+        "properties": {
+          "credentialId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "credentialId"
+        ]
+      },
+      "RestoreCredentialRegistration": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "rawId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "public-key"
+            ]
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "clientDataJSON": {
+                "type": "string"
+              },
+              "attestationObject": {
+                "type": "string"
+              },
+              "authenticatorData": {
+                "type": "string"
+              },
+              "transports": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "publicKeyAlgorithm": {
+                "type": "number"
+              },
+              "publicKey": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "clientDataJSON",
+              "attestationObject"
+            ]
+          },
+          "authenticatorAttachment": {
+            "type": "string",
+            "enum": [
+              "platform",
+              "cross-platform"
+            ]
+          },
+          "clientExtensionResults": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "id",
+          "rawId",
+          "type",
+          "response",
+          "clientExtensionResults"
+        ]
+      },
       "EpicleseAuthorResponse": {
         "type": "object",
         "properties": {
@@ -12988,10 +13283,7 @@
             "type": "string"
           },
           "scope": {
-            "type": "string",
-            "enum": [
-              "read write"
-            ]
+            "type": "string"
           },
           "token_type": {
             "type": "string",
@@ -13014,6 +13306,35 @@
           "token_type",
           "expires_at",
           "expires_in"
+        ]
+      },
+      "OauthErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "error",
+          "error_description"
         ]
       }
     },
@@ -26387,6 +26708,203 @@
         }
       }
     },
+    "/egeria/v1/restore-credentials/{credentialId}": {
+      "delete": {
+        "summary": "DELETE /egeria/v1/restore-credentials/{credentialId}",
+        "description": "登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)",
+        "tags": [
+          "egeria"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "credentialId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/egeria/v1/restore-credentials/authentication-options": {
+      "post": {
+        "summary": "POST /egeria/v1/restore-credentials/authentication-options",
+        "description": "Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します",
+        "tags": [
+          "egeria"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreCredentialAuthenticationOptionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialRequestOptionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/egeria/v1/restore-credentials/registration-options": {
+      "post": {
+        "summary": "POST /egeria/v1/restore-credentials/registration-options",
+        "description": "Android の Restore Credentials に登録する鍵の作成オプションを取得します",
+        "tags": [
+          "egeria"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialCreationOptionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/egeria/v1/restore-credentials": {
+      "post": {
+        "summary": "POST /egeria/v1/restore-credentials",
+        "description": "Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します",
+        "tags": [
+          "egeria"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreCredentialRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreCredentialErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/egeria/v1/search": {
       "get": {
         "summary": "GET /egeria/v1/search",
@@ -28335,7 +28853,8 @@
                     "type": "string",
                     "enum": [
                       "authorization_code",
-                      "refresh_token"
+                      "refresh_token",
+                      "urn:natsuneko:params:oauth:grant-type:restore_credential"
                     ]
                   }
                 },
@@ -28362,7 +28881,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/OauthErrorResponse"
                 }
               }
             }

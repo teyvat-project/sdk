@@ -49,7 +49,7 @@ public class CredentialsService internal constructor(private val core: ApiClient
         )
 
         val POST_TOKEN_ERRORS: ErrorDecoders = ErrorDecoders()
-            .json("400", ErrorResponse.serializer())
+            .json("400", OauthErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
     }
 }

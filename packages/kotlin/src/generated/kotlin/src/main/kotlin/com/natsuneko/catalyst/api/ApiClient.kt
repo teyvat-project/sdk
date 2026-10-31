@@ -29,9 +29,9 @@ public class ApiClient(public val options: ApiClientOptions = ApiClientOptions()
 
     public val catalyst: CatalystService = CatalystService(core)
 
-    public val media: MediaService = MediaService(core)
-
     public val egeria: EgeriaService = EgeriaService(core)
+
+    public val media: MediaService = MediaService(core)
 
     public val epiclese: EpicleseService = EpicleseService(core)
 

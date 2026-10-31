@@ -22,8 +22,28 @@ import com.natsuneko.catalyst.api.models.*
 import io.ktor.http.HttpMethod
 import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.JsonElement
 
 public class EgeriaService internal constructor(private val core: ApiClientCore) {
+    /**
+     * DELETE /egeria/v1/restore-credentials/{credentialId}
+     *
+     * 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+     */
+    public suspend fun deleteEgeriaV1RestoreCredentialsByCredentialId(credentialId: String, requestOptions: RequestOptions? = null): JsonElement =
+        deleteEgeriaV1RestoreCredentialsByCredentialIdWithResponse(credentialId, requestOptions).data
+
+    /**
+     * DELETE /egeria/v1/restore-credentials/{credentialId}
+     *
+     * 登録した Restore Credentials の鍵を削除します (サインアウト時に呼びます)
+     */
+    public suspend fun deleteEgeriaV1RestoreCredentialsByCredentialIdWithResponse(credentialId: String, requestOptions: RequestOptions? = null): ApiResult<JsonElement> {
+        val values = RequestValues()
+            .path("credentialId", credentialId, String.serializer())
+        return core.send(DELETE_EGERIA_V1_RESTORE_CREDENTIALS_BY_CREDENTIAL_ID, values, ResponseDecoder.json(JsonElement.serializer()), DELETE_EGERIA_V1_RESTORE_CREDENTIALS_BY_CREDENTIAL_ID_ERRORS, requestOptions)
+    }
+
     /**
      * GET /egeria/v1/me
      *
@@ -118,7 +138,79 @@ public class EgeriaService internal constructor(private val core: ApiClientCore)
         return core.send(PATCH_EGERIA_V1_ME, values, ResponseDecoder.json(PatchEgeriaV1MeResponse200.serializer()), PATCH_EGERIA_V1_ME_ERRORS, requestOptions)
     }
 
+    /**
+     * POST /egeria/v1/restore-credentials
+     *
+     * Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+     */
+    public suspend fun postEgeriaV1RestoreCredentials(body: RestoreCredentialRegistration? = null, requestOptions: RequestOptions? = null): RestoreCredentialResponse =
+        postEgeriaV1RestoreCredentialsWithResponse(body, requestOptions).data
+
+    /**
+     * POST /egeria/v1/restore-credentials
+     *
+     * Android の Restore Credentials で作った鍵 (RegistrationResponseJSON) を登録します
+     */
+    public suspend fun postEgeriaV1RestoreCredentialsWithResponse(body: RestoreCredentialRegistration? = null, requestOptions: RequestOptions? = null): ApiResult<RestoreCredentialResponse> {
+        val values = RequestValues()
+        if (body != null) values.jsonBody(body, RestoreCredentialRegistration.serializer())
+        return core.send(POST_EGERIA_V1_RESTORE_CREDENTIALS, values, ResponseDecoder.json(RestoreCredentialResponse.serializer()), POST_EGERIA_V1_RESTORE_CREDENTIALS_ERRORS, requestOptions)
+    }
+
+    /**
+     * POST /egeria/v1/restore-credentials/authentication-options
+     *
+     * Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+     */
+    public suspend fun postEgeriaV1RestoreCredentialsAuthenticationOptions(body: RestoreCredentialAuthenticationOptionsRequest? = null, requestOptions: RequestOptions? = null): RestoreCredentialRequestOptionsResponse =
+        postEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponse(body, requestOptions).data
+
+    /**
+     * POST /egeria/v1/restore-credentials/authentication-options
+     *
+     * Android の Restore Credentials の鍵で新しい端末にログインするための認証オプションを取得します
+     */
+    public suspend fun postEgeriaV1RestoreCredentialsAuthenticationOptionsWithResponse(body: RestoreCredentialAuthenticationOptionsRequest? = null, requestOptions: RequestOptions? = null): ApiResult<RestoreCredentialRequestOptionsResponse> {
+        val values = RequestValues()
+        if (body != null) values.jsonBody(body, RestoreCredentialAuthenticationOptionsRequest.serializer())
+        return core.send(POST_EGERIA_V1_RESTORE_CREDENTIALS_AUTHENTICATION_OPTIONS, values, ResponseDecoder.json(RestoreCredentialRequestOptionsResponse.serializer()), POST_EGERIA_V1_RESTORE_CREDENTIALS_AUTHENTICATION_OPTIONS_ERRORS, requestOptions)
+    }
+
+    /**
+     * POST /egeria/v1/restore-credentials/registration-options
+     *
+     * Android の Restore Credentials に登録する鍵の作成オプションを取得します
+     */
+    public suspend fun postEgeriaV1RestoreCredentialsRegistrationOptions(requestOptions: RequestOptions? = null): RestoreCredentialCreationOptionsResponse =
+        postEgeriaV1RestoreCredentialsRegistrationOptionsWithResponse(requestOptions).data
+
+    /**
+     * POST /egeria/v1/restore-credentials/registration-options
+     *
+     * Android の Restore Credentials に登録する鍵の作成オプションを取得します
+     */
+    public suspend fun postEgeriaV1RestoreCredentialsRegistrationOptionsWithResponse(requestOptions: RequestOptions? = null): ApiResult<RestoreCredentialCreationOptionsResponse> {
+        val values = RequestValues()
+        return core.send(POST_EGERIA_V1_RESTORE_CREDENTIALS_REGISTRATION_OPTIONS, values, ResponseDecoder.json(RestoreCredentialCreationOptionsResponse.serializer()), POST_EGERIA_V1_RESTORE_CREDENTIALS_REGISTRATION_OPTIONS_ERRORS, requestOptions)
+    }
+
     private companion object {
+        val DELETE_EGERIA_V1_RESTORE_CREDENTIALS_BY_CREDENTIAL_ID: OperationSpec = OperationSpec(
+            "deleteEgeriaV1RestoreCredentialsByCredentialId",
+            HttpMethod.Delete,
+            "/egeria/v1/restore-credentials/{credentialId}",
+            listOf("egeria"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(ParamSpec("credentialId", ParamLocation.Path, ParamStyle.Simple, false)),
+            null,
+            null,
+            mapOf("204" to ResponseKind.Json, "401" to ResponseKind.Json, "404" to ResponseKind.Json),
+        )
+
+        val DELETE_EGERIA_V1_RESTORE_CREDENTIALS_BY_CREDENTIAL_ID_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("401", RestoreCredentialErrorResponse.serializer())
+            .json("404", RestoreCredentialErrorResponse.serializer())
+
         val GET_EGERIA_V1_ME: OperationSpec = OperationSpec(
             "getEgeriaV1Me",
             HttpMethod.Get,
@@ -193,5 +285,50 @@ public class EgeriaService internal constructor(private val core: ApiClientCore)
             .json("400", PatchEgeriaV1MeResponse400.serializer())
             .json("401", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS: OperationSpec = OperationSpec(
+            "postEgeriaV1RestoreCredentials",
+            HttpMethod.Post,
+            "/egeria/v1/restore-credentials",
+            listOf("egeria"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            emptyList(),
+            BodyKind.Json, "application/json",
+            mapOf("201" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json),
+        )
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", RestoreCredentialErrorResponse.serializer())
+            .json("401", RestoreCredentialErrorResponse.serializer())
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS_AUTHENTICATION_OPTIONS: OperationSpec = OperationSpec(
+            "postEgeriaV1RestoreCredentialsAuthenticationOptions",
+            HttpMethod.Post,
+            "/egeria/v1/restore-credentials/authentication-options",
+            listOf("egeria"),
+            emptyList(),
+            emptyList(),
+            BodyKind.Json, "application/json",
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json),
+        )
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS_AUTHENTICATION_OPTIONS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", RestoreCredentialErrorResponse.serializer())
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS_REGISTRATION_OPTIONS: OperationSpec = OperationSpec(
+            "postEgeriaV1RestoreCredentialsRegistrationOptions",
+            HttpMethod.Post,
+            "/egeria/v1/restore-credentials/registration-options",
+            listOf("egeria"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            emptyList(),
+            null,
+            null,
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json),
+        )
+
+        val POST_EGERIA_V1_RESTORE_CREDENTIALS_REGISTRATION_OPTIONS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", RestoreCredentialErrorResponse.serializer())
+            .json("401", RestoreCredentialErrorResponse.serializer())
     }
 }
