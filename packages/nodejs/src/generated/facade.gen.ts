@@ -61,6 +61,7 @@ import {
   getCatalystV1ContestSearch,
   getCatalystV1CustomReactions,
   getCatalystV1FleetById,
+  getCatalystV1FleetByIdPreview,
   getCatalystV1FleetByIdReactions,
   getCatalystV1FleetByIdViewers,
   getCatalystV1FleetByUserByUsername,
@@ -271,6 +272,7 @@ import type {
   GetCatalystV1ContestSearchData,
   GetCatalystV1CustomReactionsData,
   GetCatalystV1FleetByIdData,
+  GetCatalystV1FleetByIdPreviewData,
   GetCatalystV1FleetByIdReactionsData,
   GetCatalystV1FleetByIdViewersData,
   GetCatalystV1FleetByUserByUsernameData,
@@ -829,7 +831,7 @@ export function createFacade(client: Client<ApiAuth>) {
                 /**
                  * GET /catalyst/v1/fleet/by/user/{username}
                  *
-                 * 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+                 * 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
                  */
                 get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1FleetByUserByUsernameData, ThrowOnError>, 'client'>) =>
                   getCatalystV1FleetByUserByUsername<ThrowOnError>({ ...options, client }),
@@ -840,7 +842,7 @@ export function createFacade(client: Client<ApiAuth>) {
             /**
              * GET /catalyst/v1/fleet/{id}
              *
-             * 指定した Fleet の詳細を取得します
+             * 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
              */
             get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1FleetByIdData, ThrowOnError>, 'client'>) =>
               getCatalystV1FleetById<ThrowOnError>({ ...options, client }),
@@ -851,6 +853,15 @@ export function createFacade(client: Client<ApiAuth>) {
              */
             delete: <ThrowOnError extends boolean = false>(options: Omit<Options<DeleteCatalystV1FleetByIdData, ThrowOnError>, 'client'>) =>
               deleteCatalystV1FleetById<ThrowOnError>({ ...options, client }),
+            preview: {
+              /**
+               * GET /catalyst/v1/fleet/{id}/preview
+               *
+               * Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+               */
+              get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1FleetByIdPreviewData, ThrowOnError>, 'client'>) =>
+                getCatalystV1FleetByIdPreview<ThrowOnError>({ ...options, client }),
+            },
             reactions: {
               /**
                * GET /catalyst/v1/fleet/{id}/reactions

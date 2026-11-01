@@ -2021,7 +2021,7 @@ public sealed partial class CatalystService
     /// <summary>
     /// GET /catalyst/v1/fleet/by/user/{username}
     ///
-    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
     /// </summary>
     public async global::System.Threading.Tasks.Task<global::System.Collections.Generic.List<FleetResponse>> GetCatalystV1FleetByUserByUsernameAsync(string username, bool? excludeSensitive = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
         => (await GetCatalystV1FleetByUserByUsernameWithResponseAsync(username, excludeSensitive, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
@@ -2029,7 +2029,7 @@ public sealed partial class CatalystService
     /// <summary>
     /// GET /catalyst/v1/fleet/by/user/{username}
     ///
-    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
     /// </summary>
     public global::System.Threading.Tasks.Task<ApiResult<global::System.Collections.Generic.List<FleetResponse>>> GetCatalystV1FleetByUserByUsernameWithResponseAsync(string username, bool? excludeSensitive = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {
@@ -2044,13 +2044,15 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/by/user/{username}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders GetCatalystV1FleetByUserByUsernameErrors = new ErrorDecoders()
+        .Json("401", ApiJsonContext.Default.ErrorResponse)
+        .Json("403", ApiJsonContext.Default.ErrorResponse)
         .Json("404", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 
@@ -2092,7 +2094,7 @@ public sealed partial class CatalystService
     /// <summary>
     /// GET /catalyst/v1/fleet/{id}
     ///
-    /// 指定した Fleet の詳細を取得します
+    /// 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
     /// </summary>
     public async global::System.Threading.Tasks.Task<FleetResponse> GetCatalystV1FleetByIdAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
         => (await GetCatalystV1FleetByIdWithResponseAsync(id, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
@@ -2100,7 +2102,7 @@ public sealed partial class CatalystService
     /// <summary>
     /// GET /catalyst/v1/fleet/{id}
     ///
-    /// 指定した Fleet の詳細を取得します
+    /// 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
     /// </summary>
     public global::System.Threading.Tasks.Task<ApiResult<FleetResponse>> GetCatalystV1FleetByIdWithResponseAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {
@@ -2114,13 +2116,50 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/{id}",
         ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1FleetByIdErrors = new ErrorDecoders()
+        .Json("401", ApiJsonContext.Default.ErrorResponse)
+        .Json("403", ApiJsonContext.Default.ErrorResponse)
+        .Json("404", ApiJsonContext.Default.ErrorResponse)
+        .Json("500", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// GET /catalyst/v1/fleet/{id}/preview
+    ///
+    /// Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<FleetPreviewResponse> GetCatalystV1FleetByIdPreviewAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1FleetByIdPreviewWithResponseAsync(id, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/fleet/{id}/preview
+    ///
+    /// Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<FleetPreviewResponse>> GetCatalystV1FleetByIdPreviewWithResponseAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1FleetByIdPreviewSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.FleetPreviewResponse), GetCatalystV1FleetByIdPreviewErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1FleetByIdPreviewSpec = new(
+        "getCatalystV1FleetByIdPreview",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/fleet/{id}/preview",
+        ["catalyst"],
         [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
-    private static readonly ErrorDecoders GetCatalystV1FleetByIdErrors = new ErrorDecoders()
+    private static readonly ErrorDecoders GetCatalystV1FleetByIdPreviewErrors = new ErrorDecoders()
         .Json("404", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 
@@ -4962,11 +5001,12 @@ public sealed partial class CatalystService
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders PostCatalystV1FleetByIdReactionsBySymbolErrors = new ErrorDecoders()
         .Json("400", ApiJsonContext.Default.ErrorResponse)
         .Json("401", ApiJsonContext.Default.ErrorResponse)
+        .Json("403", ApiJsonContext.Default.ErrorResponse)
         .Json("404", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 
@@ -5037,10 +5077,11 @@ public sealed partial class CatalystService
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders PostCatalystV1FleetByIdViewErrors = new ErrorDecoders()
         .Json("401", ApiJsonContext.Default.ErrorResponse)
+        .Json("403", ApiJsonContext.Default.ErrorResponse)
         .Json("404", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 

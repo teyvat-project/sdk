@@ -1120,7 +1120,7 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     /**
      * GET /catalyst/v1/fleet/by/user/{username}
      *
-     * 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+     * 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
      */
     public suspend fun getCatalystV1FleetByUserByUsername(username: String, excludeSensitive: Boolean? = null, requestOptions: RequestOptions? = null): List<FleetResponse> =
         getCatalystV1FleetByUserByUsernameWithResponse(username, excludeSensitive, requestOptions).data
@@ -1128,7 +1128,7 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     /**
      * GET /catalyst/v1/fleet/by/user/{username}
      *
-     * 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+     * 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
      */
     public suspend fun getCatalystV1FleetByUserByUsernameWithResponse(username: String, excludeSensitive: Boolean? = null, requestOptions: RequestOptions? = null): ApiResult<List<FleetResponse>> {
         val values = RequestValues()
@@ -1159,7 +1159,7 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     /**
      * GET /catalyst/v1/fleet/{id}
      *
-     * 指定した Fleet の詳細を取得します
+     * 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
      */
     public suspend fun getCatalystV1FleetById(id: String, requestOptions: RequestOptions? = null): FleetResponse =
         getCatalystV1FleetByIdWithResponse(id, requestOptions).data
@@ -1167,12 +1167,31 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     /**
      * GET /catalyst/v1/fleet/{id}
      *
-     * 指定した Fleet の詳細を取得します
+     * 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
      */
     public suspend fun getCatalystV1FleetByIdWithResponse(id: String, requestOptions: RequestOptions? = null): ApiResult<FleetResponse> {
         val values = RequestValues()
             .path("id", id, String.serializer())
         return core.send(GET_CATALYST_V1_FLEET_BY_ID, values, ResponseDecoder.json(FleetResponse.serializer()), GET_CATALYST_V1_FLEET_BY_ID_ERRORS, requestOptions)
+    }
+
+    /**
+     * GET /catalyst/v1/fleet/{id}/preview
+     *
+     * Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+     */
+    public suspend fun getCatalystV1FleetByIdPreview(id: String, requestOptions: RequestOptions? = null): FleetPreviewResponse =
+        getCatalystV1FleetByIdPreviewWithResponse(id, requestOptions).data
+
+    /**
+     * GET /catalyst/v1/fleet/{id}/preview
+     *
+     * Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+     */
+    public suspend fun getCatalystV1FleetByIdPreviewWithResponse(id: String, requestOptions: RequestOptions? = null): ApiResult<FleetPreviewResponse> {
+        val values = RequestValues()
+            .path("id", id, String.serializer())
+        return core.send(GET_CATALYST_V1_FLEET_BY_ID_PREVIEW, values, ResponseDecoder.json(FleetPreviewResponse.serializer()), GET_CATALYST_V1_FLEET_BY_ID_PREVIEW_ERRORS, requestOptions)
     }
 
     /**
@@ -4312,14 +4331,16 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             HttpMethod.Get,
             "/catalyst/v1/fleet/by/user/{username}",
             listOf("catalyst"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
             listOf(ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)),
             null,
             null,
-            mapOf("200" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
+            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
         )
 
         val GET_CATALYST_V1_FLEET_BY_USER_BY_USERNAME_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("401", ErrorResponse.serializer())
+            .json("403", ErrorResponse.serializer())
             .json("404", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
 
@@ -4344,6 +4365,24 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             HttpMethod.Get,
             "/catalyst/v1/fleet/{id}",
             listOf("catalyst"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
+            null,
+            null,
+            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
+        )
+
+        val GET_CATALYST_V1_FLEET_BY_ID_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("401", ErrorResponse.serializer())
+            .json("403", ErrorResponse.serializer())
+            .json("404", ErrorResponse.serializer())
+            .json("500", ErrorResponse.serializer())
+
+        val GET_CATALYST_V1_FLEET_BY_ID_PREVIEW: OperationSpec = OperationSpec(
+            "getCatalystV1FleetByIdPreview",
+            HttpMethod.Get,
+            "/catalyst/v1/fleet/{id}/preview",
+            listOf("catalyst"),
             listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
             listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
             null,
@@ -4351,7 +4390,7 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             mapOf("200" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
         )
 
-        val GET_CATALYST_V1_FLEET_BY_ID_ERRORS: ErrorDecoders = ErrorDecoders()
+        val GET_CATALYST_V1_FLEET_BY_ID_PREVIEW_ERRORS: ErrorDecoders = ErrorDecoders()
             .json("404", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
 
@@ -5625,12 +5664,13 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)),
             null,
             null,
-            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
         )
 
         val POST_CATALYST_V1_FLEET_BY_ID_REACTIONS_BY_SYMBOL_ERRORS: ErrorDecoders = ErrorDecoders()
             .json("400", ErrorResponse.serializer())
             .json("401", ErrorResponse.serializer())
+            .json("403", ErrorResponse.serializer())
             .json("404", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
 
@@ -5661,11 +5701,12 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
             null,
             null,
-            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
+            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json, "500" to ResponseKind.Json),
         )
 
         val POST_CATALYST_V1_FLEET_BY_ID_VIEW_ERRORS: ErrorDecoders = ErrorDecoders()
             .json("401", ErrorResponse.serializer())
+            .json("403", ErrorResponse.serializer())
             .json("404", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
 

@@ -21,19 +21,20 @@ public sealed partial class EpicleseService
     ///
     /// データカタログに登録されている著者一覧を返します
     /// </summary>
-    public async global::System.Threading.Tasks.Task<EpicleseAuthorsResponse> GetEpicleseV1AuthorsAsync(string? q = null, string? platform = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-        => (await GetEpicleseV1AuthorsWithResponseAsync(q, platform, offset, limit, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+    public async global::System.Threading.Tasks.Task<EpicleseAuthorsResponse> GetEpicleseV1AuthorsAsync(string? q = null, string? platform = null, GetEpicleseV1AuthorsExcludePlatformless? excludePlatformless = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetEpicleseV1AuthorsWithResponseAsync(q, platform, excludePlatformless, offset, limit, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
 
     /// <summary>
     /// GET /epiclese/v1/authors
     ///
     /// データカタログに登録されている著者一覧を返します
     /// </summary>
-    public global::System.Threading.Tasks.Task<ApiResult<EpicleseAuthorsResponse>> GetEpicleseV1AuthorsWithResponseAsync(string? q = null, string? platform = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    public global::System.Threading.Tasks.Task<ApiResult<EpicleseAuthorsResponse>> GetEpicleseV1AuthorsWithResponseAsync(string? q = null, string? platform = null, GetEpicleseV1AuthorsExcludePlatformless? excludePlatformless = null, int? offset = null, int? limit = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {
         var values = new RequestValues()
             .Query("q", q, ApiJsonContext.Default.String)
             .Query("platform", platform, ApiJsonContext.Default.String)
+            .Query("exclude_platformless", excludePlatformless, ApiJsonContext.Default.NullableGetEpicleseV1AuthorsExcludePlatformless)
             .Query("offset", offset, ApiJsonContext.Default.NullableInt32)
             .Query("limit", limit, ApiJsonContext.Default.NullableInt32);
         return _core.SendAsync(GetEpicleseV1AuthorsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.EpicleseAuthorsResponse), GetEpicleseV1AuthorsErrors, requestOptions, cancellationToken);
@@ -45,7 +46,7 @@ public sealed partial class EpicleseService
         "/epiclese/v1/authors",
         ["epiclese"],
         [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
-        [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("platform", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true)],
+        [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("platform", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("exclude_platformless", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json });

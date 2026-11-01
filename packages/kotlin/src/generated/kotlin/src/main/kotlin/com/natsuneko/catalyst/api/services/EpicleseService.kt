@@ -31,18 +31,19 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
      *
      * データカタログに登録されている著者一覧を返します
      */
-    public suspend fun getEpicleseV1Authors(q: String? = null, platform: String? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): EpicleseAuthorsResponse =
-        getEpicleseV1AuthorsWithResponse(q, platform, offset, limit, requestOptions).data
+    public suspend fun getEpicleseV1Authors(q: String? = null, platform: String? = null, excludePlatformless: GetEpicleseV1AuthorsExcludePlatformless? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): EpicleseAuthorsResponse =
+        getEpicleseV1AuthorsWithResponse(q, platform, excludePlatformless, offset, limit, requestOptions).data
 
     /**
      * GET /epiclese/v1/authors
      *
      * データカタログに登録されている著者一覧を返します
      */
-    public suspend fun getEpicleseV1AuthorsWithResponse(q: String? = null, platform: String? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): ApiResult<EpicleseAuthorsResponse> {
+    public suspend fun getEpicleseV1AuthorsWithResponse(q: String? = null, platform: String? = null, excludePlatformless: GetEpicleseV1AuthorsExcludePlatformless? = null, offset: Int? = null, limit: Int? = null, requestOptions: RequestOptions? = null): ApiResult<EpicleseAuthorsResponse> {
         val values = RequestValues()
             .query("q", q, String.serializer().nullable)
             .query("platform", platform, String.serializer().nullable)
+            .query("exclude_platformless", excludePlatformless, GetEpicleseV1AuthorsExcludePlatformless.Serializer.nullable)
             .query("offset", offset, Int.serializer().nullable)
             .query("limit", limit, Int.serializer().nullable)
         return core.send(GET_EPICLESE_V1_AUTHORS, values, ResponseDecoder.json(EpicleseAuthorsResponse.serializer()), GET_EPICLESE_V1_AUTHORS_ERRORS, requestOptions)
@@ -331,7 +332,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
             "/epiclese/v1/authors",
             listOf("epiclese"),
             listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
-            listOf(ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("platform", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true)),
+            listOf(ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("platform", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("exclude_platformless", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true), ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true)),
             null,
             null,
             mapOf("200" to ResponseKind.Json),

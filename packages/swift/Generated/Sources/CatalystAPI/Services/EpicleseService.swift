@@ -13,17 +13,18 @@ public struct EpicleseService: Sendable {
     /// GET /epiclese/v1/authors
     ///
     /// データカタログに登録されている著者一覧を返します
-    public func getEpicleseV1Authors(q: String? = nil, platform: String? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> EpicleseAuthorsResponse {
-        try await getEpicleseV1AuthorsWithResponse(q: q, platform: platform, offset: offset, limit: limit, options: options).data
+    public func getEpicleseV1Authors(q: String? = nil, platform: String? = nil, excludePlatformless: GetEpicleseV1AuthorsExcludePlatformless? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> EpicleseAuthorsResponse {
+        try await getEpicleseV1AuthorsWithResponse(q: q, platform: platform, excludePlatformless: excludePlatformless, offset: offset, limit: limit, options: options).data
     }
 
     /// GET /epiclese/v1/authors
     ///
     /// データカタログに登録されている著者一覧を返します
-    public func getEpicleseV1AuthorsWithResponse(q: String? = nil, platform: String? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> ApiResult<EpicleseAuthorsResponse> {
+    public func getEpicleseV1AuthorsWithResponse(q: String? = nil, platform: String? = nil, excludePlatformless: GetEpicleseV1AuthorsExcludePlatformless? = nil, offset: Int? = nil, limit: Int? = nil, options: RequestOptions? = nil) async throws -> ApiResult<EpicleseAuthorsResponse> {
         var values = RequestValues()
         try values.query("q", q)
         try values.query("platform", platform)
+        try values.query("exclude_platformless", excludePlatformless)
         try values.query("offset", offset)
         try values.query("limit", limit)
         return try await core.send(Self.getEpicleseV1AuthorsSpec, values, decoder: .json(EpicleseAuthorsResponse.self), errors: Self.getEpicleseV1AuthorsErrors, options: options)
@@ -285,6 +286,7 @@ extension EpicleseService {
         params: [
             ParamSpec("q", .query, .form, explode: true),
             ParamSpec("platform", .query, .form, explode: true),
+            ParamSpec("exclude_platformless", .query, .form, explode: true),
             ParamSpec("offset", .query, .form, explode: true),
             ParamSpec("limit", .query, .form, explode: true),
         ],

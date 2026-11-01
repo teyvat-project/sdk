@@ -938,14 +938,14 @@ public struct CatalystService: Sendable {
 
     /// GET /catalyst/v1/fleet/by/user/{username}
     ///
-    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
     public func getCatalystV1FleetByUserByUsername(username: String, excludeSensitive: Bool? = nil, options: RequestOptions? = nil) async throws -> [FleetResponse] {
         try await getCatalystV1FleetByUserByUsernameWithResponse(username: username, excludeSensitive: excludeSensitive, options: options).data
     }
 
     /// GET /catalyst/v1/fleet/by/user/{username}
     ///
-    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+    /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
     public func getCatalystV1FleetByUserByUsernameWithResponse(username: String, excludeSensitive: Bool? = nil, options: RequestOptions? = nil) async throws -> ApiResult<[FleetResponse]> {
         var values = RequestValues()
         try values.path("username", username)
@@ -971,18 +971,34 @@ public struct CatalystService: Sendable {
 
     /// GET /catalyst/v1/fleet/{id}
     ///
-    /// 指定した Fleet の詳細を取得します
+    /// 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
     public func getCatalystV1FleetById(id: String, options: RequestOptions? = nil) async throws -> FleetResponse {
         try await getCatalystV1FleetByIdWithResponse(id: id, options: options).data
     }
 
     /// GET /catalyst/v1/fleet/{id}
     ///
-    /// 指定した Fleet の詳細を取得します
+    /// 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
     public func getCatalystV1FleetByIdWithResponse(id: String, options: RequestOptions? = nil) async throws -> ApiResult<FleetResponse> {
         var values = RequestValues()
         try values.path("id", id)
         return try await core.send(Self.getCatalystV1FleetByIdSpec, values, decoder: .json(FleetResponse.self), errors: Self.getCatalystV1FleetByIdErrors, options: options)
+    }
+
+    /// GET /catalyst/v1/fleet/{id}/preview
+    ///
+    /// Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+    public func getCatalystV1FleetByIdPreview(id: String, options: RequestOptions? = nil) async throws -> FleetPreviewResponse {
+        try await getCatalystV1FleetByIdPreviewWithResponse(id: id, options: options).data
+    }
+
+    /// GET /catalyst/v1/fleet/{id}/preview
+    ///
+    /// Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
+    public func getCatalystV1FleetByIdPreviewWithResponse(id: String, options: RequestOptions? = nil) async throws -> ApiResult<FleetPreviewResponse> {
+        var values = RequestValues()
+        try values.path("id", id)
+        return try await core.send(Self.getCatalystV1FleetByIdPreviewSpec, values, decoder: .json(FleetPreviewResponse.self), errors: Self.getCatalystV1FleetByIdPreviewErrors, options: options)
     }
 
     /// GET /catalyst/v1/fleet/{id}/reactions
@@ -4027,16 +4043,17 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
-            SecurityRequirement([]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
             ParamSpec("exclude_sensitive", .query, .form, explode: true),
         ],
-        responses: ["200": .json, "404": .json, "500": .json]
+        responses: ["200": .json, "401": .json, "403": .json, "404": .json, "500": .json]
     )
 
     static let getCatalystV1FleetByUserByUsernameErrors = ErrorDecoders()
+        .json("401", ErrorResponse.self)
+        .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 
@@ -4065,6 +4082,26 @@ extension CatalystService {
         tags: ["catalyst"],
         security: [
             SecurityRequirement([SecurityScheme("bearerAuth")]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+        ],
+        responses: ["200": .json, "401": .json, "403": .json, "404": .json, "500": .json]
+    )
+
+    static let getCatalystV1FleetByIdErrors = ErrorDecoders()
+        .json("401", ErrorResponse.self)
+        .json("403", ErrorResponse.self)
+        .json("404", ErrorResponse.self)
+        .json("500", ErrorResponse.self)
+
+    static let getCatalystV1FleetByIdPreviewSpec = OperationSpec(
+        operationName: "getCatalystV1FleetByIdPreview",
+        method: .get,
+        path: "/catalyst/v1/fleet/{id}/preview",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4073,7 +4110,7 @@ extension CatalystService {
         responses: ["200": .json, "404": .json, "500": .json]
     )
 
-    static let getCatalystV1FleetByIdErrors = ErrorDecoders()
+    static let getCatalystV1FleetByIdPreviewErrors = ErrorDecoders()
         .json("404", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 
@@ -5612,12 +5649,13 @@ extension CatalystService {
             ParamSpec("id", .path, .simple, explode: false),
             ParamSpec("symbol", .path, .simple, explode: false),
         ],
-        responses: ["200": .json, "400": .json, "401": .json, "404": .json, "500": .json]
+        responses: ["200": .json, "400": .json, "401": .json, "403": .json, "404": .json, "500": .json]
     )
 
     static let postCatalystV1FleetByIdReactionsBySymbolErrors = ErrorDecoders()
         .json("400", ErrorResponse.self)
         .json("401", ErrorResponse.self)
+        .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 
@@ -5655,11 +5693,12 @@ extension CatalystService {
         params: [
             ParamSpec("id", .path, .simple, explode: false),
         ],
-        responses: ["200": .json, "401": .json, "404": .json, "500": .json]
+        responses: ["200": .json, "401": .json, "403": .json, "404": .json, "500": .json]
     )
 
     static let postCatalystV1FleetByIdViewErrors = ErrorDecoders()
         .json("401", ErrorResponse.self)
+        .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 

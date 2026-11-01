@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, OperationSpec } from './core/index.js';
-import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
+import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetPreviewResponse, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
 
 export type Options<TData, ThrowOnError extends boolean = boolean> = TData & {
   client?: Client<any>;
@@ -2408,6 +2408,8 @@ export type GetCatalystV1FleetByUserByUsernameResponses = {
 export type GetCatalystV1FleetByUserByUsernameResponse = GetCatalystV1FleetByUserByUsernameResponses[keyof GetCatalystV1FleetByUserByUsernameResponses];
 
 export type GetCatalystV1FleetByUserByUsernameErrors = {
+  401: ErrorResponse;
+  403: ErrorResponse;
   404: ErrorResponse;
   500: ErrorResponse;
 };
@@ -2419,18 +2421,18 @@ const getCatalystV1FleetByUserByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/by/user/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'exclude_sensitive', in: 'query', style: 'form', explode: true },
   ],
-  responses: { '200': 'json', '404': 'json', '500': 'json' },
+  responses: { '200': 'json', '401': 'json', '403': 'json', '404': 'json', '500': 'json' },
 };
 
 /**
  * GET /catalyst/v1/fleet/by/user/{username}
  *
- * 指定したユーザーの閲覧可能な Fleet 一覧を取得します
+ * 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
  */
 export const getCatalystV1FleetByUserByUsername = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1FleetByUserByUsernameData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1FleetByUserByUsernameResponse, GetCatalystV1FleetByUserByUsernameError, ThrowOnError>(getCatalystV1FleetByUserByUsernameSpec, options);
@@ -2487,6 +2489,8 @@ export type GetCatalystV1FleetByIdResponses = {
 export type GetCatalystV1FleetByIdResponse = GetCatalystV1FleetByIdResponses[keyof GetCatalystV1FleetByIdResponses];
 
 export type GetCatalystV1FleetByIdErrors = {
+  401: ErrorResponse;
+  403: ErrorResponse;
   404: ErrorResponse;
   500: ErrorResponse;
 };
@@ -2498,6 +2502,45 @@ const getCatalystV1FleetByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}',
   tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  params: [
+    { name: 'id', in: 'path', style: 'simple', explode: false },
+  ],
+  responses: { '200': 'json', '401': 'json', '403': 'json', '404': 'json', '500': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/fleet/{id}
+ *
+ * 指定した Fleet の詳細を取得します。投稿者本人とフォロワーのみ取得できます
+ */
+export const getCatalystV1FleetById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1FleetByIdData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1FleetByIdResponse, GetCatalystV1FleetByIdError, ThrowOnError>(getCatalystV1FleetByIdSpec, options);
+
+export type GetCatalystV1FleetByIdPreviewData = {
+  path: {
+    id: string;
+  };
+};
+
+export type GetCatalystV1FleetByIdPreviewResponses = {
+  200: FleetPreviewResponse;
+};
+
+export type GetCatalystV1FleetByIdPreviewResponse = GetCatalystV1FleetByIdPreviewResponses[keyof GetCatalystV1FleetByIdPreviewResponses];
+
+export type GetCatalystV1FleetByIdPreviewErrors = {
+  404: ErrorResponse;
+  500: ErrorResponse;
+};
+
+export type GetCatalystV1FleetByIdPreviewError = GetCatalystV1FleetByIdPreviewErrors[keyof GetCatalystV1FleetByIdPreviewErrors];
+
+const getCatalystV1FleetByIdPreviewSpec: OperationSpec = {
+  operationName: 'getCatalystV1FleetByIdPreview',
+  method: 'GET',
+  path: '/catalyst/v1/fleet/{id}/preview',
+  tags: ['catalyst'],
   security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
@@ -2506,12 +2549,12 @@ const getCatalystV1FleetByIdSpec: OperationSpec = {
 };
 
 /**
- * GET /catalyst/v1/fleet/{id}
+ * GET /catalyst/v1/fleet/{id}/preview
  *
- * 指定した Fleet の詳細を取得します
+ * Fleet の投稿者と閲覧可否を取得します。Fleet の中身は含みません
  */
-export const getCatalystV1FleetById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1FleetByIdData, ThrowOnError>) =>
-  (options.client ?? client).request<GetCatalystV1FleetByIdResponse, GetCatalystV1FleetByIdError, ThrowOnError>(getCatalystV1FleetByIdSpec, options);
+export const getCatalystV1FleetByIdPreview = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1FleetByIdPreviewData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1FleetByIdPreviewResponse, GetCatalystV1FleetByIdPreviewError, ThrowOnError>(getCatalystV1FleetByIdPreviewSpec, options);
 
 export type GetCatalystV1FleetByIdReactionsData = {
   path: {
@@ -4932,6 +4975,7 @@ export type GetEpicleseV1AuthorsData = {
   query?: {
     q?: string;
     platform?: string;
+    exclude_platformless?: 'true' | 'false';
     offset?: number | null;
     limit?: number;
   };
@@ -4956,6 +5000,7 @@ const getEpicleseV1AuthorsSpec: OperationSpec = {
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'platform', in: 'query', style: 'form', explode: true },
+    { name: 'exclude_platformless', in: 'query', style: 'form', explode: true },
     { name: 'offset', in: 'query', style: 'form', explode: true },
     { name: 'limit', in: 'query', style: 'form', explode: true },
   ],
@@ -6817,6 +6862,7 @@ export type PostCatalystV1FleetByIdReactionsBySymbolResponse = PostCatalystV1Fle
 export type PostCatalystV1FleetByIdReactionsBySymbolErrors = {
   400: ErrorResponse;
   401: ErrorResponse;
+  403: ErrorResponse;
   404: ErrorResponse;
   500: ErrorResponse;
 };
@@ -6833,7 +6879,7 @@ const postCatalystV1FleetByIdReactionsBySymbolSpec: OperationSpec = {
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'symbol', in: 'path', style: 'simple', explode: false },
   ],
-  responses: { '200': 'json', '400': 'json', '401': 'json', '404': 'json', '500': 'json' },
+  responses: { '200': 'json', '400': 'json', '401': 'json', '403': 'json', '404': 'json', '500': 'json' },
 };
 
 /**
@@ -6906,6 +6952,7 @@ export type PostCatalystV1FleetByIdViewResponse = PostCatalystV1FleetByIdViewRes
 
 export type PostCatalystV1FleetByIdViewErrors = {
   401: ErrorResponse;
+  403: ErrorResponse;
   404: ErrorResponse;
   500: ErrorResponse;
 };
@@ -6921,7 +6968,7 @@ const postCatalystV1FleetByIdViewSpec: OperationSpec = {
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
-  responses: { '200': 'json', '401': 'json', '404': 'json', '500': 'json' },
+  responses: { '200': 'json', '401': 'json', '403': 'json', '404': 'json', '500': 'json' },
 };
 
 /**

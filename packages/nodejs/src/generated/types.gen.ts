@@ -1003,6 +1003,35 @@ export type Fleet = {
   }[];
 };
 
+export type FleetPreviewResponse = {
+  user: {
+    id: string;
+    screenName: string;
+    displayName: string;
+    profile: {
+      iconUrl: string;
+      bannerUrl: string;
+      bio: string;
+      website: string;
+      additionalWebsites: string[];
+    } | null;
+    profileEmoji?: {
+      type: 'standard';
+      value: string;
+      imageUrl: string;
+    } | {
+      type: 'custom';
+      id: string;
+      shortcode: string;
+      displayName: string;
+      imageUrl: string;
+      width: number;
+      height: number;
+    } | null;
+  };
+  access: 'viewable' | 'login_required' | 'follow_required';
+};
+
 export type FleetReactionResponse = {
   user: {
     id: string;
