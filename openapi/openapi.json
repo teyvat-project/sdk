@@ -12312,7 +12312,7 @@
                   "name": {
                     "type": "string",
                     "minLength": 1,
-                    "maxLength": 128
+                    "maxLength": 500
                   },
                   "description": {
                     "type": "string",
