@@ -13,6 +13,9 @@ public sealed partial class GetEpicleseV1WorldsResolveResponse200World
     [global::System.Text.Json.Serialization.JsonPropertyName("platformIdentifier")]
     public required string PlatformIdentifier { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("platformOwnerIdentifier")]
+    public required string? PlatformOwnerIdentifier { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("platform")]
     public required GetEpicleseV1WorldsResolveResponse200WorldPlatform? Platform { get; set; }
 

@@ -13,6 +13,8 @@ public data class EpicleseStatusMetadataResponseValueWorld(
     public val id: String,
     @SerialName("platformIdentifier")
     public val platformIdentifier: String,
+    @SerialName("platformOwnerIdentifier")
+    public val platformOwnerIdentifier: String?,
     @SerialName("platform")
     public val platform: EpicleseStatusMetadataResponseValueWorldPlatform?,
     @SerialName("name")

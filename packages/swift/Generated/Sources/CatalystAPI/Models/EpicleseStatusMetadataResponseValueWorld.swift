@@ -6,13 +6,15 @@ import CatalystAPICore
 public struct EpicleseStatusMetadataResponseValueWorld: Codable, Hashable, Sendable {
     public var id: String
     public var platformIdentifier: String
+    public var platformOwnerIdentifier: String?
     public var platform: EpicleseStatusMetadataResponseValueWorldPlatform?
     public var name: String
     public var author: EpicleseStatusMetadataResponseValueWorldAuthor?
 
-    public init(id: String, platformIdentifier: String, platform: EpicleseStatusMetadataResponseValueWorldPlatform?, name: String, author: EpicleseStatusMetadataResponseValueWorldAuthor?) {
+    public init(id: String, platformIdentifier: String, platformOwnerIdentifier: String?, platform: EpicleseStatusMetadataResponseValueWorldPlatform?, name: String, author: EpicleseStatusMetadataResponseValueWorldAuthor?) {
         self.id = id
         self.platformIdentifier = platformIdentifier
+        self.platformOwnerIdentifier = platformOwnerIdentifier
         self.platform = platform
         self.name = name
         self.author = author
@@ -21,6 +23,7 @@ public struct EpicleseStatusMetadataResponseValueWorld: Codable, Hashable, Senda
     private enum CodingKeys: String, CodingKey {
         case id
         case platformIdentifier
+        case platformOwnerIdentifier
         case platform
         case name
         case author
@@ -30,6 +33,7 @@ public struct EpicleseStatusMetadataResponseValueWorld: Codable, Hashable, Senda
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.platformIdentifier = try container.decode(String.self, forKey: .platformIdentifier)
+        self.platformOwnerIdentifier = try container.decodeIfPresent(String.self, forKey: .platformOwnerIdentifier)
         self.platform = try container.decodeIfPresent(EpicleseStatusMetadataResponseValueWorldPlatform.self, forKey: .platform)
         self.name = try container.decode(String.self, forKey: .name)
         self.author = try container.decodeIfPresent(EpicleseStatusMetadataResponseValueWorldAuthor.self, forKey: .author)
@@ -39,6 +43,7 @@ public struct EpicleseStatusMetadataResponseValueWorld: Codable, Hashable, Senda
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(platformIdentifier, forKey: .platformIdentifier)
+        try container.encode(platformOwnerIdentifier, forKey: .platformOwnerIdentifier)
         try container.encode(platform, forKey: .platform)
         try container.encode(name, forKey: .name)
         try container.encode(author, forKey: .author)

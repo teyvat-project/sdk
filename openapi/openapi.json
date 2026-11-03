@@ -10246,6 +10246,12 @@
           "platformIdentifier": {
             "type": "string"
           },
+          "platformOwnerIdentifier": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "platform": {
             "type": [
               "object",
@@ -10352,6 +10358,7 @@
         "required": [
           "id",
           "platformIdentifier",
+          "platformOwnerIdentifier",
           "platform",
           "name",
           "author"
@@ -12040,6 +12047,12 @@
                 "platformIdentifier": {
                   "type": "string"
                 },
+                "platformOwnerIdentifier": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "platform": {
                   "type": [
                     "object",
@@ -12146,6 +12159,7 @@
               "required": [
                 "id",
                 "platformIdentifier",
+                "platformOwnerIdentifier",
                 "platform",
                 "name",
                 "author"
@@ -12887,6 +12901,12 @@
                 "platformIdentifier": {
                   "type": "string"
                 },
+                "platformOwnerIdentifier": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "platform": {
                   "type": [
                     "object",
@@ -12993,6 +13013,7 @@
               "required": [
                 "id",
                 "platformIdentifier",
+                "platformOwnerIdentifier",
                 "platform",
                 "name",
                 "author"
@@ -29492,6 +29513,12 @@
                         "platformIdentifier": {
                           "type": "string"
                         },
+                        "platformOwnerIdentifier": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
                         "platform": {
                           "type": [
                             "object",
@@ -29598,6 +29625,7 @@
                       "required": [
                         "id",
                         "platformIdentifier",
+                        "platformOwnerIdentifier",
                         "platform",
                         "name",
                         "author"

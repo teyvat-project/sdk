@@ -13,6 +13,8 @@ public data class GetEpicleseV1WorldsResolveResponse200World(
     public val id: String,
     @SerialName("platformIdentifier")
     public val platformIdentifier: String,
+    @SerialName("platformOwnerIdentifier")
+    public val platformOwnerIdentifier: String?,
     @SerialName("platform")
     public val platform: GetEpicleseV1WorldsResolveResponse200WorldPlatform?,
     @SerialName("name")

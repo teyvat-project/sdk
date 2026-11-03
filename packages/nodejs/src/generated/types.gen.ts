@@ -815,6 +815,7 @@ export type EpicleseStatusMetadataResponse = {
     world: {
       id: string;
       platformIdentifier: string;
+      platformOwnerIdentifier: string | null;
       platform: {
         id: string;
         name: string;
@@ -992,6 +993,7 @@ export type EpicleseStatusesByItemResponse = {
 export type EpicleseWorldResponse = {
   id: string;
   platformIdentifier: string;
+  platformOwnerIdentifier: string | null;
   platform: {
     id: string;
     name: string;
@@ -1018,6 +1020,7 @@ export type EpicleseWorldsResponse = {
   items: {
     id: string;
     platformIdentifier: string;
+    platformOwnerIdentifier: string | null;
     platform: {
       id: string;
       name: string;

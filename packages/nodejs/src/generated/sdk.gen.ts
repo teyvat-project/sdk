@@ -5547,6 +5547,7 @@ export type GetEpicleseV1WorldsResolveResponses = {
     world: {
       id: string;
       platformIdentifier: string;
+      platformOwnerIdentifier: string | null;
       platform: {
         id: string;
         name: string;
