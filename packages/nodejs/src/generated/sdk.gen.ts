@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, OperationSpec } from './core/index.js';
-import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetPreviewResponse, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataWorld, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
+import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseDenormalizedMetadataResponse, EpicleseEventResponse, EpicleseGroupResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetPreviewResponse, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataEvent, MetadataGroup, MetadataWorld, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
 
 export type Options<TData, ThrowOnError extends boolean = boolean> = TData & {
   client?: Client<any>;
@@ -32,7 +32,7 @@ const deleteCatalystV1ActivitypubSettingsSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/activitypub/settings',
   tags: ['catalyst', 'activitypub'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json', '409': 'json' },
 };
@@ -73,7 +73,7 @@ const deleteCatalystV1AlbumByIdByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -117,7 +117,7 @@ const deleteCatalystV1AlbumByIdByIdMembersByUserIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/album/by/id/{id}/members/{userId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'userId', in: 'path', style: 'simple', explode: false },
@@ -160,7 +160,7 @@ const deleteCatalystV1BlocksSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/blocks',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '500': 'json' },
@@ -204,7 +204,7 @@ const deleteCatalystV1ContestBySlugBySlugExclusionsByStatusSpec: OperationSpec =
   method: 'DELETE',
   path: '/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:write'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'status', in: 'path', style: 'simple', explode: false },
@@ -249,7 +249,7 @@ const deleteCatalystV1ContestBySlugBySlugVoteByStatusSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/contest/by/slug/{slug}/vote/{status}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'status', in: 'path', style: 'simple', explode: false },
@@ -333,7 +333,7 @@ const deleteCatalystV1FleetByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/fleet/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -376,7 +376,7 @@ const deleteCatalystV1FleetByIdReactionsBySymbolSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/fleet/{id}/reactions/{symbol}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'symbol', in: 'path', style: 'simple', explode: false },
@@ -419,7 +419,7 @@ const deleteCatalystV1GalleryByIdByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/gallery/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -462,7 +462,7 @@ const deleteCatalystV1GalleryByIdByIdDomainsByDomainIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/gallery/by/id/{id}/domains/{domainId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'domainId', in: 'path', style: 'simple', explode: false },
@@ -506,7 +506,7 @@ const deleteCatalystV1GalleryByIdByIdSectionsBySectionIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -551,7 +551,7 @@ const deleteCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdSpec: Opera
   method: 'DELETE',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -597,7 +597,7 @@ const deleteCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdSpec:
   method: 'DELETE',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -639,7 +639,7 @@ const deleteCatalystV1RelationshipsSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/relationships',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json' },
@@ -680,7 +680,7 @@ const deleteCatalystV1ScheduledStatusesByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/scheduled-statuses/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -720,7 +720,7 @@ const deleteCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -760,7 +760,7 @@ const deleteCatalystV1StatusByIdSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -803,7 +803,7 @@ const deleteCatalystV1StatusByIdFavoriteSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/status/{id}/favorite',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -844,7 +844,7 @@ const deleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdSpec: Operation
   method: 'DELETE',
   path: '/catalyst/v1/status/{id}/reactions/custom/{customReactionId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'customReactionId', in: 'path', style: 'simple', explode: false },
@@ -889,7 +889,7 @@ const deleteCatalystV1StatusByIdReactionsBySymbolSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/status/{id}/reactions/{symbol}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'symbol', in: 'path', style: 'simple', explode: false },
@@ -934,7 +934,7 @@ const deleteCatalystV1StatusByIdRepostSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/status/{id}/repost',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -978,7 +978,7 @@ const deleteCatalystV1UserByIdWatchSpec: OperationSpec = {
   method: 'DELETE',
   path: '/catalyst/v1/user/{id}/watch',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1058,7 +1058,7 @@ const deleteMediaV1UploadSpec: OperationSpec = {
   method: 'DELETE',
   path: '/media/v1/upload',
   tags: ['media'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['media:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '403': 'json', '500': 'json' },
@@ -1091,7 +1091,7 @@ const getCatalystV11OnThisDaySpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/on-this-day',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1123,7 +1123,7 @@ const getCatalystV11RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1160,7 +1160,7 @@ const getCatalystV11RandomByHashtagSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/random/by/hashtag',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -1206,7 +1206,7 @@ const getCatalystV11StatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1251,7 +1251,7 @@ const getCatalystV11TimelineAlbumByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/album/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -1295,7 +1295,7 @@ const getCatalystV11TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1339,7 +1339,7 @@ const getCatalystV11TimelineHomeSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/home',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1374,7 +1374,7 @@ const getCatalystV11TimelineNewcomersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/newcomers',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -1417,7 +1417,7 @@ const getCatalystV11TimelineSmartAlbumByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.1/timeline/smart-album/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -1455,7 +1455,7 @@ const getCatalystV12RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.2/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -1493,7 +1493,7 @@ const getCatalystV12TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.2/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1537,7 +1537,7 @@ const getCatalystV12TimelineHomeSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1.2/timeline/home',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -1574,7 +1574,7 @@ const getCatalystV1ActivitypubSettingsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/activitypub/settings',
   tags: ['catalyst', 'activitypub'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -1615,7 +1615,7 @@ const getCatalystV1AlbumByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'limit', in: 'query', style: 'form', explode: true },
@@ -1659,7 +1659,7 @@ const getCatalystV1AlbumByIdByIdBookSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1701,7 +1701,7 @@ const getCatalystV1AlbumByIdByIdBookByBookIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/book/{bookId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'bookId', in: 'path', style: 'simple', explode: false },
@@ -1742,7 +1742,7 @@ const getCatalystV1AlbumByIdByIdMembersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/members',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1780,7 +1780,7 @@ const getCatalystV1AlbumByIdByIdRandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/id/{id}/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -1823,7 +1823,7 @@ const getCatalystV1AlbumByMeSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/me',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'include_smart_albums', in: 'query', style: 'form', explode: true },
     { name: 'include_shared_albums', in: 'query', style: 'form', explode: true },
@@ -1869,7 +1869,7 @@ const getCatalystV1AlbumByUserByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/by/user/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'include_smart_albums', in: 'query', style: 'form', explode: true },
@@ -1912,7 +1912,7 @@ const getCatalystV1AlbumSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/album/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'include_smart_album', in: 'query', style: 'form', explode: true },
@@ -1989,7 +1989,7 @@ const getCatalystV1ContentSettingsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/content/settings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -2024,7 +2024,7 @@ const getCatalystV1ContestByMeSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/me',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json', '500': 'json' },
 };
@@ -2062,7 +2062,7 @@ const getCatalystV1ContestBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2103,7 +2103,7 @@ const getCatalystV1ContestBySlugBySlugParticipantMessageSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}/participant-message',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2141,7 +2141,7 @@ const getCatalystV1ContestBySlugBySlugStatsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}/stats',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2229,7 +2229,7 @@ const getCatalystV1ContestBySlugBySlugVoteSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/slug/{slug}/vote',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -2269,7 +2269,7 @@ const getCatalystV1ContestByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2305,7 +2305,7 @@ const getCatalystV1ContestCurrentSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/current',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }], []],
   params: [],
   responses: { '200': 'json', '404': 'json' },
 };
@@ -2343,7 +2343,7 @@ const getCatalystV1ContestSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/contest/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'state', in: 'query', style: 'form', explode: true },
@@ -2379,7 +2379,7 @@ const getCatalystV1CustomReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/custom-reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -2391,6 +2391,63 @@ const getCatalystV1CustomReactionsSpec: OperationSpec = {
  */
 export const getCatalystV1CustomReactions = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1CustomReactionsData, ThrowOnError> = {}) =>
   (options.client ?? client).request<GetCatalystV1CustomReactionsResponse, GetCatalystV1CustomReactionsError, ThrowOnError>(getCatalystV1CustomReactionsSpec, options);
+
+export type GetCatalystV1EventsByIdData = {
+  path: {
+    id: string;
+  };
+};
+
+export type GetCatalystV1EventsByIdResponses = {
+  200: {
+    event: EpicleseEventResponse;
+    statusCount: number;
+    users: UserResponse[];
+    coverMedia: {
+      id: string;
+      alt: string;
+      url: string;
+      order: number;
+      metadata: {
+        width: number | null;
+        height: number | null;
+        isSensitive: boolean;
+        isSpoiler: boolean;
+      } | null;
+      privacyMetadata?: boolean;
+      blurhash?: string | null;
+      hasReference: boolean;
+    } | null;
+  };
+};
+
+export type GetCatalystV1EventsByIdResponse = GetCatalystV1EventsByIdResponses[keyof GetCatalystV1EventsByIdResponses];
+
+export type GetCatalystV1EventsByIdErrors = {
+  404: ErrorResponse;
+};
+
+export type GetCatalystV1EventsByIdError = GetCatalystV1EventsByIdErrors[keyof GetCatalystV1EventsByIdErrors];
+
+const getCatalystV1EventsByIdSpec: OperationSpec = {
+  operationName: 'getCatalystV1EventsById',
+  method: 'GET',
+  path: '/catalyst/v1/events/{id}',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
+  params: [
+    { name: 'id', in: 'path', style: 'simple', explode: false },
+  ],
+  responses: { '200': 'json', '404': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/events/{id}
+ *
+ * イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+ */
+export const getCatalystV1EventsById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1EventsByIdData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1EventsByIdResponse, GetCatalystV1EventsByIdError, ThrowOnError>(getCatalystV1EventsByIdSpec, options);
 
 export type GetCatalystV1FleetByUserByUsernameData = {
   path: {
@@ -2421,7 +2478,7 @@ const getCatalystV1FleetByUserByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/by/user/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }]],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'exclude_sensitive', in: 'query', style: 'form', explode: true },
@@ -2461,7 +2518,7 @@ const getCatalystV1FleetRingSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/ring',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }]],
   params: [
     { name: 'exclude_sensitive', in: 'query', style: 'form', explode: true },
   ],
@@ -2502,7 +2559,7 @@ const getCatalystV1FleetByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2541,7 +2598,7 @@ const getCatalystV1FleetByIdPreviewSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}/preview',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2582,7 +2639,7 @@ const getCatalystV1FleetByIdReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2623,7 +2680,7 @@ const getCatalystV1FleetByIdViewersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/fleet/{id}/viewers',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2657,7 +2714,7 @@ const getCatalystV1GallerySpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -2733,7 +2790,7 @@ const getCatalystV1GalleryByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/gallery/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2776,7 +2833,7 @@ const getCatalystV1GalleryByIdByIdDocumentSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/gallery/by/id/{id}/document',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'revision', in: 'query', style: 'form', explode: true },
@@ -2791,6 +2848,63 @@ const getCatalystV1GalleryByIdByIdDocumentSpec: OperationSpec = {
  */
 export const getCatalystV1GalleryByIdByIdDocument = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1GalleryByIdByIdDocumentData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1GalleryByIdByIdDocumentResponse, GetCatalystV1GalleryByIdByIdDocumentError, ThrowOnError>(getCatalystV1GalleryByIdByIdDocumentSpec, options);
+
+export type GetCatalystV1GroupsByIdData = {
+  path: {
+    id: string;
+  };
+};
+
+export type GetCatalystV1GroupsByIdResponses = {
+  200: {
+    group: EpicleseGroupResponse;
+    statusCount: number;
+    users: UserResponse[];
+    coverMedia: {
+      id: string;
+      alt: string;
+      url: string;
+      order: number;
+      metadata: {
+        width: number | null;
+        height: number | null;
+        isSensitive: boolean;
+        isSpoiler: boolean;
+      } | null;
+      privacyMetadata?: boolean;
+      blurhash?: string | null;
+      hasReference: boolean;
+    } | null;
+  };
+};
+
+export type GetCatalystV1GroupsByIdResponse = GetCatalystV1GroupsByIdResponses[keyof GetCatalystV1GroupsByIdResponses];
+
+export type GetCatalystV1GroupsByIdErrors = {
+  404: ErrorResponse;
+};
+
+export type GetCatalystV1GroupsByIdError = GetCatalystV1GroupsByIdErrors[keyof GetCatalystV1GroupsByIdErrors];
+
+const getCatalystV1GroupsByIdSpec: OperationSpec = {
+  operationName: 'getCatalystV1GroupsById',
+  method: 'GET',
+  path: '/catalyst/v1/groups/{id}',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
+  params: [
+    { name: 'id', in: 'path', style: 'simple', explode: false },
+  ],
+  responses: { '200': 'json', '404': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/groups/{id}
+ *
+ * グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+ */
+export const getCatalystV1GroupsById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1GroupsByIdData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1GroupsByIdResponse, GetCatalystV1GroupsByIdError, ThrowOnError>(getCatalystV1GroupsByIdSpec, options);
 
 export type GetCatalystV1ItemSearchData = {
   query?: {
@@ -2823,7 +2937,7 @@ const getCatalystV1ItemSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/item/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'type', in: 'query', style: 'form', explode: true },
@@ -2882,7 +2996,7 @@ const getCatalystV1ItemsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/items/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -2916,7 +3030,7 @@ const getCatalystV1PrivacySettingsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/privacy/settings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -2955,7 +3069,7 @@ const getCatalystV1ProfileTagsByNameByNameUsersSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/by/name/{name}/users',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'name', in: 'path', style: 'simple', explode: false },
     { name: 'cursor', in: 'query', style: 'form', explode: true },
@@ -2994,7 +3108,7 @@ const getCatalystV1ProfileTagsByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3032,7 +3146,7 @@ const getCatalystV1ProfileTagsSuggestionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/profile-tags/suggestions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -3066,7 +3180,7 @@ const getCatalystV1RandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -3096,7 +3210,7 @@ const getCatalystV1ReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json' },
 };
@@ -3132,7 +3246,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameCountsSpec: OperationSpec = 
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/counts',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
   ],
@@ -3174,7 +3288,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowersSpec: OperationSpec
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followers',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3217,7 +3331,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowersRemoteSpec: Operati
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followers/remote',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3260,7 +3374,7 @@ const getCatalystV1RelationshipsByUsernameByUsernameFollowingsSpec: OperationSpe
   method: 'GET',
   path: '/catalyst/v1/relationships/by/username/{username}/followings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'page', in: 'query', style: 'form', explode: true },
@@ -3300,7 +3414,7 @@ const getCatalystV1RelationshipsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/relationships/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3336,7 +3450,7 @@ const getCatalystV1ScheduledStatusesSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/scheduled-statuses',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -3378,7 +3492,7 @@ const getCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'limit', in: 'query', style: 'form', explode: true },
@@ -3422,7 +3536,7 @@ const getCatalystV1SmartAlbumByIdByIdBookSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3464,7 +3578,7 @@ const getCatalystV1SmartAlbumByIdByIdBookByBookIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}/book/{bookId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'bookId', in: 'path', style: 'simple', explode: false },
@@ -3504,7 +3618,7 @@ const getCatalystV1SmartAlbumByIdByIdRandomSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/id/{id}/random',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3545,7 +3659,7 @@ const getCatalystV1SmartAlbumByUserByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/by/user/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3583,7 +3697,7 @@ const getCatalystV1SmartAlbumSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/smart-album/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -3623,7 +3737,7 @@ const getCatalystV1StatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3664,7 +3778,7 @@ const getCatalystV1StatusByIdAlbumsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/albums',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3703,7 +3817,7 @@ const getCatalystV1StatusByIdFavoriteSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/favorite',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3743,7 +3857,7 @@ const getCatalystV1StatusByIdReactionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3781,7 +3895,7 @@ const getCatalystV1StatusByIdRepostSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/status/{id}/repost',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -3828,7 +3942,7 @@ const getCatalystV1TimelineArchiveSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/archive',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'year', in: 'query', style: 'form', explode: true },
     { name: 'month', in: 'query', style: 'form', explode: true },
@@ -3875,7 +3989,7 @@ const getCatalystV1TimelineArchiveMonthsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/archive/months',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json', '500': 'json' },
 };
@@ -3917,7 +4031,7 @@ const getCatalystV1TimelineContestBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/contest/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -3933,6 +4047,53 @@ const getCatalystV1TimelineContestBySlugBySlugSpec: OperationSpec = {
  */
 export const getCatalystV1TimelineContestBySlugBySlug = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1TimelineContestBySlugBySlugData, ThrowOnError>) =>
   (options.client ?? client).request<GetCatalystV1TimelineContestBySlugBySlugResponse, GetCatalystV1TimelineContestBySlugBySlugError, ThrowOnError>(getCatalystV1TimelineContestBySlugBySlugSpec, options);
+
+export type GetCatalystV1TimelineEventByIdByIdData = {
+  path: {
+    id: string;
+  };
+  query?: {
+    since?: string;
+    until?: string;
+  };
+};
+
+export type GetCatalystV1TimelineEventByIdByIdResponses = {
+  200: {
+    statuses: StatusV11Response[];
+  };
+};
+
+export type GetCatalystV1TimelineEventByIdByIdResponse = GetCatalystV1TimelineEventByIdByIdResponses[keyof GetCatalystV1TimelineEventByIdByIdResponses];
+
+export type GetCatalystV1TimelineEventByIdByIdErrors = {
+  400: ErrorResponse;
+  404: ErrorResponse;
+};
+
+export type GetCatalystV1TimelineEventByIdByIdError = GetCatalystV1TimelineEventByIdByIdErrors[keyof GetCatalystV1TimelineEventByIdByIdErrors];
+
+const getCatalystV1TimelineEventByIdByIdSpec: OperationSpec = {
+  operationName: 'getCatalystV1TimelineEventByIdById',
+  method: 'GET',
+  path: '/catalyst/v1/timeline/event/by/id/{id}',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
+  params: [
+    { name: 'id', in: 'path', style: 'simple', explode: false },
+    { name: 'since', in: 'query', style: 'form', explode: true },
+    { name: 'until', in: 'query', style: 'form', explode: true },
+  ],
+  responses: { '200': 'json', '400': 'json', '404': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/timeline/event/by/id/{id}
+ *
+ * イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+ */
+export const getCatalystV1TimelineEventByIdById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1TimelineEventByIdByIdData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1TimelineEventByIdByIdResponse, GetCatalystV1TimelineEventByIdByIdError, ThrowOnError>(getCatalystV1TimelineEventByIdByIdSpec, options);
 
 export type GetCatalystV1TimelineFavoriteData = {
   query?: {
@@ -3960,7 +4121,7 @@ const getCatalystV1TimelineFavoriteSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/favorite',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -4000,7 +4161,7 @@ const getCatalystV1TimelineFirehoseSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/firehose',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -4040,7 +4201,7 @@ const getCatalystV1TimelineGallerySpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'since', in: 'query', style: 'form', explode: true },
     { name: 'until', in: 'query', style: 'form', explode: true },
@@ -4055,6 +4216,53 @@ const getCatalystV1TimelineGallerySpec: OperationSpec = {
  */
 export const getCatalystV1TimelineGallery = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1TimelineGalleryData, ThrowOnError> = {}) =>
   (options.client ?? client).request<GetCatalystV1TimelineGalleryResponse, GetCatalystV1TimelineGalleryError, ThrowOnError>(getCatalystV1TimelineGallerySpec, options);
+
+export type GetCatalystV1TimelineGroupByIdByIdData = {
+  path: {
+    id: string;
+  };
+  query?: {
+    since?: string;
+    until?: string;
+  };
+};
+
+export type GetCatalystV1TimelineGroupByIdByIdResponses = {
+  200: {
+    statuses: StatusV11Response[];
+  };
+};
+
+export type GetCatalystV1TimelineGroupByIdByIdResponse = GetCatalystV1TimelineGroupByIdByIdResponses[keyof GetCatalystV1TimelineGroupByIdByIdResponses];
+
+export type GetCatalystV1TimelineGroupByIdByIdErrors = {
+  400: ErrorResponse;
+  404: ErrorResponse;
+};
+
+export type GetCatalystV1TimelineGroupByIdByIdError = GetCatalystV1TimelineGroupByIdByIdErrors[keyof GetCatalystV1TimelineGroupByIdByIdErrors];
+
+const getCatalystV1TimelineGroupByIdByIdSpec: OperationSpec = {
+  operationName: 'getCatalystV1TimelineGroupByIdById',
+  method: 'GET',
+  path: '/catalyst/v1/timeline/group/by/id/{id}',
+  tags: ['catalyst'],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
+  params: [
+    { name: 'id', in: 'path', style: 'simple', explode: false },
+    { name: 'since', in: 'query', style: 'form', explode: true },
+    { name: 'until', in: 'query', style: 'form', explode: true },
+  ],
+  responses: { '200': 'json', '400': 'json', '404': 'json' },
+};
+
+/**
+ * GET /catalyst/v1/timeline/group/by/id/{id}
+ *
+ * グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+ */
+export const getCatalystV1TimelineGroupByIdById = <ThrowOnError extends boolean = false>(options: Options<GetCatalystV1TimelineGroupByIdByIdData, ThrowOnError>) =>
+  (options.client ?? client).request<GetCatalystV1TimelineGroupByIdByIdResponse, GetCatalystV1TimelineGroupByIdByIdError, ThrowOnError>(getCatalystV1TimelineGroupByIdByIdSpec, options);
 
 export type GetCatalystV1TimelineHomeData = {};
 
@@ -4077,7 +4285,7 @@ const getCatalystV1TimelineHomeSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/home',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -4120,7 +4328,7 @@ const getCatalystV1TimelineItemByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/item/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4163,7 +4371,7 @@ const getCatalystV1TimelineSearchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/search',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4212,7 +4420,7 @@ const getCatalystV1TimelineUserByUsernameByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/user/by/username/{username}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4256,7 +4464,7 @@ const getCatalystV1TimelineUserByUsernameByUsernameGallerySpec: OperationSpec = 
   method: 'GET',
   path: '/catalyst/v1/timeline/user/by/username/{username}/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4303,7 +4511,7 @@ const getCatalystV1TimelineWorldByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/timeline/world/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -4341,7 +4549,7 @@ const getCatalystV1TrendSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/trend',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'format', in: 'query', style: 'form', explode: true },
   ],
@@ -4383,7 +4591,7 @@ const getCatalystV1UserFollowSuggestionsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/user/follow-suggestions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }]],
   params: [
     { name: 'tags', in: 'query', style: 'form', explode: true },
     { name: 'limit', in: 'query', style: 'form', explode: true },
@@ -4418,7 +4626,7 @@ const getCatalystV1UserRecommendationsSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/user/recommendations',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -4456,7 +4664,7 @@ const getCatalystV1UserByIdWatchSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/user/{id}/watch',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4499,7 +4707,7 @@ const getCatalystV1WeeklyThemesSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'cursor', in: 'query', style: 'form', explode: true },
     { name: 'take', in: 'query', style: 'form', explode: true },
@@ -4542,7 +4750,7 @@ const getCatalystV1WeeklyThemesBySlugBySlugSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/by/slug/{slug}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -4589,7 +4797,7 @@ const getCatalystV1WeeklyThemesBySlugBySlugStatusesSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/by/slug/{slug}/statuses',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'cursor', in: 'query', style: 'form', explode: true },
@@ -4652,7 +4860,7 @@ const getCatalystV1WeeklyThemesCurrentSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/current',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   responses: { '200': 'json', '500': 'json' },
 };
@@ -4725,7 +4933,7 @@ const getCatalystV1WeeklyThemesSubscriptionSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/weekly-themes/subscription',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:read'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -4780,7 +4988,7 @@ const getCatalystV1WorldsByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/catalyst/v1/worlds/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4840,7 +5048,7 @@ const getEgeriaV1MeSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/me',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -4876,7 +5084,7 @@ const getEgeriaV1SearchSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/search',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile'] }], []],
   params: [
     { name: 'q', in: 'query', style: 'form', explode: true },
   ],
@@ -4916,7 +5124,7 @@ const getEgeriaV1UserByIdByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/user/by/id/{id}',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -4956,7 +5164,7 @@ const getEgeriaV1UserByUsernameByUsernameSpec: OperationSpec = {
   method: 'GET',
   path: '/egeria/v1/user/by/username/{username}',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile'] }], []],
   params: [
     { name: 'username', in: 'path', style: 'simple', explode: false },
   ],
@@ -5270,7 +5478,7 @@ const getEpicleseV1TagByStatusByIdSpec: OperationSpec = {
   method: 'GET',
   path: '/epiclese/v1/tag/by/status/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5453,7 +5661,7 @@ const getFeatureFlagsV1MeSpec: OperationSpec = {
   method: 'GET',
   path: '/feature-flags/v1/me',
   tags: ['feature-flags'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json' },
 };
@@ -5644,7 +5852,7 @@ const getSteambirdV1NotificationsSpec: OperationSpec = {
   method: 'GET',
   path: '/steambird/v1/notifications',
   tags: ['steambird'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['notifications:read'] }]],
   params: [
     { name: 'issuer', in: 'query', style: 'form', explode: true },
     { name: 'since', in: 'query', style: 'form', explode: true },
@@ -5687,7 +5895,7 @@ const getSteambirdV1NotificationsUnreadSpec: OperationSpec = {
   method: 'GET',
   path: '/steambird/v1/notifications/unread',
   tags: ['steambird'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['notifications:read'] }]],
   params: [
     { name: 'issuer', in: 'query', style: 'form', explode: true },
     { name: 'issuers', in: 'query', style: 'form', explode: true },
@@ -5732,7 +5940,7 @@ const patchCatalystV1AlbumByIdByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5770,7 +5978,7 @@ const patchCatalystV1ContentSettingsSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/content/settings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -5856,7 +6064,7 @@ const patchCatalystV1GalleryByIdByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/gallery/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5902,7 +6110,7 @@ const patchCatalystV1GalleryByIdByIdDocumentSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/gallery/by/id/{id}/document',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -5948,7 +6156,7 @@ const patchCatalystV1GalleryByIdByIdSectionsBySectionIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -5996,7 +6204,7 @@ const patchCatalystV1GalleryByIdByIdSectionsBySectionIdItemsByItemIdSpec: Operat
   method: 'PATCH',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -6036,7 +6244,7 @@ const patchCatalystV1PrivacySettingsSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/privacy/settings',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -6079,7 +6287,7 @@ const patchCatalystV1ScheduledStatusesByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/scheduled-statuses/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6122,7 +6330,7 @@ const patchCatalystV1SmartAlbumByIdByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/smart-album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6164,7 +6372,7 @@ const patchCatalystV1StatusByIdSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/status/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6210,7 +6418,7 @@ const patchCatalystV1UserByIdWatchSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/user/{id}/watch',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6248,7 +6456,7 @@ const patchCatalystV1WeeklyThemesSubscriptionSpec: OperationSpec = {
   method: 'PATCH',
   path: '/catalyst/v1/weekly-themes/subscription',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -6314,7 +6522,7 @@ const patchEgeriaV1MeSpec: OperationSpec = {
   method: 'PATCH',
   path: '/egeria/v1/me',
   tags: ['egeria'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['profile:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '500': 'json' },
@@ -6350,7 +6558,7 @@ const postCatalystV1ActivitypubSettingsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/activitypub/settings',
   tags: ['catalyst', 'activitypub'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   responses: { '200': 'json', '400': 'json', '401': 'json', '403': 'json', '409': 'json' },
 };
@@ -6388,7 +6596,7 @@ const postCatalystV1AlbumSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '500': 'json' },
@@ -6430,7 +6638,7 @@ const postCatalystV1AlbumByIdByIdBookSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6474,7 +6682,7 @@ const postCatalystV1AlbumByIdByIdBookByBookIdRegenerateSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/book/{bookId}/regenerate',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'bookId', in: 'path', style: 'simple', explode: false },
@@ -6518,7 +6726,7 @@ const postCatalystV1AlbumByIdByIdInvitationSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/invitation',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6565,7 +6773,7 @@ const postCatalystV1AlbumByIdByIdMembersSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/members',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6611,7 +6819,7 @@ const postCatalystV1AlbumByIdByIdReportSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/album/by/id/{id}/report',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6654,7 +6862,7 @@ const postCatalystV1BlocksSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/blocks',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '500': 'json' },
@@ -6700,7 +6908,7 @@ const postCatalystV1ContestBySlugBySlugExclusionsByStatusSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:write'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'status', in: 'path', style: 'simple', explode: false },
@@ -6746,7 +6954,7 @@ const postCatalystV1ContestBySlugBySlugVoteByStatusSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/contest/by/slug/{slug}/vote/{status}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
     { name: 'status', in: 'path', style: 'simple', explode: false },
@@ -6830,7 +7038,7 @@ const postCatalystV1FleetSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/fleet',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:fleet:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -6874,7 +7082,7 @@ const postCatalystV1FleetByIdReactionsBySymbolSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/fleet/{id}/reactions/{symbol}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'symbol', in: 'path', style: 'simple', explode: false },
@@ -6920,7 +7128,7 @@ const postCatalystV1FleetByIdReportSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/fleet/{id}/report',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -6964,7 +7172,7 @@ const postCatalystV1FleetByIdViewSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/fleet/{id}/view',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7006,7 +7214,7 @@ const postCatalystV1GallerySpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/gallery',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '404': 'json', '409': 'json', '500': 'json' },
@@ -7050,7 +7258,7 @@ const postCatalystV1GalleryByIdByIdDomainsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/gallery/by/id/{id}/domains',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7094,7 +7302,7 @@ const postCatalystV1GalleryByIdByIdPublishSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/gallery/by/id/{id}/publish',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7138,7 +7346,7 @@ const postCatalystV1GalleryByIdByIdSectionsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/gallery/by/id/{id}/sections',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7184,7 +7392,7 @@ const postCatalystV1GalleryByIdByIdSectionsBySectionIdItemsSpec: OperationSpec =
   method: 'POST',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -7231,7 +7439,7 @@ const postCatalystV1GalleryByIdByIdSourcesSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/gallery/by/id/{id}/sources',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7273,7 +7481,7 @@ const postCatalystV1RelationshipsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/relationships',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -7314,7 +7522,7 @@ const postCatalystV1RelationshipsBulkSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/relationships/bulk',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:read'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -7353,7 +7561,7 @@ const postCatalystV1ScheduledStatusesSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/scheduled-statuses',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json', '403': 'json' },
@@ -7391,7 +7599,7 @@ const postCatalystV1SmartAlbumSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/smart-album',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -7433,7 +7641,7 @@ const postCatalystV1SmartAlbumByIdByIdBookSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/smart-album/by/id/{id}/book',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7477,7 +7685,7 @@ const postCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateSpec: OperationSpec 
   method: 'POST',
   path: '/catalyst/v1/smart-album/by/id/{id}/book/{bookId}/regenerate',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'bookId', in: 'path', style: 'simple', explode: false },
@@ -7523,7 +7731,7 @@ const postCatalystV1SmartAlbumByIdByIdReportSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/smart-album/by/id/{id}/report',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7563,7 +7771,7 @@ const postCatalystV1StatusSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/status',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },
@@ -7605,7 +7813,7 @@ const postCatalystV1StatusByIdFavoriteSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/status/{id}/favorite',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7648,7 +7856,7 @@ const postCatalystV1StatusByIdReactionsCustomByCustomReactionIdSpec: OperationSp
   method: 'POST',
   path: '/catalyst/v1/status/{id}/reactions/custom/{customReactionId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'customReactionId', in: 'path', style: 'simple', explode: false },
@@ -7693,7 +7901,7 @@ const postCatalystV1StatusByIdReactionsBySymbolSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/status/{id}/reactions/{symbol}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'symbol', in: 'path', style: 'simple', explode: false },
@@ -7739,7 +7947,7 @@ const postCatalystV1StatusByIdReportSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/status/{id}/report',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7784,7 +7992,7 @@ const postCatalystV1StatusByIdRepostSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/status/{id}/repost',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7823,7 +8031,7 @@ const postCatalystV1StatusesReactionsSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/statuses/reactions',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:read'] }], []],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '500': 'json' },
@@ -7905,7 +8113,7 @@ const postCatalystV1UserByIdReportSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/user/{id}/report',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:interactions:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -7951,7 +8159,7 @@ const postCatalystV1UserByIdWatchSpec: OperationSpec = {
   method: 'POST',
   path: '/catalyst/v1/user/{id}/watch',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:social:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -8148,6 +8356,80 @@ const postEpicleseV1AuthorsSpec: OperationSpec = {
 export const postEpicleseV1Authors = <ThrowOnError extends boolean = false>(options: Options<PostEpicleseV1AuthorsData, ThrowOnError> = {}) =>
   (options.client ?? client).request<PostEpicleseV1AuthorsResponse, PostEpicleseV1AuthorsError, ThrowOnError>(postEpicleseV1AuthorsSpec, options);
 
+export type PostEpicleseV1EventsData = {
+  body?: MetadataEvent;
+};
+
+export type PostEpicleseV1EventsResponses = {
+  200: {
+    event: EpicleseEventResponse;
+  };
+};
+
+export type PostEpicleseV1EventsResponse = PostEpicleseV1EventsResponses[keyof PostEpicleseV1EventsResponses];
+
+export type PostEpicleseV1EventsErrors = {
+  400: ErrorResponse;
+};
+
+export type PostEpicleseV1EventsError = PostEpicleseV1EventsErrors[keyof PostEpicleseV1EventsErrors];
+
+const postEpicleseV1EventsSpec: OperationSpec = {
+  operationName: 'postEpicleseV1Events',
+  method: 'POST',
+  path: '/epiclese/v1/events',
+  tags: ['epiclese'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  params: [],
+  body: { kind: 'json', mediaType: 'application/json' },
+  responses: { '200': 'json', '400': 'json' },
+};
+
+/**
+ * POST /epiclese/v1/events
+ *
+ * データカタログにイベントを登録します
+ */
+export const postEpicleseV1Events = <ThrowOnError extends boolean = false>(options: Options<PostEpicleseV1EventsData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<PostEpicleseV1EventsResponse, PostEpicleseV1EventsError, ThrowOnError>(postEpicleseV1EventsSpec, options);
+
+export type PostEpicleseV1GroupsData = {
+  body?: MetadataGroup;
+};
+
+export type PostEpicleseV1GroupsResponses = {
+  200: {
+    group: EpicleseGroupResponse;
+  };
+};
+
+export type PostEpicleseV1GroupsResponse = PostEpicleseV1GroupsResponses[keyof PostEpicleseV1GroupsResponses];
+
+export type PostEpicleseV1GroupsErrors = {
+  400: ErrorResponse;
+};
+
+export type PostEpicleseV1GroupsError = PostEpicleseV1GroupsErrors[keyof PostEpicleseV1GroupsErrors];
+
+const postEpicleseV1GroupsSpec: OperationSpec = {
+  operationName: 'postEpicleseV1Groups',
+  method: 'POST',
+  path: '/epiclese/v1/groups',
+  tags: ['epiclese'],
+  security: [[{ scheme: 'bearerAuth', scopes: [] }], []],
+  params: [],
+  body: { kind: 'json', mediaType: 'application/json' },
+  responses: { '200': 'json', '400': 'json' },
+};
+
+/**
+ * POST /epiclese/v1/groups
+ *
+ * データカタログにグループを登録します
+ */
+export const postEpicleseV1Groups = <ThrowOnError extends boolean = false>(options: Options<PostEpicleseV1GroupsData, ThrowOnError> = {}) =>
+  (options.client ?? client).request<PostEpicleseV1GroupsResponse, PostEpicleseV1GroupsError, ThrowOnError>(postEpicleseV1GroupsSpec, options);
+
 export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataData = {
   path: {
     mediaId: string;
@@ -8175,7 +8457,7 @@ const postEpicleseV1MediaByMediaIdDenormalizedMetadataSpec: OperationSpec = {
   method: 'POST',
   path: '/epiclese/v1/media/{mediaId}/denormalized-metadata',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['media:write'] }]],
   params: [
     { name: 'mediaId', in: 'path', style: 'simple', explode: false },
   ],
@@ -8217,7 +8499,7 @@ const postEpicleseV1TagByStatusByIdSpec: OperationSpec = {
   method: 'POST',
   path: '/epiclese/v1/tag/by/status/{id}',
   tags: ['epiclese'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:statuses:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -8334,7 +8616,7 @@ const postMediaV2UploadSpec: OperationSpec = {
   method: 'POST',
   path: '/media/v2/upload',
   tags: ['media'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['media:write'] }]],
   params: [],
   responses: { '200': 'json', '401': 'json', '500': 'json' },
 };
@@ -8372,7 +8654,7 @@ const postSteambirdV1NotificationsAllSpec: OperationSpec = {
   method: 'POST',
   path: '/steambird/v1/notifications/all',
   tags: ['steambird'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['notifications:write'] }]],
   params: [
     { name: 'issuer', in: 'query', style: 'form', explode: true },
   ],
@@ -8413,7 +8695,7 @@ const postSteambirdV1NotificationsByIdSpec: OperationSpec = {
   method: 'POST',
   path: '/steambird/v1/notifications/{id}',
   tags: ['steambird'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['notifications:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -8495,7 +8777,7 @@ const putCatalystV1AlbumByIdByIdSpec: OperationSpec = {
   method: 'PUT',
   path: '/catalyst/v1/album/by/id/{id}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:albums:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -8540,7 +8822,7 @@ const putCatalystV1ContestBySlugBySlugParticipantMessageSpec: OperationSpec = {
   method: 'PUT',
   path: '/catalyst/v1/contest/by/slug/{slug}/participant-message',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:contests:write'] }]],
   params: [
     { name: 'slug', in: 'path', style: 'simple', explode: false },
   ],
@@ -8584,7 +8866,7 @@ const putCatalystV1GalleryByIdByIdDomainsByDomainIdSpec: OperationSpec = {
   method: 'PUT',
   path: '/catalyst/v1/gallery/by/id/{id}/domains/{domainId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'domainId', in: 'path', style: 'simple', explode: false },
@@ -8629,7 +8911,7 @@ const putCatalystV1GalleryByIdByIdSectionsSpec: OperationSpec = {
   method: 'PUT',
   path: '/catalyst/v1/gallery/by/id/{id}/sections',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
   ],
@@ -8675,7 +8957,7 @@ const putCatalystV1GalleryByIdByIdSectionsBySectionIdItemsSpec: OperationSpec = 
   method: 'PUT',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -8723,7 +9005,7 @@ const putCatalystV1GalleryByIdByIdSectionsBySectionIdOverridesBySourceIdSpec: Op
   method: 'PUT',
   path: '/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:galleries:write'] }]],
   params: [
     { name: 'id', in: 'path', style: 'simple', explode: false },
     { name: 'sectionId', in: 'path', style: 'simple', explode: false },
@@ -8765,7 +9047,7 @@ const putCatalystV1ProfileTagsSpec: OperationSpec = {
   method: 'PUT',
   path: '/catalyst/v1/profile-tags',
   tags: ['catalyst'],
-  security: [[{ scheme: 'bearerAuth', scopes: [] }]],
+  security: [[{ scheme: 'bearerAuth', scopes: ['catalyst:settings:write'] }]],
   params: [],
   body: { kind: 'json', mediaType: 'application/json' },
   responses: { '200': 'json', '400': 'json', '401': 'json' },

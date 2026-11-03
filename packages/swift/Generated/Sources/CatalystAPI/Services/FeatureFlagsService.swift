@@ -33,7 +33,7 @@ extension FeatureFlagsService {
         path: "/feature-flags/v1/me",
         tags: ["feature-flags"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]

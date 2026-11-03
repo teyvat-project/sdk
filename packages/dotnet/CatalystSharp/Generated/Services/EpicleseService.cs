@@ -282,7 +282,7 @@ public sealed partial class EpicleseService
         global::System.Net.Http.HttpMethod.Get,
         "/epiclese/v1/tag/by/status/{id}",
         ["epiclese"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -429,6 +429,72 @@ public sealed partial class EpicleseService
         .Json("400", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
+    /// POST /epiclese/v1/events
+    ///
+    /// データカタログにイベントを登録します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<PostEpicleseV1EventsResponse200> PostEpicleseV1EventsAsync(MetadataEvent? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostEpicleseV1EventsWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /epiclese/v1/events
+    ///
+    /// データカタログにイベントを登録します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<PostEpicleseV1EventsResponse200>> PostEpicleseV1EventsWithResponseAsync(MetadataEvent? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues();
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.MetadataEvent);
+        return _core.SendAsync(PostEpicleseV1EventsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.PostEpicleseV1EventsResponse200), PostEpicleseV1EventsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostEpicleseV1EventsSpec = new(
+        "postEpicleseV1Events",
+        global::System.Net.Http.HttpMethod.Post,
+        "/epiclese/v1/events",
+        ["epiclese"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [],
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostEpicleseV1EventsErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// POST /epiclese/v1/groups
+    ///
+    /// データカタログにグループを登録します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<PostEpicleseV1GroupsResponse200> PostEpicleseV1GroupsAsync(MetadataGroup? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostEpicleseV1GroupsWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /epiclese/v1/groups
+    ///
+    /// データカタログにグループを登録します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<PostEpicleseV1GroupsResponse200>> PostEpicleseV1GroupsWithResponseAsync(MetadataGroup? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues();
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.MetadataGroup);
+        return _core.SendAsync(PostEpicleseV1GroupsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.PostEpicleseV1GroupsResponse200), PostEpicleseV1GroupsErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostEpicleseV1GroupsSpec = new(
+        "postEpicleseV1Groups",
+        global::System.Net.Http.HttpMethod.Post,
+        "/epiclese/v1/groups",
+        ["epiclese"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [],
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostEpicleseV1GroupsErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
     /// POST /epiclese/v1/media/{mediaId}/denormalized-metadata
     ///
     /// レタッチ前の画像から (クライアント側で) 抽出したメタデータを、レタッチ済み画像に EpicleseDenormalizedMetadata として付与します
@@ -454,7 +520,7 @@ public sealed partial class EpicleseService
         global::System.Net.Http.HttpMethod.Post,
         "/epiclese/v1/media/{mediaId}/denormalized-metadata",
         ["epiclese"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["media:write"])])],
         [new ParamSpec("mediaId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -491,7 +557,7 @@ public sealed partial class EpicleseService
         global::System.Net.Http.HttpMethod.Post,
         "/epiclese/v1/tag/by/status/{id}",
         ["epiclese"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json });

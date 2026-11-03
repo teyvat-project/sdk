@@ -6,6 +6,7 @@ import CatalystAPICore
 public struct AccessTokenResponse: Codable, Hashable, Sendable {
     public var accessToken: String
     public var refreshToken: String
+    /// 許可した scope (スペース区切り)。scope を指定せずに認可したトークンは "read write" (すべての操作を許可する従来の形式で、非推奨)
     public var scope: String
     public var tokenType: AccessTokenResponseTokenType
     public var expiresAt: Date

@@ -216,6 +216,42 @@ public struct EpicleseService: Sendable {
         return try await core.send(Self.postEpicleseV1AuthorsSpec, values, decoder: .json(PostEpicleseV1AuthorsResponse200.self), errors: Self.postEpicleseV1AuthorsErrors, options: options)
     }
 
+    /// POST /epiclese/v1/events
+    ///
+    /// データカタログにイベントを登録します
+    public func postEpicleseV1Events(body: MetadataEvent? = nil, options: RequestOptions? = nil) async throws -> PostEpicleseV1EventsResponse200 {
+        try await postEpicleseV1EventsWithResponse(body: body, options: options).data
+    }
+
+    /// POST /epiclese/v1/events
+    ///
+    /// データカタログにイベントを登録します
+    public func postEpicleseV1EventsWithResponse(body: MetadataEvent? = nil, options: RequestOptions? = nil) async throws -> ApiResult<PostEpicleseV1EventsResponse200> {
+        var values = RequestValues()
+        if let body {
+            try values.json(body)
+        }
+        return try await core.send(Self.postEpicleseV1EventsSpec, values, decoder: .json(PostEpicleseV1EventsResponse200.self), errors: Self.postEpicleseV1EventsErrors, options: options)
+    }
+
+    /// POST /epiclese/v1/groups
+    ///
+    /// データカタログにグループを登録します
+    public func postEpicleseV1Groups(body: MetadataGroup? = nil, options: RequestOptions? = nil) async throws -> PostEpicleseV1GroupsResponse200 {
+        try await postEpicleseV1GroupsWithResponse(body: body, options: options).data
+    }
+
+    /// POST /epiclese/v1/groups
+    ///
+    /// データカタログにグループを登録します
+    public func postEpicleseV1GroupsWithResponse(body: MetadataGroup? = nil, options: RequestOptions? = nil) async throws -> ApiResult<PostEpicleseV1GroupsResponse200> {
+        var values = RequestValues()
+        if let body {
+            try values.json(body)
+        }
+        return try await core.send(Self.postEpicleseV1GroupsSpec, values, decoder: .json(PostEpicleseV1GroupsResponse200.self), errors: Self.postEpicleseV1GroupsErrors, options: options)
+    }
+
     /// POST /epiclese/v1/media/{mediaId}/denormalized-metadata
     ///
     /// レタッチ前の画像から (クライアント側で) 抽出したメタデータを、レタッチ済み画像に EpicleseDenormalizedMetadata として付与します
@@ -408,7 +444,7 @@ extension EpicleseService {
         path: "/epiclese/v1/tag/by/status/{id}",
         tags: ["epiclese"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -494,13 +530,49 @@ extension EpicleseService {
     static let postEpicleseV1AuthorsErrors = ErrorDecoders()
         .json("400", ErrorResponse.self)
 
+    static let postEpicleseV1EventsSpec = OperationSpec(
+        operationName: "postEpicleseV1Events",
+        method: .post,
+        path: "/epiclese/v1/events",
+        tags: ["epiclese"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
+        ],
+        params: [],
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["200": .json, "400": .json]
+    )
+
+    static let postEpicleseV1EventsErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
+
+    static let postEpicleseV1GroupsSpec = OperationSpec(
+        operationName: "postEpicleseV1Groups",
+        method: .post,
+        path: "/epiclese/v1/groups",
+        tags: ["epiclese"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([]),
+        ],
+        params: [],
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["200": .json, "400": .json]
+    )
+
+    static let postEpicleseV1GroupsErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
+
     static let postEpicleseV1MediaByMediaIdDenormalizedMetadataSpec = OperationSpec(
         operationName: "postEpicleseV1MediaByMediaIdDenormalizedMetadata",
         method: .post,
         path: "/epiclese/v1/media/{mediaId}/denormalized-metadata",
         tags: ["epiclese"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["media:write"])]),
         ],
         params: [
             ParamSpec("mediaId", .path, .simple, explode: false),
@@ -522,7 +594,7 @@ extension EpicleseService {
         path: "/epiclese/v1/tag/by/status/{id}",
         tags: ["epiclese"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),

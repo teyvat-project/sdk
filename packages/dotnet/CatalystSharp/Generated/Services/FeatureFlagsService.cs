@@ -40,7 +40,7 @@ public sealed partial class FeatureFlagsService
         global::System.Net.Http.HttpMethod.Get,
         "/feature-flags/v1/me",
         ["feature-flags"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["profile"])])],
         [],
         null,
         null,

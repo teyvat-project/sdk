@@ -42,7 +42,7 @@ public class FeatureFlagsService internal constructor(private val core: ApiClien
             HttpMethod.Get,
             "/feature-flags/v1/me",
             listOf("feature-flags"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("profile"))))),
             emptyList(),
             null,
             null,

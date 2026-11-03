@@ -3,6 +3,9 @@
 export type AccessTokenResponse = {
   access_token: string;
   refresh_token: string;
+  /**
+   * 許可した scope (スペース区切り)。scope を指定せずに認可したトークンは "read write" (すべての操作を許可する従来の形式で、非推奨)
+   */
   scope: string;
   token_type: 'Bearer';
   expires_at: string;
@@ -576,6 +579,27 @@ export type CreateMetadata = {
       name: string;
     } | null;
   };
+  group?: {
+    id?: string;
+    platformIdentifier: string;
+    platform: string;
+    name: string;
+  };
+  event?: {
+    id?: string;
+    platformIdentifier: string;
+    platform: string;
+    title: string;
+    seriesIdentifier: string | null;
+    startsAt: string;
+    endsAt: string;
+    group: {
+      id?: string;
+      platformIdentifier: string;
+      platform: string;
+      name: string;
+    };
+  };
   users?: {
     id: string;
   }[];
@@ -688,6 +712,40 @@ export type EpicleseDenormalizedMetadataResponse = {
   };
 };
 
+export type EpicleseEventResponse = {
+  id: string;
+  platformIdentifier: string;
+  seriesIdentifier: string | null;
+  title: string;
+  startsAt: string;
+  endsAt: string;
+  group: {
+    id: string;
+    platformIdentifier: string;
+    platform: {
+      id: string;
+      name: string;
+      description: string;
+      url: string | null;
+      startAt: string | null;
+    } | null;
+    name: string;
+  };
+};
+
+export type EpicleseGroupResponse = {
+  id: string;
+  platformIdentifier: string;
+  platform: {
+    id: string;
+    name: string;
+    description: string;
+    url: string | null;
+    startAt: string | null;
+  } | null;
+  name: string;
+};
+
 export type EpicleseItemResponse = {
   id: string;
   type: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
@@ -777,6 +835,38 @@ export type EpicleseStatusMetadataResponse = {
         } | null;
         name: string;
       } | null;
+    } | null;
+    group: {
+      id: string;
+      platformIdentifier: string;
+      platform: {
+        id: string;
+        name: string;
+        description: string;
+        url: string | null;
+        startAt: string | null;
+      } | null;
+      name: string;
+    } | null;
+    event: {
+      id: string;
+      platformIdentifier: string;
+      seriesIdentifier: string | null;
+      title: string;
+      startsAt: string;
+      endsAt: string;
+      group: {
+        id: string;
+        platformIdentifier: string;
+        platform: {
+          id: string;
+          name: string;
+          description: string;
+          url: string | null;
+          startAt: string | null;
+        } | null;
+        name: string;
+      };
     } | null;
     users: {
       id: string;
@@ -1808,6 +1898,29 @@ export type MetadataAuthor = {
   id?: string;
   platformIdentifier: string;
   platform?: string;
+  name: string;
+};
+
+export type MetadataEvent = {
+  id?: string;
+  platformIdentifier: string;
+  platform: string;
+  title: string;
+  seriesIdentifier: string | null;
+  startsAt: string;
+  endsAt: string;
+  group: {
+    id?: string;
+    platformIdentifier: string;
+    platform: string;
+    name: string;
+  };
+};
+
+export type MetadataGroup = {
+  id?: string;
+  platformIdentifier: string;
+  platform: string;
   name: string;
 };
 

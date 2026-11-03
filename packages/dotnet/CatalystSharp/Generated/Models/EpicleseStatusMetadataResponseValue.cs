@@ -13,6 +13,12 @@ public sealed partial class EpicleseStatusMetadataResponseValue
     [global::System.Text.Json.Serialization.JsonPropertyName("world")]
     public required EpicleseStatusMetadataResponseValueWorld? World { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("group")]
+    public required EpicleseStatusMetadataResponseValueGroup? Group { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("event")]
+    public required EpicleseStatusMetadataResponseValueEvent? Event { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("users")]
     public required global::System.Collections.Generic.List<EpicleseStatusMetadataResponseValueUsersItem> Users { get; set; }
 

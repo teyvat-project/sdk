@@ -13,6 +13,10 @@ public data class EpicleseStatusMetadataResponseValue(
     public val platform: String?,
     @SerialName("world")
     public val world: EpicleseStatusMetadataResponseValueWorld?,
+    @SerialName("group")
+    public val group: EpicleseStatusMetadataResponseValueGroup?,
+    @SerialName("event")
+    public val event: EpicleseStatusMetadataResponseValueEvent?,
     @SerialName("users")
     public val users: List<EpicleseStatusMetadataResponseValueUsersItem>,
     @SerialName("reference")

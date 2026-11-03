@@ -85,7 +85,7 @@ extension SteambirdService {
         path: "/steambird/v1/notifications",
         tags: ["steambird"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["notifications:read"])]),
         ],
         params: [
             ParamSpec("issuer", .query, .form, explode: true),
@@ -104,7 +104,7 @@ extension SteambirdService {
         path: "/steambird/v1/notifications/unread",
         tags: ["steambird"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["notifications:read"])]),
         ],
         params: [
             ParamSpec("issuer", .query, .form, explode: true),
@@ -122,7 +122,7 @@ extension SteambirdService {
         path: "/steambird/v1/notifications/all",
         tags: ["steambird"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["notifications:write"])]),
         ],
         params: [
             ParamSpec("issuer", .query, .form, explode: true),
@@ -139,7 +139,7 @@ extension SteambirdService {
         path: "/steambird/v1/notifications/{id}",
         tags: ["steambird"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["notifications:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),

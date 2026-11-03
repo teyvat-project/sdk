@@ -13,6 +13,9 @@ public sealed partial class AccessTokenResponse
     [global::System.Text.Json.Serialization.JsonPropertyName("refresh_token")]
     public required string RefreshToken { get; set; }
 
+    /// <summary>
+    /// 許可した scope (スペース区切り)。scope を指定せずに認可したトークンは "read write" (すべての操作を許可する従来の形式で、非推奨)
+    /// </summary>
     [global::System.Text.Json.Serialization.JsonPropertyName("scope")]
     public required string Scope { get; set; }
 

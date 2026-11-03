@@ -7,14 +7,18 @@ public struct CreateMetadataItem: Codable, Hashable, Sendable {
     public var id: String
     public var platform: String?
     public var world: CreateMetadataItemWorld?
+    public var group: CreateMetadataItemGroup?
+    public var event: CreateMetadataItemEvent?
     public var users: [CreateMetadataItemUsersItem]?
     public var reference: [CreateMetadataItemReferenceItem]
     public var privacyMetadata: Bool?
 
-    public init(id: String, platform: String? = nil, world: CreateMetadataItemWorld? = nil, users: [CreateMetadataItemUsersItem]? = nil, reference: [CreateMetadataItemReferenceItem], privacyMetadata: Bool? = nil) {
+    public init(id: String, platform: String? = nil, world: CreateMetadataItemWorld? = nil, group: CreateMetadataItemGroup? = nil, event: CreateMetadataItemEvent? = nil, users: [CreateMetadataItemUsersItem]? = nil, reference: [CreateMetadataItemReferenceItem], privacyMetadata: Bool? = nil) {
         self.id = id
         self.platform = platform
         self.world = world
+        self.group = group
+        self.event = event
         self.users = users
         self.reference = reference
         self.privacyMetadata = privacyMetadata
@@ -24,6 +28,8 @@ public struct CreateMetadataItem: Codable, Hashable, Sendable {
         case id
         case platform
         case world
+        case group
+        case event
         case users
         case reference
         case privacyMetadata
@@ -34,6 +40,8 @@ public struct CreateMetadataItem: Codable, Hashable, Sendable {
         self.id = try container.decode(String.self, forKey: .id)
         self.platform = try container.decodeIfPresent(String.self, forKey: .platform)
         self.world = try container.decodeIfPresent(CreateMetadataItemWorld.self, forKey: .world)
+        self.group = try container.decodeIfPresent(CreateMetadataItemGroup.self, forKey: .group)
+        self.event = try container.decodeIfPresent(CreateMetadataItemEvent.self, forKey: .event)
         self.users = try container.decodeIfPresent([CreateMetadataItemUsersItem].self, forKey: .users)
         self.reference = try container.decode([CreateMetadataItemReferenceItem].self, forKey: .reference)
         self.privacyMetadata = try container.decodeIfPresent(Bool.self, forKey: .privacyMetadata)
@@ -44,6 +52,8 @@ public struct CreateMetadataItem: Codable, Hashable, Sendable {
         try container.encode(id, forKey: .id)
         try container.encodeIfPresent(platform, forKey: .platform)
         try container.encodeIfPresent(world, forKey: .world)
+        try container.encodeIfPresent(group, forKey: .group)
+        try container.encodeIfPresent(event, forKey: .event)
         try container.encodeIfPresent(users, forKey: .users)
         try container.encode(reference, forKey: .reference)
         try container.encodeIfPresent(privacyMetadata, forKey: .privacyMetadata)

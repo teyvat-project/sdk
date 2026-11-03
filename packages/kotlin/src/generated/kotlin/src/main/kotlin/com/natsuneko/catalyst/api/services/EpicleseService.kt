@@ -267,6 +267,44 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
     }
 
     /**
+     * POST /epiclese/v1/events
+     *
+     * データカタログにイベントを登録します
+     */
+    public suspend fun postEpicleseV1Events(body: MetadataEvent? = null, requestOptions: RequestOptions? = null): PostEpicleseV1EventsResponse200 =
+        postEpicleseV1EventsWithResponse(body, requestOptions).data
+
+    /**
+     * POST /epiclese/v1/events
+     *
+     * データカタログにイベントを登録します
+     */
+    public suspend fun postEpicleseV1EventsWithResponse(body: MetadataEvent? = null, requestOptions: RequestOptions? = null): ApiResult<PostEpicleseV1EventsResponse200> {
+        val values = RequestValues()
+        if (body != null) values.jsonBody(body, MetadataEvent.serializer())
+        return core.send(POST_EPICLESE_V1_EVENTS, values, ResponseDecoder.json(PostEpicleseV1EventsResponse200.serializer()), POST_EPICLESE_V1_EVENTS_ERRORS, requestOptions)
+    }
+
+    /**
+     * POST /epiclese/v1/groups
+     *
+     * データカタログにグループを登録します
+     */
+    public suspend fun postEpicleseV1Groups(body: MetadataGroup? = null, requestOptions: RequestOptions? = null): PostEpicleseV1GroupsResponse200 =
+        postEpicleseV1GroupsWithResponse(body, requestOptions).data
+
+    /**
+     * POST /epiclese/v1/groups
+     *
+     * データカタログにグループを登録します
+     */
+    public suspend fun postEpicleseV1GroupsWithResponse(body: MetadataGroup? = null, requestOptions: RequestOptions? = null): ApiResult<PostEpicleseV1GroupsResponse200> {
+        val values = RequestValues()
+        if (body != null) values.jsonBody(body, MetadataGroup.serializer())
+        return core.send(POST_EPICLESE_V1_GROUPS, values, ResponseDecoder.json(PostEpicleseV1GroupsResponse200.serializer()), POST_EPICLESE_V1_GROUPS_ERRORS, requestOptions)
+    }
+
+    /**
      * POST /epiclese/v1/media/{mediaId}/denormalized-metadata
      *
      * レタッチ前の画像から (クライアント側で) 抽出したメタデータを、レタッチ済み画像に EpicleseDenormalizedMetadata として付与します
@@ -431,7 +469,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
             HttpMethod.Get,
             "/epiclese/v1/tag/by/status/{id}",
             listOf("epiclese"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("catalyst:statuses:read")))), SecurityRequirement(emptyList())),
             listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
             null,
             null,
@@ -498,12 +536,40 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
         val POST_EPICLESE_V1_AUTHORS_ERRORS: ErrorDecoders = ErrorDecoders()
             .json("400", ErrorResponse.serializer())
 
+        val POST_EPICLESE_V1_EVENTS: OperationSpec = OperationSpec(
+            "postEpicleseV1Events",
+            HttpMethod.Post,
+            "/epiclese/v1/events",
+            listOf("epiclese"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
+            emptyList(),
+            BodyKind.Json, "application/json",
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json),
+        )
+
+        val POST_EPICLESE_V1_EVENTS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", ErrorResponse.serializer())
+
+        val POST_EPICLESE_V1_GROUPS: OperationSpec = OperationSpec(
+            "postEpicleseV1Groups",
+            HttpMethod.Post,
+            "/epiclese/v1/groups",
+            listOf("epiclese"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList()))), SecurityRequirement(emptyList())),
+            emptyList(),
+            BodyKind.Json, "application/json",
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json),
+        )
+
+        val POST_EPICLESE_V1_GROUPS_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", ErrorResponse.serializer())
+
         val POST_EPICLESE_V1_MEDIA_BY_MEDIA_ID_DENORMALIZED_METADATA: OperationSpec = OperationSpec(
             "postEpicleseV1MediaByMediaIdDenormalizedMetadata",
             HttpMethod.Post,
             "/epiclese/v1/media/{mediaId}/denormalized-metadata",
             listOf("epiclese"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("media:write"))))),
             listOf(ParamSpec("mediaId", ParamLocation.Path, ParamStyle.Simple, false)),
             BodyKind.Json, "application/json",
             mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json),
@@ -520,7 +586,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
             HttpMethod.Post,
             "/epiclese/v1/tag/by/status/{id}",
             listOf("epiclese"),
-            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", emptyList())))),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("catalyst:statuses:write"))))),
             listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
             BodyKind.Json, "application/json",
             mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json),

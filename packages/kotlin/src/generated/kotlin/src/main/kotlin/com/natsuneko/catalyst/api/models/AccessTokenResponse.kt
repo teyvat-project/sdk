@@ -13,6 +13,9 @@ public data class AccessTokenResponse(
     public val accessToken: String,
     @SerialName("refresh_token")
     public val refreshToken: String,
+    /**
+     * 許可した scope (スペース区切り)。scope を指定せずに認可したトークンは "read write" (すべての操作を許可する従来の形式で、非推奨)
+     */
     @SerialName("scope")
     public val scope: String,
     @SerialName("token_type")

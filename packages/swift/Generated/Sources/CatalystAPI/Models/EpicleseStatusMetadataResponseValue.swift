@@ -6,14 +6,18 @@ import CatalystAPICore
 public struct EpicleseStatusMetadataResponseValue: Codable, Hashable, Sendable {
     public var platform: String?
     public var world: EpicleseStatusMetadataResponseValueWorld?
+    public var group: EpicleseStatusMetadataResponseValueGroup?
+    public var event: EpicleseStatusMetadataResponseValueEvent?
     public var users: [EpicleseStatusMetadataResponseValueUsersItem]
     public var reference: [EpicleseStatusMetadataResponseValueReferenceItem]
     public var additionalData: [String: String]?
     public var additionalData2: [String: EpicleseStatusMetadataResponseValueAdditionalData2Value]?
 
-    public init(platform: String?, world: EpicleseStatusMetadataResponseValueWorld?, users: [EpicleseStatusMetadataResponseValueUsersItem], reference: [EpicleseStatusMetadataResponseValueReferenceItem], additionalData: [String: String]? = nil, additionalData2: [String: EpicleseStatusMetadataResponseValueAdditionalData2Value]? = nil) {
+    public init(platform: String?, world: EpicleseStatusMetadataResponseValueWorld?, group: EpicleseStatusMetadataResponseValueGroup?, event: EpicleseStatusMetadataResponseValueEvent?, users: [EpicleseStatusMetadataResponseValueUsersItem], reference: [EpicleseStatusMetadataResponseValueReferenceItem], additionalData: [String: String]? = nil, additionalData2: [String: EpicleseStatusMetadataResponseValueAdditionalData2Value]? = nil) {
         self.platform = platform
         self.world = world
+        self.group = group
+        self.event = event
         self.users = users
         self.reference = reference
         self.additionalData = additionalData
@@ -23,6 +27,8 @@ public struct EpicleseStatusMetadataResponseValue: Codable, Hashable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case platform
         case world
+        case group
+        case event
         case users
         case reference
         case additionalData
@@ -33,6 +39,8 @@ public struct EpicleseStatusMetadataResponseValue: Codable, Hashable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.platform = try container.decodeIfPresent(String.self, forKey: .platform)
         self.world = try container.decodeIfPresent(EpicleseStatusMetadataResponseValueWorld.self, forKey: .world)
+        self.group = try container.decodeIfPresent(EpicleseStatusMetadataResponseValueGroup.self, forKey: .group)
+        self.event = try container.decodeIfPresent(EpicleseStatusMetadataResponseValueEvent.self, forKey: .event)
         self.users = try container.decode([EpicleseStatusMetadataResponseValueUsersItem].self, forKey: .users)
         self.reference = try container.decode([EpicleseStatusMetadataResponseValueReferenceItem].self, forKey: .reference)
         self.additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
@@ -43,6 +51,8 @@ public struct EpicleseStatusMetadataResponseValue: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(platform, forKey: .platform)
         try container.encode(world, forKey: .world)
+        try container.encode(group, forKey: .group)
+        try container.encode(event, forKey: .event)
         try container.encode(users, forKey: .users)
         try container.encode(reference, forKey: .reference)
         try container.encodeIfPresent(additionalData, forKey: .additionalData)

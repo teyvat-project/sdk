@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.11.01"
+    "version": "2026.11.03"
   },
   "servers": [
     {
@@ -5473,6 +5473,99 @@
           "items"
         ]
       },
+      "EpicleseEventResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "platformIdentifier": {
+            "type": "string"
+          },
+          "seriesIdentifier": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "group": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "platformIdentifier": {
+                "type": "string"
+              },
+              "platform": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri"
+                  },
+                  "startAt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "description",
+                  "url",
+                  "startAt"
+                ]
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "platformIdentifier",
+              "platform",
+              "name"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "platformIdentifier",
+          "seriesIdentifier",
+          "title",
+          "startsAt",
+          "endsAt",
+          "group"
+        ]
+      },
       "FleetPreviewResponse": {
         "type": "object",
         "properties": {
@@ -7885,6 +7978,64 @@
           "slug",
           "sourceType",
           "sourceId"
+        ]
+      },
+      "EpicleseGroupResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "platformIdentifier": {
+            "type": "string"
+          },
+          "platform": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uri"
+              },
+              "startAt": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "description",
+              "url",
+              "startAt"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "platformIdentifier",
+          "platform",
+          "name"
         ]
       },
       "EpicleseItemResponse": {
@@ -10821,6 +10972,103 @@
           "name"
         ]
       },
+      "MetadataEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "platformIdentifier": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "platform": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "seriesIdentifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^cal_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "group": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "platformIdentifier": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "platform": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "platformIdentifier",
+              "platform",
+              "name"
+            ]
+          }
+        },
+        "required": [
+          "platformIdentifier",
+          "platform",
+          "title",
+          "seriesIdentifier",
+          "startsAt",
+          "endsAt",
+          "group"
+        ]
+      },
+      "MetadataGroup": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "platformIdentifier": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "platform": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "platformIdentifier",
+          "platform",
+          "name"
+        ]
+      },
       "EpicleseStatusesByItemResponse": {
         "type": "object",
         "properties": {
@@ -11903,6 +12151,163 @@
                 "author"
               ]
             },
+            "group": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "platformIdentifier": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "uri"
+                    },
+                    "startAt": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "url",
+                    "startAt"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "platformIdentifier",
+                "platform",
+                "name"
+              ]
+            },
+            "event": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "platformIdentifier": {
+                  "type": "string"
+                },
+                "seriesIdentifier": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "startsAt": {
+                  "type": "string"
+                },
+                "endsAt": {
+                  "type": "string"
+                },
+                "group": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "platformIdentifier": {
+                      "type": "string"
+                    },
+                    "platform": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "uri"
+                        },
+                        "startAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "url",
+                        "startAt"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "platformIdentifier",
+                    "platform",
+                    "name"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "platformIdentifier",
+                "seriesIdentifier",
+                "title",
+                "startsAt",
+                "endsAt",
+                "group"
+              ]
+            },
             "users": {
               "type": "array",
               "items": {
@@ -12185,6 +12590,8 @@
           "required": [
             "platform",
             "world",
+            "group",
+            "event",
             "users",
             "reference"
           ]
@@ -12256,6 +12663,103 @@
                 "platform",
                 "name",
                 "author"
+              ]
+            },
+            "group": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "platformIdentifier": {
+                  "type": "string",
+                  "maxLength": 256
+                },
+                "platform": {
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "platformIdentifier",
+                "platform",
+                "name"
+              ]
+            },
+            "event": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "platformIdentifier": {
+                  "type": "string",
+                  "maxLength": 512
+                },
+                "platform": {
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "title": {
+                  "type": "string",
+                  "maxLength": 256
+                },
+                "seriesIdentifier": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^cal_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "startsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "endsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "group": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "platformIdentifier": {
+                      "type": "string",
+                      "maxLength": 256
+                    },
+                    "platform": {
+                      "type": "string",
+                      "maxLength": 64
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 256
+                    }
+                  },
+                  "required": [
+                    "platformIdentifier",
+                    "platform",
+                    "name"
+                  ]
+                }
+              },
+              "required": [
+                "platformIdentifier",
+                "platform",
+                "title",
+                "seriesIdentifier",
+                "startsAt",
+                "endsAt",
+                "group"
               ]
             },
             "users": {
@@ -13427,7 +13931,8 @@
             "type": "string"
           },
           "scope": {
-            "type": "string"
+            "type": "string",
+            "description": "許可した scope (スペース区切り)。scope を指定せずに認可したトークンは \"read write\" (すべての操作を許可する従来の形式で、非推奨)"
           },
           "token_type": {
             "type": "string",
@@ -13494,7 +13999,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13531,7 +14038,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13588,7 +14097,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13625,7 +14136,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13710,7 +14223,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13803,7 +14318,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13869,7 +14386,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "parameters": [
@@ -13952,7 +14471,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -13982,7 +14503,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -14075,7 +14598,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -14112,7 +14637,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -14178,7 +14705,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "parameters": [
@@ -14262,7 +14791,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:read"
+            ]
           }
         ],
         "responses": {
@@ -14297,7 +14828,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "responses": {
@@ -14362,7 +14895,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "responses": {
@@ -14408,7 +14943,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -14502,7 +15039,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -14586,7 +15125,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -14663,7 +15204,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -14758,7 +15301,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -14841,7 +15386,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -14933,7 +15480,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -14989,7 +15538,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -15102,7 +15653,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -15149,7 +15702,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -15252,7 +15807,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -15322,7 +15879,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -15413,7 +15972,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -15504,7 +16065,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -15588,7 +16151,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -15673,7 +16238,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -15759,7 +16326,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "requestBody": {
@@ -15832,7 +16401,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -15974,7 +16545,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "requestBody": {
@@ -16053,7 +16626,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "requestBody": {
@@ -16134,7 +16709,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:read"
+            ]
           }
         ],
         "responses": {
@@ -16168,7 +16745,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "requestBody": {
@@ -16223,7 +16802,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           }
         ],
         "responses": {
@@ -16280,7 +16861,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:write"
+            ]
           }
         ],
         "parameters": [
@@ -16399,7 +16982,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:write"
+            ]
           }
         ],
         "parameters": [
@@ -16501,7 +17086,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           }
         ],
         "parameters": [
@@ -16575,7 +17162,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:write"
+            ]
           }
         ],
         "parameters": [
@@ -16680,7 +17269,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           },
           {}
         ],
@@ -16735,7 +17326,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           },
           {}
         ],
@@ -16834,7 +17427,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -16924,7 +17519,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -17016,7 +17613,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           }
         ],
         "parameters": [
@@ -17134,7 +17733,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           },
           {}
         ],
@@ -17192,7 +17793,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           },
           {}
         ],
@@ -17240,7 +17843,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:contests:read"
+            ]
           },
           {}
         ],
@@ -17453,7 +18058,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "responses": {
@@ -17585,6 +18192,148 @@
         }
       }
     },
+    "/catalyst/v1/events/{id}": {
+      "get": {
+        "summary": "GET /catalyst/v1/events/{id}",
+        "description": "イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "event": {
+                      "$ref": "#/components/schemas/EpicleseEventResponse"
+                    },
+                    "statusCount": {
+                      "type": "number"
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserResponse"
+                      }
+                    },
+                    "coverMedia": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "alt": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "metadata": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "width": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "height": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "isSensitive": {
+                              "type": "boolean"
+                            },
+                            "isSpoiler": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "width",
+                            "height",
+                            "isSensitive",
+                            "isSpoiler"
+                          ]
+                        },
+                        "privacyMetadata": {
+                          "type": "boolean"
+                        },
+                        "blurhash": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "hasReference": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "alt",
+                        "url",
+                        "order",
+                        "metadata",
+                        "hasReference"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "event",
+                    "statusCount",
+                    "users",
+                    "coverMedia"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/fleet/{id}/preview": {
       "get": {
         "summary": "GET /catalyst/v1/fleet/{id}/preview",
@@ -17594,7 +18343,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           },
           {}
         ],
@@ -17651,7 +18402,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -17751,7 +18504,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -17826,7 +18581,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           }
         ],
         "parameters": [
@@ -17905,7 +18662,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -18008,7 +18767,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           }
         ],
         "parameters": [
@@ -18082,7 +18843,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:write"
+            ]
           }
         ],
         "parameters": [
@@ -18166,7 +18929,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -18250,7 +19015,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           }
         ],
         "parameters": [
@@ -18329,7 +19096,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           }
         ],
         "parameters": [
@@ -18416,7 +19185,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:read"
+            ]
           }
         ],
         "parameters": [
@@ -18475,7 +19246,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:fleet:write"
+            ]
           }
         ],
         "requestBody": {
@@ -18579,7 +19352,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:read"
+            ]
           }
         ],
         "parameters": [
@@ -18656,7 +19431,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -18759,7 +19536,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -18839,7 +19618,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -18921,7 +19702,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19024,7 +19807,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19108,7 +19893,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:read"
+            ]
           }
         ],
         "parameters": [
@@ -19172,7 +19959,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19283,7 +20072,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19357,7 +20148,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19464,7 +20257,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19554,7 +20349,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19653,7 +20450,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19754,7 +20553,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19861,7 +20662,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -19951,7 +20754,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -20050,7 +20855,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -20132,7 +20939,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -20223,7 +21032,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -20316,7 +21127,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "parameters": [
@@ -20419,7 +21232,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:read"
+            ]
           }
         ],
         "responses": {
@@ -20456,7 +21271,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:galleries:write"
+            ]
           }
         ],
         "requestBody": {
@@ -20540,6 +21357,148 @@
         }
       }
     },
+    "/catalyst/v1/groups/{id}": {
+      "get": {
+        "summary": "GET /catalyst/v1/groups/{id}",
+        "description": "グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/EpicleseGroupResponse"
+                    },
+                    "statusCount": {
+                      "type": "number"
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserResponse"
+                      }
+                    },
+                    "coverMedia": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "alt": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "order": {
+                          "type": "number"
+                        },
+                        "metadata": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "width": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "height": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "isSensitive": {
+                              "type": "boolean"
+                            },
+                            "isSpoiler": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "width",
+                            "height",
+                            "isSensitive",
+                            "isSpoiler"
+                          ]
+                        },
+                        "privacyMetadata": {
+                          "type": "boolean"
+                        },
+                        "blurhash": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "hasReference": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "alt",
+                        "url",
+                        "order",
+                        "metadata",
+                        "hasReference"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "group",
+                    "statusCount",
+                    "users",
+                    "coverMedia"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/item/search": {
       "get": {
         "summary": "GET /catalyst/v1/item/search",
@@ -20549,7 +21508,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -20650,7 +21611,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -20790,7 +21753,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:read"
+            ]
           }
         ],
         "responses": {
@@ -20824,7 +21789,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "requestBody": {
@@ -20879,7 +21846,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -20934,7 +21903,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -20982,7 +21953,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "requestBody": {
@@ -21048,7 +22021,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -21096,7 +22071,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -21131,7 +22108,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -21161,7 +22140,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           }
         ],
         "parameters": [
@@ -21217,7 +22198,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           }
         ],
         "requestBody": {
@@ -21295,7 +22278,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -21342,7 +22327,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -21407,7 +22394,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -21472,7 +22461,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           },
           {}
         ],
@@ -21537,7 +22528,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "requestBody": {
@@ -21606,7 +22599,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "requestBody": {
@@ -21667,7 +22662,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "parameters": [
@@ -21758,7 +22755,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "parameters": [
@@ -21832,7 +22831,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "responses": {
@@ -21877,7 +22878,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "requestBody": {
@@ -21953,7 +22956,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -22047,7 +23052,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -22131,7 +23138,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -22208,7 +23217,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -22303,7 +23314,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -22360,7 +23373,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -22463,7 +23478,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -22542,7 +23559,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -22624,7 +23643,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "parameters": [
@@ -22678,7 +23699,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -22746,7 +23769,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:write"
+            ]
           }
         ],
         "requestBody": {
@@ -22809,7 +23834,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           },
           {}
         ],
@@ -22857,7 +23884,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:albums:read"
+            ]
           }
         ],
         "parameters": [
@@ -22924,7 +23953,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "parameters": [
@@ -22978,7 +24009,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23060,7 +24093,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23144,7 +24179,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23234,7 +24271,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23326,7 +24365,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23418,7 +24459,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23492,7 +24535,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -23550,7 +24595,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23653,7 +24700,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "parameters": [
@@ -23697,7 +24746,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23789,7 +24840,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -23883,7 +24936,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -23936,7 +24991,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "parameters": [
@@ -24017,7 +25074,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "parameters": [
@@ -24091,7 +25150,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "requestBody": {
@@ -24154,7 +25215,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24224,7 +25287,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24288,7 +25353,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24402,7 +25469,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24467,6 +25536,92 @@
         }
       }
     },
+    "/catalyst/v1/timeline/event/by/id/{id}": {
+      "get": {
+        "summary": "GET /catalyst/v1/timeline/event/by/id/{id}",
+        "description": "イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "since",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "until",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statuses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/StatusV1_1Response"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statuses"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/timeline/favorite": {
       "get": {
         "summary": "GET /catalyst/v1/timeline/favorite",
@@ -24476,7 +25631,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "parameters": [
@@ -24541,7 +25698,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24597,7 +25756,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24644,6 +25805,92 @@
         }
       }
     },
+    "/catalyst/v1/timeline/group/by/id/{id}": {
+      "get": {
+        "summary": "GET /catalyst/v1/timeline/group/by/id/{id}",
+        "description": "グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
+          },
+          {}
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "since",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "until",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statuses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/StatusV1_1Response"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statuses"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/timeline/home": {
       "get": {
         "summary": "GET /catalyst/v1/timeline/home",
@@ -24653,7 +25900,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           }
         ],
         "responses": {
@@ -24700,7 +25949,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24784,7 +26035,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24856,7 +26109,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -24919,7 +26174,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -25009,7 +26266,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -25093,7 +26352,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -25150,7 +26411,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
           }
         ],
         "parameters": [
@@ -25253,7 +26516,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           }
         ],
         "parameters": [
@@ -25317,7 +26582,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "parameters": [
@@ -25418,7 +26685,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "parameters": [
@@ -25519,7 +26788,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:write"
+            ]
           }
         ],
         "parameters": [
@@ -25676,7 +26947,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           }
         ],
         "parameters": [
@@ -25759,7 +27032,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:social:read"
+            ]
           }
         ],
         "responses": {
@@ -25798,7 +27073,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -25863,7 +27140,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -25968,7 +27247,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -26139,7 +27420,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -26373,7 +27656,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:read"
+            ]
           }
         ],
         "responses": {
@@ -26407,7 +27692,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:settings:write"
+            ]
           }
         ],
         "requestBody": {
@@ -26462,7 +27749,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -26602,7 +27891,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile"
+            ]
           }
         ],
         "responses": {
@@ -26769,7 +28060,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile:write"
+            ]
           }
         ],
         "requestBody": {
@@ -27173,7 +28466,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile"
+            ]
           },
           {}
         ],
@@ -27221,7 +28516,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile"
+            ]
           },
           {}
         ],
@@ -27276,7 +28573,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile"
+            ]
           },
           {}
         ],
@@ -27508,6 +28807,114 @@
         }
       }
     },
+    "/epiclese/v1/events": {
+      "post": {
+        "summary": "POST /epiclese/v1/events",
+        "description": "データカタログにイベントを登録します",
+        "tags": [
+          "epiclese"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetadataEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "event": {
+                      "$ref": "#/components/schemas/EpicleseEventResponse"
+                    }
+                  },
+                  "required": [
+                    "event"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/epiclese/v1/groups": {
+      "post": {
+        "summary": "POST /epiclese/v1/groups",
+        "description": "データカタログにグループを登録します",
+        "tags": [
+          "epiclese"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {}
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetadataGroup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/EpicleseGroupResponse"
+                    }
+                  },
+                  "required": [
+                    "group"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/epiclese/v1/items/{id}": {
       "get": {
         "summary": "GET /epiclese/v1/items/{id}",
@@ -27704,7 +29111,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "media:write"
+            ]
           }
         ],
         "parameters": [
@@ -27872,7 +29281,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:read"
+            ]
           },
           {}
         ],
@@ -27907,7 +29318,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "catalyst:statuses:write"
+            ]
           }
         ],
         "parameters": [
@@ -28339,7 +29752,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "profile"
+            ]
           }
         ],
         "responses": {
@@ -28734,7 +30149,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "media:write"
+            ]
           }
         ],
         "requestBody": {
@@ -28817,7 +30234,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "media:write"
+            ]
           }
         ],
         "responses": {
@@ -28863,7 +30282,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "notifications:write"
+            ]
           }
         ],
         "parameters": [
@@ -28927,7 +30348,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "notifications:write"
+            ]
           }
         ],
         "parameters": [
@@ -28981,7 +30404,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "notifications:read"
+            ]
           }
         ],
         "parameters": [
@@ -29054,7 +30479,9 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "bearerAuth": [
+              "notifications:read"
+            ]
           }
         ],
         "parameters": [

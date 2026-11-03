@@ -60,6 +60,7 @@ import {
   getCatalystV1ContestCurrent,
   getCatalystV1ContestSearch,
   getCatalystV1CustomReactions,
+  getCatalystV1EventsById,
   getCatalystV1FleetById,
   getCatalystV1FleetByIdPreview,
   getCatalystV1FleetByIdReactions,
@@ -70,6 +71,7 @@ import {
   getCatalystV1GalleryByHostnameByHostname,
   getCatalystV1GalleryByIdById,
   getCatalystV1GalleryByIdByIdDocument,
+  getCatalystV1GroupsById,
   getCatalystV1ItemSearch,
   getCatalystV1ItemsById,
   getCatalystV1PrivacySettings,
@@ -98,9 +100,11 @@ import {
   getCatalystV1TimelineArchive,
   getCatalystV1TimelineArchiveMonths,
   getCatalystV1TimelineContestBySlugBySlug,
+  getCatalystV1TimelineEventByIdById,
   getCatalystV1TimelineFavorite,
   getCatalystV1TimelineFirehose,
   getCatalystV1TimelineGallery,
+  getCatalystV1TimelineGroupByIdById,
   getCatalystV1TimelineHome,
   getCatalystV1TimelineItemByIdById,
   getCatalystV1TimelineSearch,
@@ -197,6 +201,8 @@ import {
   postEgeriaV1RestoreCredentialsAuthenticationOptions,
   postEgeriaV1RestoreCredentialsRegistrationOptions,
   postEpicleseV1Authors,
+  postEpicleseV1Events,
+  postEpicleseV1Groups,
   postEpicleseV1MediaByMediaIdDenormalizedMetadata,
   postEpicleseV1TagByStatusById,
   postEpicleseV1Worlds,
@@ -271,6 +277,7 @@ import type {
   GetCatalystV1ContestCurrentData,
   GetCatalystV1ContestSearchData,
   GetCatalystV1CustomReactionsData,
+  GetCatalystV1EventsByIdData,
   GetCatalystV1FleetByIdData,
   GetCatalystV1FleetByIdPreviewData,
   GetCatalystV1FleetByIdReactionsData,
@@ -281,6 +288,7 @@ import type {
   GetCatalystV1GalleryByIdByIdData,
   GetCatalystV1GalleryByIdByIdDocumentData,
   GetCatalystV1GalleryData,
+  GetCatalystV1GroupsByIdData,
   GetCatalystV1ItemSearchData,
   GetCatalystV1ItemsByIdData,
   GetCatalystV1PrivacySettingsData,
@@ -309,9 +317,11 @@ import type {
   GetCatalystV1TimelineArchiveData,
   GetCatalystV1TimelineArchiveMonthsData,
   GetCatalystV1TimelineContestBySlugBySlugData,
+  GetCatalystV1TimelineEventByIdByIdData,
   GetCatalystV1TimelineFavoriteData,
   GetCatalystV1TimelineFirehoseData,
   GetCatalystV1TimelineGalleryData,
+  GetCatalystV1TimelineGroupByIdByIdData,
   GetCatalystV1TimelineHomeData,
   GetCatalystV1TimelineItemByIdByIdData,
   GetCatalystV1TimelineSearchData,
@@ -408,6 +418,8 @@ import type {
   PostEgeriaV1RestoreCredentialsData,
   PostEgeriaV1RestoreCredentialsRegistrationOptionsData,
   PostEpicleseV1AuthorsData,
+  PostEpicleseV1EventsData,
+  PostEpicleseV1GroupsData,
   PostEpicleseV1MediaByMediaIdDenormalizedMetadataData,
   PostEpicleseV1TagByStatusByIdData,
   PostEpicleseV1WorldsData,
@@ -817,6 +829,17 @@ export function createFacade(client: Client<ApiAuth>) {
               deleteCatalystV1CustomReactionsById<ThrowOnError>({ ...options, client }),
           },
         },
+        events: {
+          id: {
+            /**
+             * GET /catalyst/v1/events/{id}
+             *
+             * イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+             */
+            get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1EventsByIdData, ThrowOnError>, 'client'>) =>
+              getCatalystV1EventsById<ThrowOnError>({ ...options, client }),
+          },
+        },
         fleet: {
           /**
            * POST /catalyst/v1/fleet
@@ -1118,6 +1141,17 @@ export function createFacade(client: Client<ApiAuth>) {
                 },
               },
             },
+          },
+        },
+        groups: {
+          id: {
+            /**
+             * GET /catalyst/v1/groups/{id}
+             *
+             * グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+             */
+            get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1GroupsByIdData, ThrowOnError>, 'client'>) =>
+              getCatalystV1GroupsById<ThrowOnError>({ ...options, client }),
           },
         },
         item: {
@@ -1618,6 +1652,21 @@ export function createFacade(client: Client<ApiAuth>) {
               },
             },
           },
+          event: {
+            by: {
+              id: {
+                id: {
+                  /**
+                   * GET /catalyst/v1/timeline/event/by/id/{id}
+                   *
+                   * イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+                   */
+                  get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1TimelineEventByIdByIdData, ThrowOnError>, 'client'>) =>
+                    getCatalystV1TimelineEventByIdById<ThrowOnError>({ ...options, client }),
+                },
+              },
+            },
+          },
           favorite: {
             /**
              * GET /catalyst/v1/timeline/favorite
@@ -1644,6 +1693,21 @@ export function createFacade(client: Client<ApiAuth>) {
              */
             get: <ThrowOnError extends boolean = false>(options?: Omit<Options<GetCatalystV1TimelineGalleryData, ThrowOnError>, 'client'>) =>
               getCatalystV1TimelineGallery<ThrowOnError>({ ...options, client }),
+          },
+          group: {
+            by: {
+              id: {
+                id: {
+                  /**
+                   * GET /catalyst/v1/timeline/group/by/id/{id}
+                   *
+                   * グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+                   */
+                  get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetCatalystV1TimelineGroupByIdByIdData, ThrowOnError>, 'client'>) =>
+                    getCatalystV1TimelineGroupByIdById<ThrowOnError>({ ...options, client }),
+                },
+              },
+            },
           },
           home: {
             /**
@@ -2121,6 +2185,24 @@ export function createFacade(client: Client<ApiAuth>) {
             get: <ThrowOnError extends boolean = false>(options: Omit<Options<GetEpicleseV1AuthorsByIdData, ThrowOnError>, 'client'>) =>
               getEpicleseV1AuthorsById<ThrowOnError>({ ...options, client }),
           },
+        },
+        events: {
+          /**
+           * POST /epiclese/v1/events
+           *
+           * データカタログにイベントを登録します
+           */
+          create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostEpicleseV1EventsData, ThrowOnError>, 'client'>) =>
+            postEpicleseV1Events<ThrowOnError>({ ...options, client }),
+        },
+        groups: {
+          /**
+           * POST /epiclese/v1/groups
+           *
+           * データカタログにグループを登録します
+           */
+          create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostEpicleseV1GroupsData, ThrowOnError>, 'client'>) =>
+            postEpicleseV1Groups<ThrowOnError>({ ...options, client }),
         },
         items: {
           /**

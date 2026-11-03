@@ -936,6 +936,22 @@ public struct CatalystService: Sendable {
         return try await core.send(Self.getCatalystV1CustomReactionsSpec, values, decoder: .json(CustomReactionListResponse.self), errors: Self.getCatalystV1CustomReactionsErrors, options: options)
     }
 
+    /// GET /catalyst/v1/events/{id}
+    ///
+    /// イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    public func getCatalystV1EventsById(id: String, options: RequestOptions? = nil) async throws -> GetCatalystV1EventsByIdResponse200 {
+        try await getCatalystV1EventsByIdWithResponse(id: id, options: options).data
+    }
+
+    /// GET /catalyst/v1/events/{id}
+    ///
+    /// イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    public func getCatalystV1EventsByIdWithResponse(id: String, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1EventsByIdResponse200> {
+        var values = RequestValues()
+        try values.path("id", id)
+        return try await core.send(Self.getCatalystV1EventsByIdSpec, values, decoder: .json(GetCatalystV1EventsByIdResponse200.self), errors: Self.getCatalystV1EventsByIdErrors, options: options)
+    }
+
     /// GET /catalyst/v1/fleet/by/user/{username}
     ///
     /// 指定したユーザーの閲覧可能な Fleet 一覧を取得します。投稿者本人とフォロワーのみ取得できます
@@ -1095,6 +1111,22 @@ public struct CatalystService: Sendable {
         try values.path("id", id)
         try values.query("revision", revision)
         return try await core.send(Self.getCatalystV1GalleryByIdByIdDocumentSpec, values, decoder: .json(GalleryDocumentResponse.self), errors: Self.getCatalystV1GalleryByIdByIdDocumentErrors, options: options)
+    }
+
+    /// GET /catalyst/v1/groups/{id}
+    ///
+    /// グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    public func getCatalystV1GroupsById(id: String, options: RequestOptions? = nil) async throws -> GetCatalystV1GroupsByIdResponse200 {
+        try await getCatalystV1GroupsByIdWithResponse(id: id, options: options).data
+    }
+
+    /// GET /catalyst/v1/groups/{id}
+    ///
+    /// グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    public func getCatalystV1GroupsByIdWithResponse(id: String, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1GroupsByIdResponse200> {
+        var values = RequestValues()
+        try values.path("id", id)
+        return try await core.send(Self.getCatalystV1GroupsByIdSpec, values, decoder: .json(GetCatalystV1GroupsByIdResponse200.self), errors: Self.getCatalystV1GroupsByIdErrors, options: options)
     }
 
     /// GET /catalyst/v1/item/search
@@ -1559,6 +1591,24 @@ public struct CatalystService: Sendable {
         return try await core.send(Self.getCatalystV1TimelineContestBySlugBySlugSpec, values, decoder: .json(GetCatalystV1TimelineContestBySlugBySlugResponse200.self), errors: Self.getCatalystV1TimelineContestBySlugBySlugErrors, options: options)
     }
 
+    /// GET /catalyst/v1/timeline/event/by/id/{id}
+    ///
+    /// イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    public func getCatalystV1TimelineEventByIdById(id: String, since: String? = nil, until: String? = nil, options: RequestOptions? = nil) async throws -> GetCatalystV1TimelineEventByIdByIdResponse200 {
+        try await getCatalystV1TimelineEventByIdByIdWithResponse(id: id, since: since, until: until, options: options).data
+    }
+
+    /// GET /catalyst/v1/timeline/event/by/id/{id}
+    ///
+    /// イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    public func getCatalystV1TimelineEventByIdByIdWithResponse(id: String, since: String? = nil, until: String? = nil, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1TimelineEventByIdByIdResponse200> {
+        var values = RequestValues()
+        try values.path("id", id)
+        try values.query("since", since)
+        try values.query("until", until)
+        return try await core.send(Self.getCatalystV1TimelineEventByIdByIdSpec, values, decoder: .json(GetCatalystV1TimelineEventByIdByIdResponse200.self), errors: Self.getCatalystV1TimelineEventByIdByIdErrors, options: options)
+    }
+
     /// GET /catalyst/v1/timeline/favorite
     ///
     /// お気に入り登録した投稿一覧を取得します
@@ -1608,6 +1658,24 @@ public struct CatalystService: Sendable {
         try values.query("since", since)
         try values.query("until", until)
         return try await core.send(Self.getCatalystV1TimelineGallerySpec, values, decoder: .json(GetCatalystV1TimelineGalleryResponse200.self), errors: Self.getCatalystV1TimelineGalleryErrors, options: options)
+    }
+
+    /// GET /catalyst/v1/timeline/group/by/id/{id}
+    ///
+    /// グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    public func getCatalystV1TimelineGroupByIdById(id: String, since: String? = nil, until: String? = nil, options: RequestOptions? = nil) async throws -> GetCatalystV1TimelineGroupByIdByIdResponse200 {
+        try await getCatalystV1TimelineGroupByIdByIdWithResponse(id: id, since: since, until: until, options: options).data
+    }
+
+    /// GET /catalyst/v1/timeline/group/by/id/{id}
+    ///
+    /// グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    public func getCatalystV1TimelineGroupByIdByIdWithResponse(id: String, since: String? = nil, until: String? = nil, options: RequestOptions? = nil) async throws -> ApiResult<GetCatalystV1TimelineGroupByIdByIdResponse200> {
+        var values = RequestValues()
+        try values.path("id", id)
+        try values.query("since", since)
+        try values.query("until", until)
+        return try await core.send(Self.getCatalystV1TimelineGroupByIdByIdSpec, values, decoder: .json(GetCatalystV1TimelineGroupByIdByIdResponse200.self), errors: Self.getCatalystV1TimelineGroupByIdByIdErrors, options: options)
     }
 
     /// GET /catalyst/v1/timeline/home
@@ -2980,7 +3048,7 @@ extension CatalystService {
         path: "/catalyst/v1/activitypub/settings",
         tags: ["catalyst", "activitypub"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json, "409": .json]
@@ -2996,7 +3064,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3016,7 +3084,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/members/{userId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3037,7 +3105,7 @@ extension CatalystService {
         path: "/catalyst/v1/blocks",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [],
         body: .json,
@@ -3056,7 +3124,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:write"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3078,7 +3146,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/vote/{status}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3118,7 +3186,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3138,7 +3206,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/reactions/{symbol}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3157,7 +3225,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3176,7 +3244,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/domains/{domainId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3196,7 +3264,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3216,7 +3284,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3237,7 +3305,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3258,7 +3326,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [],
         body: .json,
@@ -3275,7 +3343,7 @@ extension CatalystService {
         path: "/catalyst/v1/scheduled-statuses/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3294,7 +3362,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3311,7 +3379,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3330,7 +3398,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/favorite",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3350,7 +3418,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/reactions/custom/{customReactionId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3370,7 +3438,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/reactions/{symbol}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3391,7 +3459,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/repost",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3412,7 +3480,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/{id}/watch",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3433,7 +3501,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/on-this-day",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -3449,7 +3517,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/random",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -3465,7 +3533,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/random/by/hashtag",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3484,7 +3552,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/status/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3503,7 +3571,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/timeline/album/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3526,7 +3594,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/timeline/firehose",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3546,7 +3614,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/timeline/home",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -3567,7 +3635,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/timeline/newcomers",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -3582,7 +3650,7 @@ extension CatalystService {
         path: "/catalyst/v1.1/timeline/smart-album/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3605,7 +3673,7 @@ extension CatalystService {
         path: "/catalyst/v1.2/random",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -3621,7 +3689,7 @@ extension CatalystService {
         path: "/catalyst/v1.2/timeline/firehose",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3641,7 +3709,7 @@ extension CatalystService {
         path: "/catalyst/v1.2/timeline/home",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -3662,7 +3730,7 @@ extension CatalystService {
         path: "/catalyst/v1/activitypub/settings",
         tags: ["catalyst", "activitypub"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -3677,7 +3745,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3698,7 +3766,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/book",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3718,7 +3786,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/book/{bookId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -3739,7 +3807,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/members",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3757,7 +3825,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/random",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3775,7 +3843,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/me",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("include_smart_albums", .query, .form, explode: true),
@@ -3795,7 +3863,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/user/{username}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3816,7 +3884,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/search",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3852,7 +3920,7 @@ extension CatalystService {
         path: "/catalyst/v1/content/settings",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -3867,7 +3935,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/me",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json, "500": .json]
@@ -3883,7 +3951,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3901,7 +3969,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/participant-message",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3921,7 +3989,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/stats",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3954,7 +4022,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/vote",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -3974,7 +4042,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/user/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -3992,7 +4060,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/current",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -4008,7 +4076,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/search",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4027,7 +4095,7 @@ extension CatalystService {
         path: "/catalyst/v1/custom-reactions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4036,13 +4104,31 @@ extension CatalystService {
     static let getCatalystV1CustomReactionsErrors = ErrorDecoders()
         .json("401", ErrorResponse.self)
 
+    static let getCatalystV1EventsByIdSpec = OperationSpec(
+        operationName: "getCatalystV1EventsById",
+        method: .get,
+        path: "/catalyst/v1/events/{id}",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
+            SecurityRequirement([]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+        ],
+        responses: ["200": .json, "404": .json]
+    )
+
+    static let getCatalystV1EventsByIdErrors = ErrorDecoders()
+        .json("404", ErrorResponse.self)
+
     static let getCatalystV1FleetByUserByUsernameSpec = OperationSpec(
         operationName: "getCatalystV1FleetByUserByUsername",
         method: .get,
         path: "/catalyst/v1/fleet/by/user/{username}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
         ],
         params: [
             ParamSpec("username", .path, .simple, explode: false),
@@ -4063,7 +4149,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/ring",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
         ],
         params: [
             ParamSpec("exclude_sensitive", .query, .form, explode: true),
@@ -4081,7 +4167,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4101,7 +4187,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/preview",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4120,7 +4206,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/reactions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4140,7 +4226,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/viewers",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4160,7 +4246,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4190,7 +4276,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4209,7 +4295,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/document",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4223,13 +4309,31 @@ extension CatalystService {
         .json("403", ErrorResponse.self)
         .json("404", ErrorResponse.self)
 
+    static let getCatalystV1GroupsByIdSpec = OperationSpec(
+        operationName: "getCatalystV1GroupsById",
+        method: .get,
+        path: "/catalyst/v1/groups/{id}",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
+            SecurityRequirement([]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+        ],
+        responses: ["200": .json, "404": .json]
+    )
+
+    static let getCatalystV1GroupsByIdErrors = ErrorDecoders()
+        .json("404", ErrorResponse.self)
+
     static let getCatalystV1ItemSearchSpec = OperationSpec(
         operationName: "getCatalystV1ItemSearch",
         method: .get,
         path: "/catalyst/v1/item/search",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4249,7 +4353,7 @@ extension CatalystService {
         path: "/catalyst/v1/items/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4267,7 +4371,7 @@ extension CatalystService {
         path: "/catalyst/v1/privacy/settings",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4282,7 +4386,7 @@ extension CatalystService {
         path: "/catalyst/v1/profile-tags/by/name/{name}/users",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4301,7 +4405,7 @@ extension CatalystService {
         path: "/catalyst/v1/profile-tags/by/user/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4318,7 +4422,7 @@ extension CatalystService {
         path: "/catalyst/v1/profile-tags/suggestions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4335,7 +4439,7 @@ extension CatalystService {
         path: "/catalyst/v1/random",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -4350,7 +4454,7 @@ extension CatalystService {
         path: "/catalyst/v1/reactions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -4365,7 +4469,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/by/username/{username}/counts",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4383,7 +4487,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/by/username/{username}/followers",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4403,7 +4507,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/by/username/{username}/followers/remote",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4423,7 +4527,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/by/username/{username}/followings",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4443,7 +4547,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4461,7 +4565,7 @@ extension CatalystService {
         path: "/catalyst/v1/scheduled-statuses",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4476,7 +4580,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4498,7 +4602,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/book",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4518,7 +4622,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/book/{bookId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4539,7 +4643,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/random",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4558,7 +4662,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/user/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4577,7 +4681,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/search",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4594,7 +4698,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4612,7 +4716,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/albums",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4630,7 +4734,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/favorite",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4648,7 +4752,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/reactions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4666,7 +4770,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/repost",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4683,7 +4787,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/archive",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4708,7 +4812,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/archive/months",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -4724,7 +4828,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/contest/by/slug/{slug}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4738,13 +4842,34 @@ extension CatalystService {
     static let getCatalystV1TimelineContestBySlugBySlugErrors = ErrorDecoders()
         .json("404", ErrorResponse.self)
 
+    static let getCatalystV1TimelineEventByIdByIdSpec = OperationSpec(
+        operationName: "getCatalystV1TimelineEventByIdById",
+        method: .get,
+        path: "/catalyst/v1/timeline/event/by/id/{id}",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
+            SecurityRequirement([]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+            ParamSpec("since", .query, .form, explode: true),
+            ParamSpec("until", .query, .form, explode: true),
+        ],
+        responses: ["200": .json, "400": .json, "404": .json]
+    )
+
+    static let getCatalystV1TimelineEventByIdByIdErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
+        .json("404", ErrorResponse.self)
+
     static let getCatalystV1TimelineFavoriteSpec = OperationSpec(
         operationName: "getCatalystV1TimelineFavorite",
         method: .get,
         path: "/catalyst/v1/timeline/favorite",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [
             ParamSpec("since", .query, .form, explode: true),
@@ -4762,7 +4887,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/firehose",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4780,7 +4905,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/gallery",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4792,13 +4917,34 @@ extension CatalystService {
 
     static let getCatalystV1TimelineGalleryErrors = ErrorDecoders.none
 
+    static let getCatalystV1TimelineGroupByIdByIdSpec = OperationSpec(
+        operationName: "getCatalystV1TimelineGroupByIdById",
+        method: .get,
+        path: "/catalyst/v1/timeline/group/by/id/{id}",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
+            SecurityRequirement([]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+            ParamSpec("since", .query, .form, explode: true),
+            ParamSpec("until", .query, .form, explode: true),
+        ],
+        responses: ["200": .json, "400": .json, "404": .json]
+    )
+
+    static let getCatalystV1TimelineGroupByIdByIdErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
+        .json("404", ErrorResponse.self)
+
     static let getCatalystV1TimelineHomeSpec = OperationSpec(
         operationName: "getCatalystV1TimelineHome",
         method: .get,
         path: "/catalyst/v1/timeline/home",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4813,7 +4959,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/item/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4834,7 +4980,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/search",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4854,7 +5000,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/user/by/username/{username}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4876,7 +5022,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/user/by/username/{username}/gallery",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4895,7 +5041,7 @@ extension CatalystService {
         path: "/catalyst/v1/timeline/world/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4916,7 +5062,7 @@ extension CatalystService {
         path: "/catalyst/v1/trend",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -4933,7 +5079,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/follow-suggestions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
         ],
         params: [
             ParamSpec("tags", .query, .form, explode: true),
@@ -4952,7 +5098,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/recommendations",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -4967,7 +5113,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/{id}/watch",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -4986,7 +5132,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -5006,7 +5152,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes/by/slug/{slug}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -5025,7 +5171,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes/by/slug/{slug}/statuses",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -5047,7 +5193,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes/current",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -5078,7 +5224,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes/subscription",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:read"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -5093,7 +5239,7 @@ extension CatalystService {
         path: "/catalyst/v1/worlds/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -5111,7 +5257,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5133,7 +5279,7 @@ extension CatalystService {
         path: "/catalyst/v1/content/settings",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         body: .json,
@@ -5171,7 +5317,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5195,7 +5341,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/document",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5218,7 +5364,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5241,7 +5387,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5265,7 +5411,7 @@ extension CatalystService {
         path: "/catalyst/v1/privacy/settings",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         body: .json,
@@ -5283,7 +5429,7 @@ extension CatalystService {
         path: "/catalyst/v1/scheduled-statuses/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5305,7 +5451,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5327,7 +5473,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5348,7 +5494,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/{id}/watch",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5371,7 +5517,7 @@ extension CatalystService {
         path: "/catalyst/v1/weekly-themes/subscription",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         body: .json,
@@ -5389,7 +5535,7 @@ extension CatalystService {
         path: "/catalyst/v1/activitypub/settings",
         tags: ["catalyst", "activitypub"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         responses: ["200": .json, "400": .json, "401": .json, "403": .json, "409": .json]
@@ -5407,7 +5553,7 @@ extension CatalystService {
         path: "/catalyst/v1/album",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [],
         body: .json,
@@ -5426,7 +5572,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/book",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5449,7 +5595,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/book/{bookId}/regenerate",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5471,7 +5617,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/invitation",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5492,7 +5638,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/members",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5516,7 +5662,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}/report",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5539,7 +5685,7 @@ extension CatalystService {
         path: "/catalyst/v1/blocks",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [],
         body: .json,
@@ -5558,7 +5704,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:write"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -5583,7 +5729,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/vote/{status}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -5625,7 +5771,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:fleet:write"])]),
         ],
         params: [],
         body: .json,
@@ -5643,7 +5789,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/reactions/{symbol}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5665,7 +5811,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/report",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5688,7 +5834,7 @@ extension CatalystService {
         path: "/catalyst/v1/fleet/{id}/view",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5708,7 +5854,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [],
         body: .json,
@@ -5729,7 +5875,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/domains",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5752,7 +5898,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/publish",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5772,7 +5918,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5794,7 +5940,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5817,7 +5963,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sources",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5840,7 +5986,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [],
         body: .json,
@@ -5858,7 +6004,7 @@ extension CatalystService {
         path: "/catalyst/v1/relationships/bulk",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:read"])]),
         ],
         params: [],
         body: .json,
@@ -5876,7 +6022,7 @@ extension CatalystService {
         path: "/catalyst/v1/scheduled-statuses",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [],
         body: .json,
@@ -5895,7 +6041,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [],
         body: .json,
@@ -5913,7 +6059,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/book",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5936,7 +6082,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/book/{bookId}/regenerate",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5958,7 +6104,7 @@ extension CatalystService {
         path: "/catalyst/v1/smart-album/by/id/{id}/report",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -5981,7 +6127,7 @@ extension CatalystService {
         path: "/catalyst/v1/status",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:write"])]),
         ],
         params: [],
         body: .json,
@@ -5999,7 +6145,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/favorite",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6019,7 +6165,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/reactions/custom/{customReactionId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6041,7 +6187,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/reactions/{symbol}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6062,7 +6208,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/report",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6085,7 +6231,7 @@ extension CatalystService {
         path: "/catalyst/v1/status/{id}/repost",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6106,7 +6252,7 @@ extension CatalystService {
         path: "/catalyst/v1/statuses/reactions",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:statuses:read"])]),
             SecurityRequirement([]),
         ],
         params: [],
@@ -6143,7 +6289,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/{id}/report",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6166,7 +6312,7 @@ extension CatalystService {
         path: "/catalyst/v1/user/{id}/watch",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:social:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6207,7 +6353,7 @@ extension CatalystService {
         path: "/catalyst/v1/album/by/id/{id}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:albums:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6229,7 +6375,7 @@ extension CatalystService {
         path: "/catalyst/v1/contest/by/slug/{slug}/participant-message",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:contests:write"])]),
         ],
         params: [
             ParamSpec("slug", .path, .simple, explode: false),
@@ -6253,7 +6399,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/domains/{domainId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6273,7 +6419,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6295,7 +6441,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6318,7 +6464,7 @@ extension CatalystService {
         path: "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:galleries:write"])]),
         ],
         params: [
             ParamSpec("id", .path, .simple, explode: false),
@@ -6342,7 +6488,7 @@ extension CatalystService {
         path: "/catalyst/v1/profile-tags",
         tags: ["catalyst"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:settings:write"])]),
         ],
         params: [],
         body: .json,

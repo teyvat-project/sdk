@@ -41,7 +41,7 @@ public sealed partial class MediaService
         global::System.Net.Http.HttpMethod.Delete,
         "/media/v1/upload",
         ["media"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["media:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -76,7 +76,7 @@ public sealed partial class MediaService
         global::System.Net.Http.HttpMethod.Post,
         "/media/v2/upload",
         ["media"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["media:write"])])],
         [],
         null,
         null,

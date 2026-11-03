@@ -51,7 +51,7 @@ extension MediaService {
         path: "/media/v1/upload",
         tags: ["media"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["media:write"])]),
         ],
         params: [],
         body: .json,
@@ -71,7 +71,7 @@ extension MediaService {
         path: "/media/v2/upload",
         tags: ["media"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["media:write"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json, "500": .json]

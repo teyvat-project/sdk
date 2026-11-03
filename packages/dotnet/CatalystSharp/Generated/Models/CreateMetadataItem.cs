@@ -18,6 +18,14 @@ public sealed partial class CreateMetadataItem
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public CreateMetadataItemWorld? World { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("group")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public CreateMetadataItemGroup? Group { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("event")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public CreateMetadataItemEvent? Event { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("users")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public global::System.Collections.Generic.List<CreateMetadataItemUsersItem>? Users { get; set; }

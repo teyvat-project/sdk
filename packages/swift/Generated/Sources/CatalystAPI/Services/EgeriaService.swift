@@ -184,7 +184,7 @@ extension EgeriaService {
         path: "/egeria/v1/me",
         tags: ["egeria"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile"])]),
         ],
         params: [],
         responses: ["200": .json, "401": .json]
@@ -199,7 +199,7 @@ extension EgeriaService {
         path: "/egeria/v1/search",
         tags: ["egeria"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -216,7 +216,7 @@ extension EgeriaService {
         path: "/egeria/v1/user/by/id/{id}",
         tags: ["egeria"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -234,7 +234,7 @@ extension EgeriaService {
         path: "/egeria/v1/user/by/username/{username}",
         tags: ["egeria"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile"])]),
             SecurityRequirement([]),
         ],
         params: [
@@ -252,7 +252,7 @@ extension EgeriaService {
         path: "/egeria/v1/me",
         tags: ["egeria"],
         security: [
-            SecurityRequirement([SecurityScheme("bearerAuth")]),
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["profile:write"])]),
         ],
         params: [],
         body: .json,

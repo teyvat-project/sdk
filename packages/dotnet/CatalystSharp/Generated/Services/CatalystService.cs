@@ -40,7 +40,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/activitypub/settings",
         ["catalyst", "activitypub"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         null,
         null,
@@ -75,7 +75,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -113,7 +113,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/album/by/id/{id}/members/{userId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("userId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -150,7 +150,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/blocks",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -186,7 +186,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:write"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("status", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -225,7 +225,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/contest/by/slug/{slug}/vote/{status}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("status", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -298,7 +298,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/fleet/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -336,7 +336,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/fleet/{id}/reactions/{symbol}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -371,7 +371,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/gallery/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -408,7 +408,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/gallery/by/id/{id}/domains/{domainId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("domainId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -445,7 +445,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -483,7 +483,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("itemId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -521,7 +521,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sourceId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -557,7 +557,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/relationships",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json });
@@ -590,7 +590,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/scheduled-statuses/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -622,7 +622,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/smart-album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -656,7 +656,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/status/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -692,7 +692,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/status/{id}/favorite",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -730,7 +730,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/status/{id}/reactions/custom/{customReactionId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("customReactionId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -767,7 +767,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/status/{id}/reactions/{symbol}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -804,7 +804,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/status/{id}/repost",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -842,7 +842,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Delete,
         "/catalyst/v1/user/{id}/watch",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -879,7 +879,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/on-this-day",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -912,7 +912,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/random",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -946,7 +946,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/random/by/hashtag",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -981,7 +981,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/status/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1020,7 +1020,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/timeline/album/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1057,7 +1057,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/timeline/firehose",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1094,7 +1094,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/timeline/home",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1128,7 +1128,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/timeline/newcomers",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -1165,7 +1165,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.1/timeline/smart-album/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1199,7 +1199,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.2/random",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -1235,7 +1235,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.2/timeline/firehose",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1272,7 +1272,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1.2/timeline/home",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("trim_visitor", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1306,7 +1306,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/activitypub/settings",
         ["catalyst", "activitypub"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:read"])])],
         [],
         null,
         null,
@@ -1343,7 +1343,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1377,7 +1377,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/id/{id}/book",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1415,7 +1415,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/id/{id}/book/{bookId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("bookId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1452,7 +1452,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/id/{id}/members",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1486,7 +1486,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/id/{id}/random",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1521,7 +1521,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/me",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("include_smart_albums", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("include_shared_albums", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1558,7 +1558,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/by/user/{username}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("include_smart_albums", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1596,7 +1596,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/album/search",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("include_smart_album", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -1664,7 +1664,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/content/settings",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:read"])])],
         [],
         null,
         null,
@@ -1697,7 +1697,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/me",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])])],
         [],
         null,
         null,
@@ -1732,7 +1732,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/slug/{slug}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])]), new SecurityRequirement([])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1766,7 +1766,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/slug/{slug}/participant-message",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1803,7 +1803,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/slug/{slug}/stats",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])]), new SecurityRequirement([])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1871,7 +1871,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/slug/{slug}/vote",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1908,7 +1908,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/by/user/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -1941,7 +1941,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/current",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -1977,7 +1977,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/contest/search",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("state", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("id", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2009,7 +2009,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/custom-reactions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [],
         null,
         null,
@@ -2017,6 +2017,40 @@ public sealed partial class CatalystService
 
     private static readonly ErrorDecoders GetCatalystV1CustomReactionsErrors = new ErrorDecoders()
         .Json("401", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// GET /catalyst/v1/events/{id}
+    ///
+    /// イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<GetCatalystV1EventsByIdResponse200> GetCatalystV1EventsByIdAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1EventsByIdWithResponseAsync(id, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/events/{id}
+    ///
+    /// イベント別ページの概要 (イベント情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1EventsByIdResponse200>> GetCatalystV1EventsByIdWithResponseAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1EventsByIdSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1EventsByIdResponse200), GetCatalystV1EventsByIdErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1EventsByIdSpec = new(
+        "getCatalystV1EventsById",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/events/{id}",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1EventsByIdErrors = new ErrorDecoders()
+        .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
     /// GET /catalyst/v1/fleet/by/user/{username}
@@ -2044,7 +2078,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/by/user/{username}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2081,7 +2115,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/ring",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])])],
         [new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2116,7 +2150,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2153,7 +2187,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/{id}/preview",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2188,7 +2222,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/{id}/reactions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2225,7 +2259,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/fleet/{id}/viewers",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2261,7 +2295,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/gallery",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:read"])])],
         [],
         null,
         null,
@@ -2329,7 +2363,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/gallery/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2366,7 +2400,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/gallery/by/id/{id}/document",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("revision", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2375,6 +2409,40 @@ public sealed partial class CatalystService
     private static readonly ErrorDecoders GetCatalystV1GalleryByIdByIdDocumentErrors = new ErrorDecoders()
         .Json("401", ApiJsonContext.Default.ErrorResponse)
         .Json("403", ApiJsonContext.Default.ErrorResponse)
+        .Json("404", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// GET /catalyst/v1/groups/{id}
+    ///
+    /// グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<GetCatalystV1GroupsByIdResponse200> GetCatalystV1GroupsByIdAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1GroupsByIdWithResponseAsync(id, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/groups/{id}
+    ///
+    /// グループ別ページの概要 (グループ情報・公開投稿の数・撮影したユーザー・代表的な写真) を返します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1GroupsByIdResponse200>> GetCatalystV1GroupsByIdWithResponseAsync(string id, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1GroupsByIdSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1GroupsByIdResponse200), GetCatalystV1GroupsByIdErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1GroupsByIdSpec = new(
+        "getCatalystV1GroupsById",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/groups/{id}",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1GroupsByIdErrors = new ErrorDecoders()
         .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
@@ -2404,7 +2472,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/item/search",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("type", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("offset", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2438,7 +2506,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/items/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2471,7 +2539,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/privacy/settings",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:read"])])],
         [],
         null,
         null,
@@ -2506,7 +2574,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/profile-tags/by/name/{name}/users",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("name", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("cursor", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2540,7 +2608,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/profile-tags/by/user/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2573,7 +2641,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/profile-tags/suggestions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2605,7 +2673,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/random",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -2637,7 +2705,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/reactions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -2670,7 +2738,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/relationships/by/username/{username}/counts",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2705,7 +2773,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/relationships/by/username/{username}/followers",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("page", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2741,7 +2809,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/relationships/by/username/{username}/followers/remote",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("page", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2777,7 +2845,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/relationships/by/username/{username}/followings",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("page", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2812,7 +2880,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/relationships/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2846,7 +2914,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/scheduled-statuses",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [],
         null,
         null,
@@ -2883,7 +2951,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -2918,7 +2986,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/by/id/{id}/book",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2956,7 +3024,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/by/id/{id}/book/{bookId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("bookId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -2993,7 +3061,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/by/id/{id}/random",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3028,7 +3096,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/by/user/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3063,7 +3131,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/smart-album/search",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3096,7 +3164,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/status/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3130,7 +3198,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/status/{id}/albums",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3165,7 +3233,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/status/{id}/favorite",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3200,7 +3268,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/status/{id}/reactions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3234,7 +3302,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/status/{id}/repost",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3275,7 +3343,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/archive",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("year", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("month", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("day", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("userId", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("excludeSensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3308,7 +3376,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/archive/months",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -3344,13 +3412,50 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/contest/by/slug/{slug}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders GetCatalystV1TimelineContestBySlugBySlugErrors = new ErrorDecoders()
+        .Json("404", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
+    /// GET /catalyst/v1/timeline/event/by/id/{id}
+    ///
+    /// イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<GetCatalystV1TimelineEventByIdByIdResponse200> GetCatalystV1TimelineEventByIdByIdAsync(string id, string? since = null, string? until = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1TimelineEventByIdByIdWithResponseAsync(id, since, until, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/timeline/event/by/id/{id}
+    ///
+    /// イベントの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1TimelineEventByIdByIdResponse200>> GetCatalystV1TimelineEventByIdByIdWithResponseAsync(string id, string? since = null, string? until = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String)
+            .Query("since", since, ApiJsonContext.Default.String)
+            .Query("until", until, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1TimelineEventByIdByIdSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1TimelineEventByIdByIdResponse200), GetCatalystV1TimelineEventByIdByIdErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1TimelineEventByIdByIdSpec = new(
+        "getCatalystV1TimelineEventByIdById",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/timeline/event/by/id/{id}",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1TimelineEventByIdByIdErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse)
         .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
@@ -3379,7 +3484,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/favorite",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3414,7 +3519,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/firehose",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3448,13 +3553,50 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/gallery",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders GetCatalystV1TimelineGalleryErrors = ErrorDecoders.None;
+
+    /// <summary>
+    /// GET /catalyst/v1/timeline/group/by/id/{id}
+    ///
+    /// グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<GetCatalystV1TimelineGroupByIdByIdResponse200> GetCatalystV1TimelineGroupByIdByIdAsync(string id, string? since = null, string? until = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await GetCatalystV1TimelineGroupByIdByIdWithResponseAsync(id, since, until, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// GET /catalyst/v1/timeline/group/by/id/{id}
+    ///
+    /// グループの写真を含む公開投稿のタイムラインを取得します。公開範囲 (public / quiet_public)・ブロック関係・センシティブ設定によるフィルタを適用します。
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<GetCatalystV1TimelineGroupByIdByIdResponse200>> GetCatalystV1TimelineGroupByIdByIdWithResponseAsync(string id, string? since = null, string? until = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String)
+            .Query("since", since, ApiJsonContext.Default.String)
+            .Query("until", until, ApiJsonContext.Default.String);
+        return _core.SendAsync(GetCatalystV1TimelineGroupByIdByIdSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.GetCatalystV1TimelineGroupByIdByIdResponse200), GetCatalystV1TimelineGroupByIdByIdErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec GetCatalystV1TimelineGroupByIdByIdSpec = new(
+        "getCatalystV1TimelineGroupByIdById",
+        global::System.Net.Http.HttpMethod.Get,
+        "/catalyst/v1/timeline/group/by/id/{id}",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
+        null,
+        null,
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders GetCatalystV1TimelineGroupByIdByIdErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse)
+        .Json("404", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
     /// GET /catalyst/v1/timeline/home
@@ -3480,7 +3622,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/home",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])])],
         [],
         null,
         null,
@@ -3516,7 +3658,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/item/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3554,7 +3696,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/search",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("q", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("exact", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3587,7 +3729,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/user/by/username/{username}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("exclude_sensitive", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3623,7 +3765,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/user/by/username/{username}/gallery",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("username", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3658,7 +3800,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/timeline/world/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("since", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("until", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3693,7 +3835,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/trend",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("format", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3727,7 +3869,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/user/follow-suggestions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])])],
         [new ParamSpec("tags", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("limit", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3761,7 +3903,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/user/recommendations",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])])],
         [],
         null,
         null,
@@ -3795,7 +3937,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/user/{id}/watch",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3833,7 +3975,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/weekly-themes",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("cursor", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("take", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("state", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3867,7 +4009,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/weekly-themes/by/slug/{slug}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -3905,7 +4047,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/weekly-themes/by/slug/{slug}/statuses",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("cursor", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("take", ParamLocation.Query, ParamStyle.Form, true), new ParamSpec("sort", ParamLocation.Query, ParamStyle.Form, true)],
         null,
         null,
@@ -3939,7 +4081,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/weekly-themes/current",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         null,
         null,
@@ -4005,7 +4147,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/weekly-themes/subscription",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:read"])])],
         [],
         null,
         null,
@@ -4039,7 +4181,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Get,
         "/catalyst/v1/worlds/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -4074,7 +4216,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4110,7 +4252,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/content/settings",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -4182,7 +4324,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/gallery/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4221,7 +4363,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/gallery/by/id/{id}/document",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4260,7 +4402,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -4299,7 +4441,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items/{itemId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("itemId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -4335,7 +4477,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/privacy/settings",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -4370,7 +4512,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/scheduled-statuses/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json });
@@ -4403,7 +4545,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/smart-album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -4440,7 +4582,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/status/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json });
@@ -4476,7 +4618,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/user/{id}/watch",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4513,7 +4655,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Patch,
         "/catalyst/v1/weekly-themes/subscription",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -4546,7 +4688,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/activitypub/settings",
         ["catalyst", "activitypub"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         null,
         null,
@@ -4583,7 +4725,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4619,7 +4761,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album/by/id/{id}/book",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["202"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4657,7 +4799,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album/by/id/{id}/book/{bookId}/regenerate",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("bookId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -4696,7 +4838,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album/by/id/{id}/invitation",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -4732,7 +4874,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album/by/id/{id}/members",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4771,7 +4913,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/album/by/id/{id}/report",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4808,7 +4950,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/blocks",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4845,7 +4987,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/contest/by/slug/{slug}/exclusions/{status}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:write"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("status", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -4884,7 +5026,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/contest/by/slug/{slug}/vote/{status}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("status", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -4962,7 +5104,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/fleet",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:fleet:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -4997,7 +5139,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/fleet/{id}/reactions/{symbol}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5036,7 +5178,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/fleet/{id}/report",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5073,7 +5215,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/fleet/{id}/view",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5110,7 +5252,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5148,7 +5290,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery/by/id/{id}/domains",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json });
@@ -5185,7 +5327,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery/by/id/{id}/publish",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5223,7 +5365,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery/by/id/{id}/sections",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -5261,7 +5403,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -5298,7 +5440,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/gallery/by/id/{id}/sources",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json });
@@ -5335,7 +5477,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/relationships",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -5369,7 +5511,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/relationships/bulk",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:read"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -5403,7 +5545,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/scheduled-statuses",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json });
@@ -5438,7 +5580,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/smart-album",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -5473,7 +5615,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/smart-album/by/id/{id}/book",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["202"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5511,7 +5653,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/smart-album/by/id/{id}/book/{bookId}/regenerate",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("bookId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5550,7 +5692,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/smart-album/by/id/{id}/report",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5587,7 +5729,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });
@@ -5621,7 +5763,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status/{id}/favorite",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5659,7 +5801,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status/{id}/reactions/custom/{customReactionId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("customReactionId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5698,7 +5840,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status/{id}/reactions/{symbol}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("symbol", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5736,7 +5878,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status/{id}/report",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5773,7 +5915,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/status/{id}/repost",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -5811,7 +5953,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/statuses/reactions",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])]), new SecurityRequirement([])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:statuses:read"])]), new SecurityRequirement([])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5880,7 +6022,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/user/{id}/report",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5918,7 +6060,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Post,
         "/catalyst/v1/user/{id}/watch",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:social:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -5990,7 +6132,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/album/by/id/{id}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:albums:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -6027,7 +6169,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/contest/by/slug/{slug}/participant-message",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:contests:write"])])],
         [new ParamSpec("slug", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["409"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
@@ -6066,7 +6208,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/gallery/by/id/{id}/domains/{domainId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("domainId", ParamLocation.Path, ParamStyle.Simple, false)],
         null,
         null,
@@ -6103,7 +6245,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/gallery/by/id/{id}/sections",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -6141,7 +6283,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/items",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -6180,7 +6322,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/gallery/by/id/{id}/sections/{sectionId}/overrides/{sourceId}",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:galleries:write"])])],
         [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sectionId", ParamLocation.Path, ParamStyle.Simple, false), new ParamSpec("sourceId", ParamLocation.Path, ParamStyle.Simple, false)],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json });
@@ -6216,7 +6358,7 @@ public sealed partial class CatalystService
         global::System.Net.Http.HttpMethod.Put,
         "/catalyst/v1/profile-tags",
         ["catalyst"],
-        [new SecurityRequirement([new SecurityScheme("bearerAuth", [])])],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:settings:write"])])],
         [],
         BodyKind.Json, "application/json",
         new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json });

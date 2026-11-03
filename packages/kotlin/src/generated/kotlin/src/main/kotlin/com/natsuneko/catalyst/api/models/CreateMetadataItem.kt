@@ -15,6 +15,10 @@ public data class CreateMetadataItem(
     public val platform: String? = null,
     @SerialName("world")
     public val world: CreateMetadataItemWorld? = null,
+    @SerialName("group")
+    public val group: CreateMetadataItemGroup? = null,
+    @SerialName("event")
+    public val event: CreateMetadataItemEvent? = null,
     @SerialName("users")
     public val users: List<CreateMetadataItemUsersItem>? = null,
     @SerialName("reference")
