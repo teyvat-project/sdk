@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.11.06"
+    "version": "2026.11.09"
   },
   "servers": [
     {
@@ -10448,8 +10448,7 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "format": "uri",
-                    "pattern": "^(https?:\\/\\/|)"
+                    "format": "uri"
                   },
                   {
                     "type": "string",
@@ -10465,8 +10464,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "format": "uri",
-                      "pattern": "^(https?:\\/\\/|)"
+                      "format": "uri"
                     },
                     {
                       "type": "string",
