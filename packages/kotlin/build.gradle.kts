@@ -18,7 +18,7 @@ java {
 
 dependencies {
     api("io.ktor:ktor-client-core:3.6.0")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.13.0")
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-client-mock:3.6.0")
