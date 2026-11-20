@@ -17,11 +17,11 @@ java {
 }
 
 dependencies {
-    api("io.ktor:ktor-client-core:3.6.0")
+    api("io.ktor:ktor-client-core:3.6.1")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
 
     testImplementation(kotlin("test"))
-    testImplementation("io.ktor:ktor-client-mock:3.6.0")
+    testImplementation("io.ktor:ktor-client-mock:3.6.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 }
 
