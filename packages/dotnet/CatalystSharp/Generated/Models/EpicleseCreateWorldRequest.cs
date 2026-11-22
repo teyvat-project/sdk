@@ -5,7 +5,7 @@
 
 namespace CatalystSharp.Api;
 
-public sealed partial class MetadataWorldAuthor
+public sealed partial class EpicleseCreateWorldRequest
 {
     [global::System.Text.Json.Serialization.JsonPropertyName("id")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
@@ -15,9 +15,11 @@ public sealed partial class MetadataWorldAuthor
     public required string PlatformIdentifier { get; set; }
 
     [global::System.Text.Json.Serialization.JsonPropertyName("platform")]
-    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
-    public string? Platform { get; set; }
+    public required string Platform { get; set; }
 
     [global::System.Text.Json.Serialization.JsonPropertyName("name")]
     public required string Name { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("author")]
+    public required EpicleseCreateWorldRequestAuthor? Author { get; set; }
 }

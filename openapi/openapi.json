@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.11.16"
+    "version": "2026.11.22"
   },
   "servers": [
     {
@@ -4818,6 +4818,9 @@
                 "count": {
                   "type": "number"
                 },
+                "everyone": {
+                  "type": "boolean"
+                },
                 "prize": {
                   "type": "string"
                 },
@@ -4957,6 +4960,7 @@
                 "name",
                 "description",
                 "count",
+                "everyone",
                 "prize",
                 "winners"
               ]
@@ -13073,7 +13077,7 @@
           "page"
         ]
       },
-      "MetadataWorld": {
+      "EpicleseCreateWorldRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -13090,6 +13094,7 @@
           },
           "name": {
             "type": "string",
+            "minLength": 1,
             "maxLength": 256
           },
           "author": {
@@ -29732,7 +29737,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetadataWorld"
+                "$ref": "#/components/schemas/EpicleseCreateWorldRequest"
               }
             }
           }

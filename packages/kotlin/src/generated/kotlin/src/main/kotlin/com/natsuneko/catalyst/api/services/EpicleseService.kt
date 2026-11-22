@@ -349,7 +349,7 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
      *
      * データカタログにワールドを登録します
      */
-    public suspend fun postEpicleseV1Worlds(body: MetadataWorld? = null, requestOptions: RequestOptions? = null): PostEpicleseV1WorldsResponse200 =
+    public suspend fun postEpicleseV1Worlds(body: EpicleseCreateWorldRequest? = null, requestOptions: RequestOptions? = null): PostEpicleseV1WorldsResponse200 =
         postEpicleseV1WorldsWithResponse(body, requestOptions).data
 
     /**
@@ -357,9 +357,9 @@ public class EpicleseService internal constructor(private val core: ApiClientCor
      *
      * データカタログにワールドを登録します
      */
-    public suspend fun postEpicleseV1WorldsWithResponse(body: MetadataWorld? = null, requestOptions: RequestOptions? = null): ApiResult<PostEpicleseV1WorldsResponse200> {
+    public suspend fun postEpicleseV1WorldsWithResponse(body: EpicleseCreateWorldRequest? = null, requestOptions: RequestOptions? = null): ApiResult<PostEpicleseV1WorldsResponse200> {
         val values = RequestValues()
-        if (body != null) values.jsonBody(body, MetadataWorld.serializer())
+        if (body != null) values.jsonBody(body, EpicleseCreateWorldRequest.serializer())
         return core.send(POST_EPICLESE_V1_WORLDS, values, ResponseDecoder.json(PostEpicleseV1WorldsResponse200.serializer()), POST_EPICLESE_V1_WORLDS_ERRORS, requestOptions)
     }
 

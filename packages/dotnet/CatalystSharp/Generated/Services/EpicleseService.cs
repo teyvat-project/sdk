@@ -572,7 +572,7 @@ public sealed partial class EpicleseService
     ///
     /// データカタログにワールドを登録します
     /// </summary>
-    public async global::System.Threading.Tasks.Task<PostEpicleseV1WorldsResponse200> PostEpicleseV1WorldsAsync(MetadataWorld? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    public async global::System.Threading.Tasks.Task<PostEpicleseV1WorldsResponse200> PostEpicleseV1WorldsAsync(EpicleseCreateWorldRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
         => (await PostEpicleseV1WorldsWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
 
     /// <summary>
@@ -580,10 +580,10 @@ public sealed partial class EpicleseService
     ///
     /// データカタログにワールドを登録します
     /// </summary>
-    public global::System.Threading.Tasks.Task<ApiResult<PostEpicleseV1WorldsResponse200>> PostEpicleseV1WorldsWithResponseAsync(MetadataWorld? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    public global::System.Threading.Tasks.Task<ApiResult<PostEpicleseV1WorldsResponse200>> PostEpicleseV1WorldsWithResponseAsync(EpicleseCreateWorldRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {
         var values = new RequestValues();
-        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.MetadataWorld);
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.EpicleseCreateWorldRequest);
         return _core.SendAsync(PostEpicleseV1WorldsSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.PostEpicleseV1WorldsResponse200), PostEpicleseV1WorldsErrors, requestOptions, cancellationToken);
     }
 

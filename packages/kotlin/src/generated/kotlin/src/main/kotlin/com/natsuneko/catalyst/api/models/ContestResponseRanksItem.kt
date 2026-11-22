@@ -17,6 +17,8 @@ public data class ContestResponseRanksItem(
     public val description: String,
     @SerialName("count")
     public val count: Double,
+    @SerialName("everyone")
+    public val everyone: Boolean,
     @SerialName("prize")
     public val prize: String,
     @SerialName("winners")

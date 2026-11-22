@@ -293,14 +293,14 @@ public struct EpicleseService: Sendable {
     /// POST /epiclese/v1/worlds
     ///
     /// データカタログにワールドを登録します
-    public func postEpicleseV1Worlds(body: MetadataWorld? = nil, options: RequestOptions? = nil) async throws -> PostEpicleseV1WorldsResponse200 {
+    public func postEpicleseV1Worlds(body: EpicleseCreateWorldRequest? = nil, options: RequestOptions? = nil) async throws -> PostEpicleseV1WorldsResponse200 {
         try await postEpicleseV1WorldsWithResponse(body: body, options: options).data
     }
 
     /// POST /epiclese/v1/worlds
     ///
     /// データカタログにワールドを登録します
-    public func postEpicleseV1WorldsWithResponse(body: MetadataWorld? = nil, options: RequestOptions? = nil) async throws -> ApiResult<PostEpicleseV1WorldsResponse200> {
+    public func postEpicleseV1WorldsWithResponse(body: EpicleseCreateWorldRequest? = nil, options: RequestOptions? = nil) async throws -> ApiResult<PostEpicleseV1WorldsResponse200> {
         var values = RequestValues()
         if let body {
             try values.json(body)

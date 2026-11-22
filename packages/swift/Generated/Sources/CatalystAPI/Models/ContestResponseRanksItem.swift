@@ -8,14 +8,16 @@ public struct ContestResponseRanksItem: Codable, Hashable, Sendable {
     public var name: String
     public var description: String
     public var count: Double
+    public var everyone: Bool
     public var prize: String
     public var winners: [ContestResponseRanksItemWinnersItem]
 
-    public init(id: String, name: String, description: String, count: Double, prize: String, winners: [ContestResponseRanksItemWinnersItem]) {
+    public init(id: String, name: String, description: String, count: Double, everyone: Bool, prize: String, winners: [ContestResponseRanksItemWinnersItem]) {
         self.id = id
         self.name = name
         self.description = description
         self.count = count
+        self.everyone = everyone
         self.prize = prize
         self.winners = winners
     }
@@ -25,6 +27,7 @@ public struct ContestResponseRanksItem: Codable, Hashable, Sendable {
         case name
         case description
         case count
+        case everyone
         case prize
         case winners
     }
@@ -35,6 +38,7 @@ public struct ContestResponseRanksItem: Codable, Hashable, Sendable {
         self.name = try container.decode(String.self, forKey: .name)
         self.description = try container.decode(String.self, forKey: .description)
         self.count = try container.decode(Double.self, forKey: .count)
+        self.everyone = try container.decode(Bool.self, forKey: .everyone)
         self.prize = try container.decode(String.self, forKey: .prize)
         self.winners = try container.decode([ContestResponseRanksItemWinnersItem].self, forKey: .winners)
     }
@@ -45,6 +49,7 @@ public struct ContestResponseRanksItem: Codable, Hashable, Sendable {
         try container.encode(name, forKey: .name)
         try container.encode(description, forKey: .description)
         try container.encode(count, forKey: .count)
+        try container.encode(everyone, forKey: .everyone)
         try container.encode(prize, forKey: .prize)
         try container.encode(winners, forKey: .winners)
     }

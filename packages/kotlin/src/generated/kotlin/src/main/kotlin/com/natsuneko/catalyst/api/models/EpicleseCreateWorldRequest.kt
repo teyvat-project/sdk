@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class MetadataWorld(
+public data class EpicleseCreateWorldRequest(
     @SerialName("id")
     public val id: String? = null,
     @SerialName("platformIdentifier")
@@ -18,5 +18,5 @@ public data class MetadataWorld(
     @SerialName("name")
     public val name: String,
     @SerialName("author")
-    public val author: MetadataWorldAuthor?,
+    public val author: EpicleseCreateWorldRequestAuthor?,
 )

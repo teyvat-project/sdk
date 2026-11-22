@@ -3,7 +3,7 @@
 import Foundation
 import CatalystAPICore
 
-public struct MetadataWorldAuthor: Codable, Hashable, Sendable {
+public struct EpicleseCreateWorldRequestAuthor: Codable, Hashable, Sendable {
     public var id: UUID?
     public var platformIdentifier: String
     public var platform: String?

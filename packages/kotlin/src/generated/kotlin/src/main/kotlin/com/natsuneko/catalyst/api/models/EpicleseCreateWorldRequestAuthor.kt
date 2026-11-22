@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class MetadataWorldAuthor(
+public data class EpicleseCreateWorldRequestAuthor(
     @SerialName("id")
     public val id: String? = null,
     @SerialName("platformIdentifier")

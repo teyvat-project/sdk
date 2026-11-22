@@ -19,6 +19,9 @@ public sealed partial class ContestResponseRanksItem
     [global::System.Text.Json.Serialization.JsonPropertyName("count")]
     public required double Count { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("everyone")]
+    public required bool Everyone { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("prize")]
     public required string Prize { get; set; }
 

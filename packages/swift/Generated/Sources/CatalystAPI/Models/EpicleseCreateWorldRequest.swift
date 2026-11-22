@@ -3,14 +3,14 @@
 import Foundation
 import CatalystAPICore
 
-public struct MetadataWorld: Codable, Hashable, Sendable {
+public struct EpicleseCreateWorldRequest: Codable, Hashable, Sendable {
     public var id: UUID?
     public var platformIdentifier: String
     public var platform: String
     public var name: String
-    public var author: MetadataWorldAuthor?
+    public var author: EpicleseCreateWorldRequestAuthor?
 
-    public init(id: UUID? = nil, platformIdentifier: String, platform: String, name: String, author: MetadataWorldAuthor?) {
+    public init(id: UUID? = nil, platformIdentifier: String, platform: String, name: String, author: EpicleseCreateWorldRequestAuthor?) {
         self.id = id
         self.platformIdentifier = platformIdentifier
         self.platform = platform
@@ -32,7 +32,7 @@ public struct MetadataWorld: Codable, Hashable, Sendable {
         self.platformIdentifier = try container.decode(String.self, forKey: .platformIdentifier)
         self.platform = try container.decode(String.self, forKey: .platform)
         self.name = try container.decode(String.self, forKey: .name)
-        self.author = try container.decodeIfPresent(MetadataWorldAuthor.self, forKey: .author)
+        self.author = try container.decodeIfPresent(EpicleseCreateWorldRequestAuthor.self, forKey: .author)
     }
 
     public func encode(to encoder: any Encoder) throws {

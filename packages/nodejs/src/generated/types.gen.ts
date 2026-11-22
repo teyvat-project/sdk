@@ -419,6 +419,7 @@ export type ContestResponse = {
     name: string;
     description: string;
     count: number;
+    everyone: boolean;
     prize: string;
     winners: {
       id: string;
@@ -700,6 +701,19 @@ export type EpicleseAuthorsResponse = {
     next: number | null;
     prev: number | null;
   };
+};
+
+export type EpicleseCreateWorldRequest = {
+  id?: string;
+  platformIdentifier: string;
+  platform: string;
+  name: string;
+  author: {
+    id?: string;
+    platformIdentifier: string;
+    platform?: string;
+    name: string;
+  } | null;
 };
 
 export type EpicleseDenormalizedMetadataResponse = {
@@ -1925,19 +1939,6 @@ export type MetadataGroup = {
   platformIdentifier: string;
   platform: string;
   name: string;
-};
-
-export type MetadataWorld = {
-  id?: string;
-  platformIdentifier: string;
-  platform: string;
-  name: string;
-  author: {
-    id?: string;
-    platformIdentifier: string;
-    platform?: string;
-    name: string;
-  } | null;
 };
 
 export type NotificationResponse = {
