@@ -55,19 +55,20 @@ public sealed partial class MediaService
     /// <summary>
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
     /// </summary>
-    public async global::System.Threading.Tasks.Task<MediaUploadResponse> PostMediaV2UploadAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
-        => (await PostMediaV2UploadWithResponseAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+    public async global::System.Threading.Tasks.Task<MediaUploadResponse> PostMediaV2UploadAsync(MediaUploadRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostMediaV2UploadWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
 
     /// <summary>
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
     /// </summary>
-    public global::System.Threading.Tasks.Task<ApiResult<MediaUploadResponse>> PostMediaV2UploadWithResponseAsync(RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    public global::System.Threading.Tasks.Task<ApiResult<MediaUploadResponse>> PostMediaV2UploadWithResponseAsync(MediaUploadRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {
         var values = new RequestValues();
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.MediaUploadRequest);
         return _core.SendAsync(PostMediaV2UploadSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.MediaUploadResponse), PostMediaV2UploadErrors, requestOptions, cancellationToken);
     }
 
@@ -78,11 +79,11 @@ public sealed partial class MediaService
         ["media"],
         [new SecurityRequirement([new SecurityScheme("bearerAuth", ["media:write"])])],
         [],
-        null,
-        null,
-        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["500"] = ResponseKind.Json });
 
     private static readonly ErrorDecoders PostMediaV2UploadErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse)
         .Json("401", ApiJsonContext.Default.ErrorResponse)
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 }

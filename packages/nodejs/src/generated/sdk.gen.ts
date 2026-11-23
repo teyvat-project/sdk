@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import type { Client, OperationSpec } from './core/index.js';
-import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseCreateWorldRequest, EpicleseDenormalizedMetadataResponse, EpicleseEventResponse, EpicleseGroupResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetPreviewResponse, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadResponse, MetadataAuthor, MetadataEvent, MetadataGroup, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
+import type { AccessTokenResponse, ActivitypubSettingsResponse, AddCatalystGallerySource, Album, AlbumBookResponse, AlbumMemberResponse, AlbumOrSmartAlbumResponse, AlbumResponse, AnnouncementResponse, BulkFollow, BulkStatusReactions, CatalystContentSettings, CatalystNewcomerStatusResponse, CatalystPrivacySettings, CatalystUserAcquisition, ContentSettingsResponse, ContestExclusion, ContestParticipantMessage, ContestParticipantMessageResponse, ContestResponse, ContestStatsResponse, CreateAlbumBook, CreateCatalystGallery, CreateCatalystGalleryDomain, CreateCatalystGallerySection, CreateCatalystGallerySectionItem, CreateCatalystReport, CreateCatalystWatchUser, CreateMetadata, CustomReactionListResponse, CustomReactionResponse, EditScheduledStatus, EditStatus, EpicleseAuthorResponse, EpicleseAuthorsResponse, EpicleseCreateWorldRequest, EpicleseDenormalizedMetadataResponse, EpicleseEventResponse, EpicleseGroupResponse, EpicleseItemResponse, EpicleseItemsResponse, EpiclesePlatformResponse, EpicleseStatusMetadataResponse, EpicleseStatusesByItemResponse, EpicleseWorldResponse, EpicleseWorldsResponse, ErrorResponse, Fleet, FleetPreviewResponse, FleetReactionResponse, FleetReactionSymbolResponse, FleetResponse, FleetRingResponse, FleetViewerResponse, FollowSuggestionUserResponse, FollowingOrFollowersListResponse, GalleryDocumentResponse, GalleryPublicDocumentResponse, GalleryResponse, ImportDenormalizedMetadata, InsertOrRemoveStatusAlbum, InviteAlbumMember, LuckyV12Response, MediaUploadRequest, MediaUploadResponse, MetadataAuthor, MetadataEvent, MetadataGroup, NotificationResponse, OauthErrorResponse, OriginalReactionResponse, PointBalanceResponse, PointLedgerResponse, PointRedemptionResponse, PointRewardResponse, PrivacySettingsResponse, ProfileTagResponse, ProfileTagSuggestionResponse, ProfileTagUsersResponse, RemoteFollowersListResponse, ReorderCatalystGallerySectionItems, ReorderCatalystGallerySections, RespondAlbumInvitation, RestoreCredentialAuthenticationOptionsRequest, RestoreCredentialCreationOptionsResponse, RestoreCredentialErrorResponse, RestoreCredentialRegistration, RestoreCredentialRequestOptionsResponse, RestoreCredentialResponse, RichTrendingItemResponse, ScheduleStatus, ScheduledStatusResponse, SmartAlbum, SmartAlbumResponse, Status, StatusReactionResponse, StatusV10Response, StatusV11Response, StatusV12Response, UpdateCatalystGallery, UpdateCatalystGalleryRevision, UpdateCatalystGallerySection, UpdateCatalystGallerySectionItem, UpdateCatalystWatchUser, UpdateProfileTags, UpsertCatalystGallerySectionItemOverride, User, UserRelationshipsCountResponse, UserRelationshipsResponse, UserResponse, UserWatchSubscriptionResponse, WeeklyThemeResponse, WeeklyThemeSponsorshipRequest, WeeklyThemeSponsorshipResponse, WeeklyThemeSubscription, WeeklyThemeSubscriptionResponse } from './types.gen.js';
 
 export type Options<TData, ThrowOnError extends boolean = boolean> = TData & {
   client?: Client<any>;
@@ -8597,7 +8597,9 @@ const postGiftiaV1PointsRewardsByIdRedeemSpec: OperationSpec = {
 export const postGiftiaV1PointsRewardsByIdRedeem = <ThrowOnError extends boolean = false>(options: Options<PostGiftiaV1PointsRewardsByIdRedeemData, ThrowOnError>) =>
   (options.client ?? client).request<PostGiftiaV1PointsRewardsByIdRedeemResponse, PostGiftiaV1PointsRewardsByIdRedeemError, ThrowOnError>(postGiftiaV1PointsRewardsByIdRedeemSpec, options);
 
-export type PostMediaV2UploadData = {};
+export type PostMediaV2UploadData = {
+  body?: MediaUploadRequest;
+};
 
 export type PostMediaV2UploadResponses = {
   200: MediaUploadResponse;
@@ -8606,6 +8608,7 @@ export type PostMediaV2UploadResponses = {
 export type PostMediaV2UploadResponse = PostMediaV2UploadResponses[keyof PostMediaV2UploadResponses];
 
 export type PostMediaV2UploadErrors = {
+  400: ErrorResponse;
   401: ErrorResponse;
   500: ErrorResponse;
 };
@@ -8619,13 +8622,14 @@ const postMediaV2UploadSpec: OperationSpec = {
   tags: ['media'],
   security: [[{ scheme: 'bearerAuth', scopes: ['media:write'] }]],
   params: [],
-  responses: { '200': 'json', '401': 'json', '500': 'json' },
+  body: { kind: 'json', mediaType: 'application/json' },
+  responses: { '200': 'json', '400': 'json', '401': 'json', '500': 'json' },
 };
 
 /**
  * POST /media/v2/upload
  *
- * 画像をアップロードするための URL を取得します。
+ * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
  */
 export const postMediaV2Upload = <ThrowOnError extends boolean = false>(options: Options<PostMediaV2UploadData, ThrowOnError> = {}) =>
   (options.client ?? client).request<PostMediaV2UploadResponse, PostMediaV2UploadError, ThrowOnError>(postMediaV2UploadSpec, options);

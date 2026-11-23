@@ -42,18 +42,19 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
     /**
      * POST /media/v2/upload
      *
-     * 画像をアップロードするための URL を取得します。
+     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
      */
-    public suspend fun postMediaV2Upload(requestOptions: RequestOptions? = null): MediaUploadResponse =
-        postMediaV2UploadWithResponse(requestOptions).data
+    public suspend fun postMediaV2Upload(body: MediaUploadRequest? = null, requestOptions: RequestOptions? = null): MediaUploadResponse =
+        postMediaV2UploadWithResponse(body, requestOptions).data
 
     /**
      * POST /media/v2/upload
      *
-     * 画像をアップロードするための URL を取得します。
+     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
      */
-    public suspend fun postMediaV2UploadWithResponse(requestOptions: RequestOptions? = null): ApiResult<MediaUploadResponse> {
+    public suspend fun postMediaV2UploadWithResponse(body: MediaUploadRequest? = null, requestOptions: RequestOptions? = null): ApiResult<MediaUploadResponse> {
         val values = RequestValues()
+        if (body != null) values.jsonBody(body, MediaUploadRequest.serializer())
         return core.send(POST_MEDIA_V2_UPLOAD, values, ResponseDecoder.json(MediaUploadResponse.serializer()), POST_MEDIA_V2_UPLOAD_ERRORS, requestOptions)
     }
 
@@ -82,12 +83,12 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
             listOf("media"),
             listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("media:write"))))),
             emptyList(),
-            null,
-            null,
-            mapOf("200" to ResponseKind.Json, "401" to ResponseKind.Json, "500" to ResponseKind.Json),
+            BodyKind.Json, "application/json",
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "500" to ResponseKind.Json),
         )
 
         val POST_MEDIA_V2_UPLOAD_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", ErrorResponse.serializer())
             .json("401", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
     }

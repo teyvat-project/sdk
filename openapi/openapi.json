@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Natsuneko Laboratory API",
-    "version": "2026.11.22"
+    "version": "2026.11.23"
   },
   "servers": [
     {
@@ -13365,6 +13365,29 @@
         "required": [
           "url",
           "signedUrl"
+        ]
+      },
+      "MediaUploadRequest": {
+        "type": "object",
+        "properties": {
+          "contentType": {
+            "type": "string",
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/gif",
+              "image/webp"
+            ]
+          },
+          "contentLength": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 41943040
+          }
+        },
+        "required": [
+          "contentType",
+          "contentLength"
         ]
       },
       "NotificationResponse": {
@@ -30259,7 +30282,7 @@
     "/media/v2/upload": {
       "post": {
         "summary": "POST /media/v2/upload",
-        "description": "画像をアップロードするための URL を取得します。",
+        "description": "画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。",
         "tags": [
           "media"
         ],
@@ -30270,6 +30293,15 @@
             ]
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaUploadRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -30277,6 +30309,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MediaUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }

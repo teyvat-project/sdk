@@ -1906,6 +1906,11 @@ export type LuckyV12Response = {
   type: 'smart-album';
 };
 
+export type MediaUploadRequest = {
+  contentType: 'image/png' | 'image/jpeg' | 'image/gif' | 'image/webp';
+  contentLength: number;
+};
+
 export type MediaUploadResponse = {
   url: string;
   signedUrl: string;

@@ -30,16 +30,19 @@ public struct MediaService: Sendable {
 
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。
-    public func postMediaV2Upload(options: RequestOptions? = nil) async throws -> MediaUploadResponse {
-        try await postMediaV2UploadWithResponse(options: options).data
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    public func postMediaV2Upload(body: MediaUploadRequest? = nil, options: RequestOptions? = nil) async throws -> MediaUploadResponse {
+        try await postMediaV2UploadWithResponse(body: body, options: options).data
     }
 
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。
-    public func postMediaV2UploadWithResponse(options: RequestOptions? = nil) async throws -> ApiResult<MediaUploadResponse> {
-        let values = RequestValues()
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    public func postMediaV2UploadWithResponse(body: MediaUploadRequest? = nil, options: RequestOptions? = nil) async throws -> ApiResult<MediaUploadResponse> {
+        var values = RequestValues()
+        if let body {
+            try values.json(body)
+        }
         return try await core.send(Self.postMediaV2UploadSpec, values, decoder: .json(MediaUploadResponse.self), errors: Self.postMediaV2UploadErrors, options: options)
     }
 }
@@ -74,10 +77,13 @@ extension MediaService {
             SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["media:write"])]),
         ],
         params: [],
-        responses: ["200": .json, "401": .json, "500": .json]
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["200": .json, "400": .json, "401": .json, "500": .json]
     )
 
     static let postMediaV2UploadErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
         .json("401", ErrorResponse.self)
         .json("500", ErrorResponse.self)
 }

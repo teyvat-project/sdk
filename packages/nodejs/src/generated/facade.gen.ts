@@ -2401,7 +2401,7 @@ export function createFacade(client: Client<ApiAuth>) {
           /**
            * POST /media/v2/upload
            *
-           * 画像をアップロードするための URL を取得します。
+           * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
            */
           create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostMediaV2UploadData, ThrowOnError>, 'client'>) =>
             postMediaV2Upload<ThrowOnError>({ ...options, client }),
