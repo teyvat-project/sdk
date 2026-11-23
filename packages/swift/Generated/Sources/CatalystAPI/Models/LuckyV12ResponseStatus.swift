@@ -17,12 +17,14 @@ public struct LuckyV12ResponseStatus: Codable, Hashable, Sendable {
     public var updatedAt: Date
     public var visitor: LuckyV12ResponseStatusVisitor?
     public var privacy: LuckyV12ResponseStatusPrivacy
+    public var locked: Bool?
+    public var passphrase: String?
     public var repost: LuckyV12ResponseStatusRepost?
     public var cursor: String?
     public var addedBy: LuckyV12ResponseStatusAddedBy?
     public var type: String
 
-    public init(isRecommended: Bool? = nil, isFirstPost: Bool? = nil, id: String, body: String, user: LuckyV12ResponseStatusUser?, medias: [LuckyV12ResponseStatusMediasItem], contest: LuckyV12ResponseStatusContest?, weeklyTheme: LuckyV12ResponseStatusWeeklyTheme?, reactions: [String: LuckyV12ResponseStatusReactionsValue], createdAt: Date, updatedAt: Date, visitor: LuckyV12ResponseStatusVisitor? = nil, privacy: LuckyV12ResponseStatusPrivacy, repost: LuckyV12ResponseStatusRepost? = nil, cursor: String? = nil, addedBy: LuckyV12ResponseStatusAddedBy? = nil, type: String) {
+    public init(isRecommended: Bool? = nil, isFirstPost: Bool? = nil, id: String, body: String, user: LuckyV12ResponseStatusUser?, medias: [LuckyV12ResponseStatusMediasItem], contest: LuckyV12ResponseStatusContest?, weeklyTheme: LuckyV12ResponseStatusWeeklyTheme?, reactions: [String: LuckyV12ResponseStatusReactionsValue], createdAt: Date, updatedAt: Date, visitor: LuckyV12ResponseStatusVisitor? = nil, privacy: LuckyV12ResponseStatusPrivacy, locked: Bool? = nil, passphrase: String? = nil, repost: LuckyV12ResponseStatusRepost? = nil, cursor: String? = nil, addedBy: LuckyV12ResponseStatusAddedBy? = nil, type: String) {
         self.isRecommended = isRecommended
         self.isFirstPost = isFirstPost
         self.id = id
@@ -36,6 +38,8 @@ public struct LuckyV12ResponseStatus: Codable, Hashable, Sendable {
         self.updatedAt = updatedAt
         self.visitor = visitor
         self.privacy = privacy
+        self.locked = locked
+        self.passphrase = passphrase
         self.repost = repost
         self.cursor = cursor
         self.addedBy = addedBy
@@ -56,6 +60,8 @@ public struct LuckyV12ResponseStatus: Codable, Hashable, Sendable {
         case updatedAt
         case visitor
         case privacy
+        case locked
+        case passphrase
         case repost
         case cursor
         case addedBy
@@ -77,6 +83,8 @@ public struct LuckyV12ResponseStatus: Codable, Hashable, Sendable {
         self.updatedAt = try container.decode(Date.self, forKey: .updatedAt)
         self.visitor = try container.decodeIfPresent(LuckyV12ResponseStatusVisitor.self, forKey: .visitor)
         self.privacy = try container.decode(LuckyV12ResponseStatusPrivacy.self, forKey: .privacy)
+        self.locked = try container.decodeIfPresent(Bool.self, forKey: .locked)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.repost = try container.decodeIfPresent(LuckyV12ResponseStatusRepost.self, forKey: .repost)
         self.cursor = try container.decodeIfPresent(String.self, forKey: .cursor)
         self.addedBy = try container.decodeIfPresent(LuckyV12ResponseStatusAddedBy.self, forKey: .addedBy)
@@ -98,6 +106,8 @@ public struct LuckyV12ResponseStatus: Codable, Hashable, Sendable {
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(visitor, forKey: .visitor)
         try container.encode(privacy, forKey: .privacy)
+        try container.encodeIfPresent(locked, forKey: .locked)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
         try container.encodeIfPresent(repost, forKey: .repost)
         try container.encodeIfPresent(cursor, forKey: .cursor)
         try container.encodeIfPresent(addedBy, forKey: .addedBy)

@@ -17,7 +17,7 @@ public class ScheduleStatusPrivacy(public val value: String) {
     /** Whether [value] is one of the values the API declared. */
     public val isKnown: Boolean
         get() = when (value) {
-            "public", "quiet_public", "followers", "private" -> true
+            "public", "quiet_public", "followers", "passphrase", "private" -> true
             else -> false
         }
 
@@ -31,10 +31,11 @@ public class ScheduleStatusPrivacy(public val value: String) {
         public val Public: ScheduleStatusPrivacy = ScheduleStatusPrivacy("public")
         public val QuietPublic: ScheduleStatusPrivacy = ScheduleStatusPrivacy("quiet_public")
         public val Followers: ScheduleStatusPrivacy = ScheduleStatusPrivacy("followers")
+        public val Passphrase: ScheduleStatusPrivacy = ScheduleStatusPrivacy("passphrase")
         public val Private: ScheduleStatusPrivacy = ScheduleStatusPrivacy("private")
 
         /** The values the API declared. */
-        public val knownValues: List<ScheduleStatusPrivacy> = listOf(Public, QuietPublic, Followers, Private)
+        public val knownValues: List<ScheduleStatusPrivacy> = listOf(Public, QuietPublic, Followers, Passphrase, Private)
     }
 
     public object Serializer : KSerializer<ScheduleStatusPrivacy> {

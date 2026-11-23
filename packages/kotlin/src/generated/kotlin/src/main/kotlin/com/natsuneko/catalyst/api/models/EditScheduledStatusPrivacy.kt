@@ -17,7 +17,7 @@ public class EditScheduledStatusPrivacy(public val value: String) {
     /** Whether [value] is one of the values the API declared. */
     public val isKnown: Boolean
         get() = when (value) {
-            "public", "quiet_public", "followers", "private" -> true
+            "public", "quiet_public", "followers", "passphrase", "private" -> true
             else -> false
         }
 
@@ -31,10 +31,11 @@ public class EditScheduledStatusPrivacy(public val value: String) {
         public val Public: EditScheduledStatusPrivacy = EditScheduledStatusPrivacy("public")
         public val QuietPublic: EditScheduledStatusPrivacy = EditScheduledStatusPrivacy("quiet_public")
         public val Followers: EditScheduledStatusPrivacy = EditScheduledStatusPrivacy("followers")
+        public val Passphrase: EditScheduledStatusPrivacy = EditScheduledStatusPrivacy("passphrase")
         public val Private: EditScheduledStatusPrivacy = EditScheduledStatusPrivacy("private")
 
         /** The values the API declared. */
-        public val knownValues: List<EditScheduledStatusPrivacy> = listOf(Public, QuietPublic, Followers, Private)
+        public val knownValues: List<EditScheduledStatusPrivacy> = listOf(Public, QuietPublic, Followers, Passphrase, Private)
     }
 
     public object Serializer : KSerializer<EditScheduledStatusPrivacy> {

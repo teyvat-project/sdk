@@ -15,6 +15,8 @@ public data class ScheduledStatusResponse(
     public val body: String,
     @SerialName("privacy")
     public val privacy: ScheduledStatusResponsePrivacy,
+    @SerialName("passphrase")
+    public val passphrase: String?,
     @SerialName("isNsfw")
     public val isNsfw: Boolean,
     @SerialName("isSpoiler")

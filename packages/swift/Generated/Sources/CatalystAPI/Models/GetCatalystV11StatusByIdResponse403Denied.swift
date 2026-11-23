@@ -6,26 +6,31 @@ import CatalystAPICore
 public struct GetCatalystV11StatusByIdResponse403Denied: Codable, Hashable, Sendable {
     public var reason: String
     public var author: UserResponse
+    public var statusId: String?
 
-    public init(reason: String, author: UserResponse) {
+    public init(reason: String, author: UserResponse, statusId: String? = nil) {
         self.reason = reason
         self.author = author
+        self.statusId = statusId
     }
 
     private enum CodingKeys: String, CodingKey {
         case reason
         case author
+        case statusId
     }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.reason = try container.decode(String.self, forKey: .reason)
         self.author = try container.decode(UserResponse.self, forKey: .author)
+        self.statusId = try container.decodeIfPresent(String.self, forKey: .statusId)
     }
 
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(reason, forKey: .reason)
         try container.encode(author, forKey: .author)
+        try container.encodeIfPresent(statusId, forKey: .statusId)
     }
 }

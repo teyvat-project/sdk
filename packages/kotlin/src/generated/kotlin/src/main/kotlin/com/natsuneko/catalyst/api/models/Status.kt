@@ -27,6 +27,8 @@ public data class Status(
     public val isAllowComments: Boolean,
     @SerialName("privacy")
     public val privacy: StatusPrivacy? = null,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
     @SerialName("contestId")
     public val contestId: String? = null,
     @SerialName("weeklyThemeId")

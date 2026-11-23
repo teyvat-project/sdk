@@ -26,6 +26,8 @@ public data class LuckyV12ResponseSmartAlbumStatusesItem(
     public val contest: JsonElement? = null,
     @SerialName("weeklyTheme")
     public val weeklyTheme: JsonElement? = null,
+    @SerialName("locked")
+    public val locked: Boolean? = null,
     @SerialName("reactions")
     public val reactions: JsonElement? = null,
 )

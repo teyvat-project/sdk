@@ -34,6 +34,10 @@ public sealed partial class AlbumOrSmartAlbumResponseStatusesItem
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public global::System.Text.Json.JsonElement? WeeklyTheme { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("locked")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Locked { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("reactions")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public global::System.Text.Json.JsonElement? Reactions { get; set; }

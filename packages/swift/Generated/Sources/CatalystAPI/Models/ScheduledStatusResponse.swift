@@ -7,6 +7,7 @@ public struct ScheduledStatusResponse: Codable, Hashable, Sendable {
     public var id: String
     public var body: String
     public var privacy: ScheduledStatusResponsePrivacy
+    public var passphrase: String?
     public var isNsfw: Bool
     public var isSpoiler: Bool
     public var medias: [ScheduledStatusResponseMediasItem]
@@ -14,10 +15,11 @@ public struct ScheduledStatusResponse: Codable, Hashable, Sendable {
     public var publishAt: Date
     public var createdAt: Date
 
-    public init(id: String, body: String, privacy: ScheduledStatusResponsePrivacy, isNsfw: Bool, isSpoiler: Bool, medias: [ScheduledStatusResponseMediasItem], weeklyTheme: ScheduledStatusResponseWeeklyTheme?, publishAt: Date, createdAt: Date) {
+    public init(id: String, body: String, privacy: ScheduledStatusResponsePrivacy, passphrase: String?, isNsfw: Bool, isSpoiler: Bool, medias: [ScheduledStatusResponseMediasItem], weeklyTheme: ScheduledStatusResponseWeeklyTheme?, publishAt: Date, createdAt: Date) {
         self.id = id
         self.body = body
         self.privacy = privacy
+        self.passphrase = passphrase
         self.isNsfw = isNsfw
         self.isSpoiler = isSpoiler
         self.medias = medias
@@ -30,6 +32,7 @@ public struct ScheduledStatusResponse: Codable, Hashable, Sendable {
         case id
         case body
         case privacy
+        case passphrase
         case isNsfw
         case isSpoiler
         case medias
@@ -43,6 +46,7 @@ public struct ScheduledStatusResponse: Codable, Hashable, Sendable {
         self.id = try container.decode(String.self, forKey: .id)
         self.body = try container.decode(String.self, forKey: .body)
         self.privacy = try container.decode(ScheduledStatusResponsePrivacy.self, forKey: .privacy)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.isNsfw = try container.decode(Bool.self, forKey: .isNsfw)
         self.isSpoiler = try container.decode(Bool.self, forKey: .isSpoiler)
         self.medias = try container.decode([ScheduledStatusResponseMediasItem].self, forKey: .medias)
@@ -56,6 +60,7 @@ public struct ScheduledStatusResponse: Codable, Hashable, Sendable {
         try container.encode(id, forKey: .id)
         try container.encode(body, forKey: .body)
         try container.encode(privacy, forKey: .privacy)
+        try container.encode(passphrase, forKey: .passphrase)
         try container.encode(isNsfw, forKey: .isNsfw)
         try container.encode(isSpoiler, forKey: .isSpoiler)
         try container.encode(medias, forKey: .medias)

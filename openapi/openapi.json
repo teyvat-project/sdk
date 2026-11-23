@@ -392,8 +392,15 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
             ]
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "passphrase": {
+            "type": "string"
           },
           "repost": {
             "type": "object",
@@ -794,6 +801,9 @@
           },
           "contest": {},
           "weeklyTheme": {},
+          "locked": {
+            "type": "boolean"
+          },
           "reactions": {}
         },
         "required": [
@@ -1533,8 +1543,15 @@
                   "public",
                   "quiet_public",
                   "followers",
+                  "passphrase",
                   "private"
                 ]
+              },
+              "locked": {
+                "type": "boolean"
+              },
+              "passphrase": {
+                "type": "string"
               },
               "repost": {
                 "type": "object",
@@ -2080,6 +2097,9 @@
                     },
                     "contest": {},
                     "weeklyTheme": {},
+                    "locked": {
+                      "type": "boolean"
+                    },
                     "reactions": {}
                   },
                   "required": [
@@ -2539,6 +2559,9 @@
                     },
                     "contest": {},
                     "weeklyTheme": {},
+                    "locked": {
+                      "type": "boolean"
+                    },
                     "reactions": {}
                   },
                   "required": [
@@ -2951,8 +2974,15 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
             ]
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "passphrase": {
+            "type": "string"
           },
           "repost": {
             "type": "object",
@@ -3993,6 +4023,9 @@
                 },
                 "contest": {},
                 "weeklyTheme": {},
+                "locked": {
+                  "type": "boolean"
+                },
                 "reactions": {}
               },
               "required": [
@@ -4492,6 +4525,9 @@
                 },
                 "contest": {},
                 "weeklyTheme": {},
+                "locked": {
+                  "type": "boolean"
+                },
                 "reactions": {}
               },
               "required": [
@@ -8818,7 +8854,14 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
+            ]
+          },
+          "passphrase": {
+            "type": [
+              "string",
+              "null"
             ]
           },
           "isNsfw": {
@@ -8929,6 +8972,7 @@
           "id",
           "body",
           "privacy",
+          "passphrase",
           "isNsfw",
           "isSpoiler",
           "medias",
@@ -8951,8 +8995,12 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
             ]
+          },
+          "passphrase": {
+            "type": "string"
           },
           "isNsfw": {
             "type": "boolean"
@@ -9002,9 +9050,13 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
             ],
             "default": "public"
+          },
+          "passphrase": {
+            "type": "string"
           },
           "weeklyThemeId": {
             "type": "string"
@@ -9472,6 +9524,9 @@
                 },
                 "contest": {},
                 "weeklyTheme": {},
+                "locked": {
+                  "type": "boolean"
+                },
                 "reactions": {}
               },
               "required": [
@@ -9605,10 +9660,24 @@
             "type": "string",
             "minLength": 0,
             "maxLength": 2000
+          },
+          "passphrase": {
+            "type": "string"
           }
         },
         "required": [
           "description"
+        ]
+      },
+      "UnlockStatus": {
+        "type": "object",
+        "properties": {
+          "passphrase": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "passphrase"
         ]
       },
       "Status": {
@@ -9648,9 +9717,13 @@
               "public",
               "quiet_public",
               "followers",
+              "passphrase",
               "private"
             ],
             "default": "public"
+          },
+          "passphrase": {
+            "type": "string"
           },
           "contestId": {
             "type": "string"
@@ -11301,6 +11374,9 @@
                 },
                 "contest": {},
                 "weeklyTheme": {},
+                "locked": {
+                  "type": "boolean"
+                },
                 "reactions": {}
               },
               "required": [
@@ -14233,6 +14309,9 @@
                         },
                         "author": {
                           "$ref": "#/components/schemas/UserResponse"
+                        },
+                        "statusId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -25188,6 +25267,111 @@
         }
       }
     },
+    "/catalyst/v1/status/{id}/unlock": {
+      "post": {
+        "summary": "POST /catalyst/v1/status/{id}/unlock",
+        "description": "合言葉付きの投稿を合言葉で解除します",
+        "tags": [
+          "catalyst"
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "catalyst:interactions:write"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnlockStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "$ref": "#/components/schemas/StatusV1_1Response"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/catalyst/v1/status": {
       "post": {
         "summary": "POST /catalyst/v1/status",
@@ -30282,7 +30466,7 @@
     "/media/v2/upload": {
       "post": {
         "summary": "POST /media/v2/upload",
-        "description": "画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。",
+        "description": "画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。",
         "tags": [
           "media"
         ],

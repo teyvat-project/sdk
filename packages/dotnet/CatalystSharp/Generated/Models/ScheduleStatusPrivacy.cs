@@ -19,12 +19,13 @@ public readonly partial struct ScheduleStatusPrivacy : global::System.IEquatable
     public static ScheduleStatusPrivacy Public { get; } = new("public");
     public static ScheduleStatusPrivacy QuietPublic { get; } = new("quiet_public");
     public static ScheduleStatusPrivacy Followers { get; } = new("followers");
+    public static ScheduleStatusPrivacy Passphrase { get; } = new("passphrase");
     public static ScheduleStatusPrivacy Private { get; } = new("private");
 
-    public static global::System.Collections.Generic.IReadOnlyList<ScheduleStatusPrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Private];
+    public static global::System.Collections.Generic.IReadOnlyList<ScheduleStatusPrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Passphrase, Private];
 
     /// <summary>Whether <see cref="Value"/> is one of the values the API declared.</summary>
-    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "private" => true, _ => false };
+    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "passphrase" or "private" => true, _ => false };
 
     public bool Equals(ScheduleStatusPrivacy other) => string.Equals(Value, other.Value, global::System.StringComparison.Ordinal);
 

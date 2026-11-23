@@ -34,6 +34,10 @@ public sealed partial class ScheduleStatus
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public ScheduleStatusPrivacy? Privacy { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Passphrase { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("weeklyThemeId")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string? WeeklyThemeId { get; set; }

@@ -6,13 +6,15 @@ import CatalystAPICore
 public struct EditScheduledStatus: Codable, Hashable, Sendable {
     public var description: String?
     public var privacy: EditScheduledStatusPrivacy?
+    public var passphrase: String?
     public var isNsfw: Bool?
     public var isSpoiler: Bool?
     public var publishAt: String?
 
-    public init(description: String? = nil, privacy: EditScheduledStatusPrivacy? = nil, isNsfw: Bool? = nil, isSpoiler: Bool? = nil, publishAt: String? = nil) {
+    public init(description: String? = nil, privacy: EditScheduledStatusPrivacy? = nil, passphrase: String? = nil, isNsfw: Bool? = nil, isSpoiler: Bool? = nil, publishAt: String? = nil) {
         self.description = description
         self.privacy = privacy
+        self.passphrase = passphrase
         self.isNsfw = isNsfw
         self.isSpoiler = isSpoiler
         self.publishAt = publishAt
@@ -21,6 +23,7 @@ public struct EditScheduledStatus: Codable, Hashable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case description
         case privacy
+        case passphrase
         case isNsfw
         case isSpoiler
         case publishAt
@@ -30,6 +33,7 @@ public struct EditScheduledStatus: Codable, Hashable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
         self.privacy = try container.decodeIfPresent(EditScheduledStatusPrivacy.self, forKey: .privacy)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.isNsfw = try container.decodeIfPresent(Bool.self, forKey: .isNsfw)
         self.isSpoiler = try container.decodeIfPresent(Bool.self, forKey: .isSpoiler)
         self.publishAt = try container.decodeIfPresent(String.self, forKey: .publishAt)
@@ -39,6 +43,7 @@ public struct EditScheduledStatus: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(privacy, forKey: .privacy)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
         try container.encodeIfPresent(isNsfw, forKey: .isNsfw)
         try container.encodeIfPresent(isSpoiler, forKey: .isSpoiler)
         try container.encodeIfPresent(publishAt, forKey: .publishAt)

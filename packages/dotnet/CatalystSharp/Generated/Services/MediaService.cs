@@ -55,7 +55,7 @@ public sealed partial class MediaService
     /// <summary>
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
     /// </summary>
     public async global::System.Threading.Tasks.Task<MediaUploadResponse> PostMediaV2UploadAsync(MediaUploadRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
         => (await PostMediaV2UploadWithResponseAsync(body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
@@ -63,7 +63,7 @@ public sealed partial class MediaService
     /// <summary>
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
     /// </summary>
     public global::System.Threading.Tasks.Task<ApiResult<MediaUploadResponse>> PostMediaV2UploadWithResponseAsync(MediaUploadRequest? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
     {

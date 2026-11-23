@@ -19,12 +19,13 @@ public readonly partial struct LuckyV12ResponseStatusPrivacy : global::System.IE
     public static LuckyV12ResponseStatusPrivacy Public { get; } = new("public");
     public static LuckyV12ResponseStatusPrivacy QuietPublic { get; } = new("quiet_public");
     public static LuckyV12ResponseStatusPrivacy Followers { get; } = new("followers");
+    public static LuckyV12ResponseStatusPrivacy Passphrase { get; } = new("passphrase");
     public static LuckyV12ResponseStatusPrivacy Private { get; } = new("private");
 
-    public static global::System.Collections.Generic.IReadOnlyList<LuckyV12ResponseStatusPrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Private];
+    public static global::System.Collections.Generic.IReadOnlyList<LuckyV12ResponseStatusPrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Passphrase, Private];
 
     /// <summary>Whether <see cref="Value"/> is one of the values the API declared.</summary>
-    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "private" => true, _ => false };
+    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "passphrase" or "private" => true, _ => false };
 
     public bool Equals(LuckyV12ResponseStatusPrivacy other) => string.Equals(Value, other.Value, global::System.StringComparison.Ordinal);
 

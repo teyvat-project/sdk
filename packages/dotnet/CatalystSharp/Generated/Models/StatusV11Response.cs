@@ -49,6 +49,14 @@ public sealed partial class StatusV11Response
     [global::System.Text.Json.Serialization.JsonPropertyName("privacy")]
     public required StatusV11ResponsePrivacy Privacy { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("locked")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Locked { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Passphrase { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("repost")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public StatusV11ResponseRepost? Repost { get; set; }

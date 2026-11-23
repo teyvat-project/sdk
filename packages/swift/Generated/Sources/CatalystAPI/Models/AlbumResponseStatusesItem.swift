@@ -12,9 +12,10 @@ public struct AlbumResponseStatusesItem: Codable, Hashable, Sendable {
     public var medias: [AlbumResponseStatusesItemMediasItem]
     public var contest: JSONValue?
     public var weeklyTheme: JSONValue?
+    public var locked: Bool?
     public var reactions: JSONValue?
 
-    public init(isFirstPost: Bool? = nil, id: String, body: String, createdAt: Date, user: AlbumResponseStatusesItemUser, medias: [AlbumResponseStatusesItemMediasItem], contest: JSONValue? = nil, weeklyTheme: JSONValue? = nil, reactions: JSONValue? = nil) {
+    public init(isFirstPost: Bool? = nil, id: String, body: String, createdAt: Date, user: AlbumResponseStatusesItemUser, medias: [AlbumResponseStatusesItemMediasItem], contest: JSONValue? = nil, weeklyTheme: JSONValue? = nil, locked: Bool? = nil, reactions: JSONValue? = nil) {
         self.isFirstPost = isFirstPost
         self.id = id
         self.body = body
@@ -23,6 +24,7 @@ public struct AlbumResponseStatusesItem: Codable, Hashable, Sendable {
         self.medias = medias
         self.contest = contest
         self.weeklyTheme = weeklyTheme
+        self.locked = locked
         self.reactions = reactions
     }
 
@@ -35,6 +37,7 @@ public struct AlbumResponseStatusesItem: Codable, Hashable, Sendable {
         case medias
         case contest
         case weeklyTheme
+        case locked
         case reactions
     }
 
@@ -48,6 +51,7 @@ public struct AlbumResponseStatusesItem: Codable, Hashable, Sendable {
         self.medias = try container.decode([AlbumResponseStatusesItemMediasItem].self, forKey: .medias)
         self.contest = try container.decodeIfPresent(JSONValue.self, forKey: .contest)
         self.weeklyTheme = try container.decodeIfPresent(JSONValue.self, forKey: .weeklyTheme)
+        self.locked = try container.decodeIfPresent(Bool.self, forKey: .locked)
         self.reactions = try container.decodeIfPresent(JSONValue.self, forKey: .reactions)
     }
 
@@ -61,6 +65,7 @@ public struct AlbumResponseStatusesItem: Codable, Hashable, Sendable {
         try container.encode(medias, forKey: .medias)
         try container.encodeIfPresent(contest, forKey: .contest)
         try container.encodeIfPresent(weeklyTheme, forKey: .weeklyTheme)
+        try container.encodeIfPresent(locked, forKey: .locked)
         try container.encodeIfPresent(reactions, forKey: .reactions)
     }
 }

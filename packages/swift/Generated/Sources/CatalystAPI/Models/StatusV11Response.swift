@@ -17,11 +17,13 @@ public struct StatusV11Response: Codable, Hashable, Sendable {
     public var updatedAt: Date
     public var visitor: StatusV11ResponseVisitor?
     public var privacy: StatusV11ResponsePrivacy
+    public var locked: Bool?
+    public var passphrase: String?
     public var repost: StatusV11ResponseRepost?
     public var cursor: String?
     public var addedBy: StatusV11ResponseAddedBy?
 
-    public init(isRecommended: Bool? = nil, isFirstPost: Bool? = nil, id: String, body: String, user: StatusV11ResponseUser?, medias: [StatusV11ResponseMediasItem], contest: StatusV11ResponseContest?, weeklyTheme: StatusV11ResponseWeeklyTheme?, reactions: [String: StatusV11ResponseReactionsValue], createdAt: Date, updatedAt: Date, visitor: StatusV11ResponseVisitor? = nil, privacy: StatusV11ResponsePrivacy, repost: StatusV11ResponseRepost? = nil, cursor: String? = nil, addedBy: StatusV11ResponseAddedBy? = nil) {
+    public init(isRecommended: Bool? = nil, isFirstPost: Bool? = nil, id: String, body: String, user: StatusV11ResponseUser?, medias: [StatusV11ResponseMediasItem], contest: StatusV11ResponseContest?, weeklyTheme: StatusV11ResponseWeeklyTheme?, reactions: [String: StatusV11ResponseReactionsValue], createdAt: Date, updatedAt: Date, visitor: StatusV11ResponseVisitor? = nil, privacy: StatusV11ResponsePrivacy, locked: Bool? = nil, passphrase: String? = nil, repost: StatusV11ResponseRepost? = nil, cursor: String? = nil, addedBy: StatusV11ResponseAddedBy? = nil) {
         self.isRecommended = isRecommended
         self.isFirstPost = isFirstPost
         self.id = id
@@ -35,6 +37,8 @@ public struct StatusV11Response: Codable, Hashable, Sendable {
         self.updatedAt = updatedAt
         self.visitor = visitor
         self.privacy = privacy
+        self.locked = locked
+        self.passphrase = passphrase
         self.repost = repost
         self.cursor = cursor
         self.addedBy = addedBy
@@ -54,6 +58,8 @@ public struct StatusV11Response: Codable, Hashable, Sendable {
         case updatedAt
         case visitor
         case privacy
+        case locked
+        case passphrase
         case repost
         case cursor
         case addedBy
@@ -74,6 +80,8 @@ public struct StatusV11Response: Codable, Hashable, Sendable {
         self.updatedAt = try container.decode(Date.self, forKey: .updatedAt)
         self.visitor = try container.decodeIfPresent(StatusV11ResponseVisitor.self, forKey: .visitor)
         self.privacy = try container.decode(StatusV11ResponsePrivacy.self, forKey: .privacy)
+        self.locked = try container.decodeIfPresent(Bool.self, forKey: .locked)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.repost = try container.decodeIfPresent(StatusV11ResponseRepost.self, forKey: .repost)
         self.cursor = try container.decodeIfPresent(String.self, forKey: .cursor)
         self.addedBy = try container.decodeIfPresent(StatusV11ResponseAddedBy.self, forKey: .addedBy)
@@ -94,6 +102,8 @@ public struct StatusV11Response: Codable, Hashable, Sendable {
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(visitor, forKey: .visitor)
         try container.encode(privacy, forKey: .privacy)
+        try container.encodeIfPresent(locked, forKey: .locked)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
         try container.encodeIfPresent(repost, forKey: .repost)
         try container.encodeIfPresent(cursor, forKey: .cursor)
         try container.encodeIfPresent(addedBy, forKey: .addedBy)

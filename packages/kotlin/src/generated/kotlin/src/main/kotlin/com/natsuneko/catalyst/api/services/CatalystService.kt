@@ -3255,6 +3255,26 @@ public class CatalystService internal constructor(private val core: ApiClientCor
     }
 
     /**
+     * POST /catalyst/v1/status/{id}/unlock
+     *
+     * 合言葉付きの投稿を合言葉で解除します
+     */
+    public suspend fun postCatalystV1StatusByIdUnlock(id: String, body: UnlockStatus? = null, requestOptions: RequestOptions? = null): PostCatalystV1StatusByIdUnlockResponse200 =
+        postCatalystV1StatusByIdUnlockWithResponse(id, body, requestOptions).data
+
+    /**
+     * POST /catalyst/v1/status/{id}/unlock
+     *
+     * 合言葉付きの投稿を合言葉で解除します
+     */
+    public suspend fun postCatalystV1StatusByIdUnlockWithResponse(id: String, body: UnlockStatus? = null, requestOptions: RequestOptions? = null): ApiResult<PostCatalystV1StatusByIdUnlockResponse200> {
+        val values = RequestValues()
+            .path("id", id, String.serializer())
+        if (body != null) values.jsonBody(body, UnlockStatus.serializer())
+        return core.send(POST_CATALYST_V1_STATUS_BY_ID_UNLOCK, values, ResponseDecoder.json(PostCatalystV1StatusByIdUnlockResponse200.serializer()), POST_CATALYST_V1_STATUS_BY_ID_UNLOCK_ERRORS, requestOptions)
+    }
+
+    /**
      * POST /catalyst/v1/statuses/reactions
      *
      * 指定した複数の投稿のリアクション一覧を取得します
@@ -6180,6 +6200,24 @@ public class CatalystService internal constructor(private val core: ApiClientCor
             .json("404", ErrorResponse.serializer())
             .json("409", ErrorResponse.serializer())
             .json("500", ErrorResponse.serializer())
+
+        val POST_CATALYST_V1_STATUS_BY_ID_UNLOCK: OperationSpec = OperationSpec(
+            "postCatalystV1StatusByIdUnlock",
+            HttpMethod.Post,
+            "/catalyst/v1/status/{id}/unlock",
+            listOf("catalyst"),
+            listOf(SecurityRequirement(listOf(SecurityScheme("bearerAuth", listOf("catalyst:interactions:write"))))),
+            listOf(ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)),
+            BodyKind.Json, "application/json",
+            mapOf("200" to ResponseKind.Json, "400" to ResponseKind.Json, "401" to ResponseKind.Json, "403" to ResponseKind.Json, "404" to ResponseKind.Json, "429" to ResponseKind.Json),
+        )
+
+        val POST_CATALYST_V1_STATUS_BY_ID_UNLOCK_ERRORS: ErrorDecoders = ErrorDecoders()
+            .json("400", ErrorResponse.serializer())
+            .json("401", ErrorResponse.serializer())
+            .json("403", ErrorResponse.serializer())
+            .json("404", ErrorResponse.serializer())
+            .json("429", ErrorResponse.serializer())
 
         val POST_CATALYST_V1_STATUSES_REACTIONS: OperationSpec = OperationSpec(
             "postCatalystV1StatusesReactions",

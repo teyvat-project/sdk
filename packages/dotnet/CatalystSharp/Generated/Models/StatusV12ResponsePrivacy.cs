@@ -19,12 +19,13 @@ public readonly partial struct StatusV12ResponsePrivacy : global::System.IEquata
     public static StatusV12ResponsePrivacy Public { get; } = new("public");
     public static StatusV12ResponsePrivacy QuietPublic { get; } = new("quiet_public");
     public static StatusV12ResponsePrivacy Followers { get; } = new("followers");
+    public static StatusV12ResponsePrivacy Passphrase { get; } = new("passphrase");
     public static StatusV12ResponsePrivacy Private { get; } = new("private");
 
-    public static global::System.Collections.Generic.IReadOnlyList<StatusV12ResponsePrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Private];
+    public static global::System.Collections.Generic.IReadOnlyList<StatusV12ResponsePrivacy> KnownValues { get; } = [Public, QuietPublic, Followers, Passphrase, Private];
 
     /// <summary>Whether <see cref="Value"/> is one of the values the API declared.</summary>
-    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "private" => true, _ => false };
+    public bool IsKnown => Value switch { "public" or "quiet_public" or "followers" or "passphrase" or "private" => true, _ => false };
 
     public bool Equals(StatusV12ResponsePrivacy other) => string.Equals(Value, other.Value, global::System.StringComparison.Ordinal);
 

@@ -12,12 +12,13 @@ public struct ScheduleStatus: Codable, Hashable, Sendable {
     public var isPrivateMetadata: Bool?
     public var isAllowComments: Bool
     public var privacy: ScheduleStatusPrivacy?
+    public var passphrase: String?
     public var weeklyThemeId: String?
     public var media: [ScheduleStatusMediaItem]
     public var publishAt: String?
     public var splitIntervalMinutes: Int?
 
-    public init(description: String, isNsfw: Bool, isSpoiler: Bool, isSubmitToWeeklyTheme: Bool? = nil, isHidingLikeAndViewCount: Bool, isPrivateMetadata: Bool? = nil, isAllowComments: Bool, privacy: ScheduleStatusPrivacy? = nil, weeklyThemeId: String? = nil, media: [ScheduleStatusMediaItem], publishAt: String?, splitIntervalMinutes: Int? = nil) {
+    public init(description: String, isNsfw: Bool, isSpoiler: Bool, isSubmitToWeeklyTheme: Bool? = nil, isHidingLikeAndViewCount: Bool, isPrivateMetadata: Bool? = nil, isAllowComments: Bool, privacy: ScheduleStatusPrivacy? = nil, passphrase: String? = nil, weeklyThemeId: String? = nil, media: [ScheduleStatusMediaItem], publishAt: String?, splitIntervalMinutes: Int? = nil) {
         self.description = description
         self.isNsfw = isNsfw
         self.isSpoiler = isSpoiler
@@ -26,6 +27,7 @@ public struct ScheduleStatus: Codable, Hashable, Sendable {
         self.isPrivateMetadata = isPrivateMetadata
         self.isAllowComments = isAllowComments
         self.privacy = privacy
+        self.passphrase = passphrase
         self.weeklyThemeId = weeklyThemeId
         self.media = media
         self.publishAt = publishAt
@@ -41,6 +43,7 @@ public struct ScheduleStatus: Codable, Hashable, Sendable {
         case isPrivateMetadata
         case isAllowComments
         case privacy
+        case passphrase
         case weeklyThemeId
         case media
         case publishAt
@@ -57,6 +60,7 @@ public struct ScheduleStatus: Codable, Hashable, Sendable {
         self.isPrivateMetadata = try container.decodeIfPresent(Bool.self, forKey: .isPrivateMetadata)
         self.isAllowComments = try container.decode(Bool.self, forKey: .isAllowComments)
         self.privacy = try container.decodeIfPresent(ScheduleStatusPrivacy.self, forKey: .privacy)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.weeklyThemeId = try container.decodeIfPresent(String.self, forKey: .weeklyThemeId)
         self.media = try container.decode([ScheduleStatusMediaItem].self, forKey: .media)
         self.publishAt = try container.decodeIfPresent(String.self, forKey: .publishAt)
@@ -73,6 +77,7 @@ public struct ScheduleStatus: Codable, Hashable, Sendable {
         try container.encodeIfPresent(isPrivateMetadata, forKey: .isPrivateMetadata)
         try container.encode(isAllowComments, forKey: .isAllowComments)
         try container.encodeIfPresent(privacy, forKey: .privacy)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
         try container.encodeIfPresent(weeklyThemeId, forKey: .weeklyThemeId)
         try container.encode(media, forKey: .media)
         try container.encode(publishAt, forKey: .publishAt)

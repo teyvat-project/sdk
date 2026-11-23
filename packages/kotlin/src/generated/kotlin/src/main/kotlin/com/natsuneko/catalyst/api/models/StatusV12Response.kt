@@ -35,6 +35,10 @@ public data class StatusV12Response(
     public val visitor: StatusV12ResponseVisitor? = null,
     @SerialName("privacy")
     public val privacy: StatusV12ResponsePrivacy,
+    @SerialName("locked")
+    public val locked: Boolean? = null,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
     @SerialName("repost")
     public val repost: StatusV12ResponseRepost? = null,
     @SerialName("cursor")

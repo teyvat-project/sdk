@@ -7,6 +7,7 @@ public enum LuckyV12ResponseStatusPrivacy: Codable, Hashable, Sendable, RawRepre
     case `public`
     case quietPublic
     case followers
+    case passphrase
     case `private`
     /// A value this version of the SDK does not know.
     case unknown(String)
@@ -16,6 +17,7 @@ public enum LuckyV12ResponseStatusPrivacy: Codable, Hashable, Sendable, RawRepre
         case "public": self = .`public`
         case "quiet_public": self = .quietPublic
         case "followers": self = .followers
+        case "passphrase": self = .passphrase
         case "private": self = .`private`
         default: self = .unknown(rawValue)
         }
@@ -26,13 +28,14 @@ public enum LuckyV12ResponseStatusPrivacy: Codable, Hashable, Sendable, RawRepre
         case .`public`: return "public"
         case .quietPublic: return "quiet_public"
         case .followers: return "followers"
+        case .passphrase: return "passphrase"
         case .`private`: return "private"
         case .unknown(let value): return value
         }
     }
 
     /// The values the API declares.
-    public static var allCases: [LuckyV12ResponseStatusPrivacy] { [.`public`, .quietPublic, .followers, .`private`] }
+    public static var allCases: [LuckyV12ResponseStatusPrivacy] { [.`public`, .quietPublic, .followers, .passphrase, .`private`] }
 
     /// Whether the value is one the API declares.
     public var isKnown: Bool { LuckyV12ResponseStatusPrivacy.allCases.contains(self) }

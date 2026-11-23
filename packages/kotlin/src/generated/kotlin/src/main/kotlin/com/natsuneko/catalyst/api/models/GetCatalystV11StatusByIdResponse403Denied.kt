@@ -13,4 +13,6 @@ public data class GetCatalystV11StatusByIdResponse403Denied(
     public val reason: String,
     @SerialName("author")
     public val author: UserResponse,
+    @SerialName("statusId")
+    public val statusId: String? = null,
 )

@@ -42,7 +42,7 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
     /**
      * POST /media/v2/upload
      *
-     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
      */
     public suspend fun postMediaV2Upload(body: MediaUploadRequest? = null, requestOptions: RequestOptions? = null): MediaUploadResponse =
         postMediaV2UploadWithResponse(body, requestOptions).data
@@ -50,7 +50,7 @@ public class MediaService internal constructor(private val core: ApiClientCore) 
     /**
      * POST /media/v2/upload
      *
-     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+     * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
      */
     public suspend fun postMediaV2UploadWithResponse(body: MediaUploadRequest? = null, requestOptions: RequestOptions? = null): ApiResult<MediaUploadResponse> {
         val values = RequestValues()

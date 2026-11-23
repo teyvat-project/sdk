@@ -30,14 +30,14 @@ public struct MediaService: Sendable {
 
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
     public func postMediaV2Upload(body: MediaUploadRequest? = nil, options: RequestOptions? = nil) async throws -> MediaUploadResponse {
         try await postMediaV2UploadWithResponse(body: body, options: options).data
     }
 
     /// POST /media/v2/upload
     ///
-    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+    /// 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
     public func postMediaV2UploadWithResponse(body: MediaUploadRequest? = nil, options: RequestOptions? = nil) async throws -> ApiResult<MediaUploadResponse> {
         var values = RequestValues()
         if let body {

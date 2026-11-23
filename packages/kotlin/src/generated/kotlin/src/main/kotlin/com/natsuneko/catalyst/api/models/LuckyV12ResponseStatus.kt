@@ -38,6 +38,10 @@ public data class LuckyV12ResponseStatus(
     public val visitor: LuckyV12ResponseStatusVisitor? = null,
     @SerialName("privacy")
     public val privacy: LuckyV12ResponseStatusPrivacy,
+    @SerialName("locked")
+    public val locked: Boolean? = null,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
     @SerialName("repost")
     public val repost: LuckyV12ResponseStatusRepost? = null,
     @SerialName("cursor")

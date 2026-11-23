@@ -25,6 +25,8 @@ public data class ScheduleStatus(
     public val isAllowComments: Boolean,
     @SerialName("privacy")
     public val privacy: ScheduleStatusPrivacy? = null,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
     @SerialName("weeklyThemeId")
     public val weeklyThemeId: String? = null,
     @SerialName("media")

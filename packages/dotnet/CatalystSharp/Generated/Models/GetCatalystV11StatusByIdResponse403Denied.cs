@@ -12,4 +12,8 @@ public sealed partial class GetCatalystV11StatusByIdResponse403Denied
 
     [global::System.Text.Json.Serialization.JsonPropertyName("author")]
     public required UserResponse Author { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("statusId")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? StatusId { get; set; }
 }

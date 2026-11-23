@@ -13,6 +13,8 @@ public data class EditScheduledStatus(
     public val description: String? = null,
     @SerialName("privacy")
     public val privacy: EditScheduledStatusPrivacy? = null,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
     @SerialName("isNsfw")
     public val isNsfw: Boolean? = null,
     @SerialName("isSpoiler")

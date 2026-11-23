@@ -9,4 +9,8 @@ public sealed partial class EditStatus
 {
     [global::System.Text.Json.Serialization.JsonPropertyName("description")]
     public required string Description { get; set; }
+
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Passphrase { get; set; }
 }

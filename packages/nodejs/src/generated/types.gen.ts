@@ -171,6 +171,7 @@ export type AlbumOrSmartAlbumResponse = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
   type: 'album' | 'smart-album';
@@ -255,6 +256,7 @@ export type AlbumResponse = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
   viewer?: {
@@ -654,7 +656,8 @@ export type CustomReactionResponse = {
 
 export type EditScheduledStatus = {
   description?: string;
-  privacy?: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy?: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  passphrase?: string;
   isNsfw?: boolean;
   isSpoiler?: boolean;
   publishAt?: string | null;
@@ -662,6 +665,7 @@ export type EditScheduledStatus = {
 
 export type EditStatus = {
   description: string;
+  passphrase?: string;
 };
 
 export type EpicleseAuthorResponse = {
@@ -989,6 +993,7 @@ export type EpicleseStatusesByItemResponse = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
   count: {
@@ -1699,7 +1704,9 @@ export type LuckyV12Response = {
     reposted?: boolean;
     repostable?: boolean;
   };
-  privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  locked?: boolean;
+  passphrase?: string;
   repost?: {
     id: string;
     createdAt: string;
@@ -1810,6 +1817,7 @@ export type LuckyV12Response = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
   viewer?: {
@@ -1901,6 +1909,7 @@ export type LuckyV12Response = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
   type: 'smart-album';
@@ -2310,7 +2319,8 @@ export type ScheduleStatus = {
   isHidingLikeAndViewCount: boolean;
   isPrivateMetadata?: boolean;
   isAllowComments: boolean;
-  privacy?: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy?: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  passphrase?: string;
   weeklyThemeId?: string;
   media: {
     url: string;
@@ -2326,7 +2336,8 @@ export type ScheduleStatus = {
 export type ScheduledStatusResponse = {
   id: string;
   body: string;
-  privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  passphrase: string | null;
   isNsfw: boolean;
   isSpoiler: boolean;
   medias: {
@@ -2448,6 +2459,7 @@ export type SmartAlbumResponse = {
     }[];
     contest?: unknown;
     weeklyTheme?: unknown;
+    locked?: boolean;
     reactions?: unknown;
   }[];
 };
@@ -2461,7 +2473,8 @@ export type Status = {
   isHidingLikeAndViewCount: boolean;
   isPrivateMetadata?: boolean;
   isAllowComments: boolean;
-  privacy?: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy?: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  passphrase?: string;
   contestId?: string;
   weeklyThemeId?: string;
   media: {
@@ -2531,6 +2544,7 @@ export type StatusV10Response = {
   }[];
   contest?: unknown;
   weeklyTheme?: unknown;
+  locked?: boolean;
   reactions?: unknown;
 };
 
@@ -2615,7 +2629,9 @@ export type StatusV11Response = {
     reposted?: boolean;
     repostable?: boolean;
   };
-  privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  locked?: boolean;
+  passphrase?: string;
   repost?: {
     id: string;
     createdAt: string;
@@ -2729,7 +2745,9 @@ export type StatusV12Response = {
     reposted?: boolean;
     repostable?: boolean;
   };
-  privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+  privacy: 'public' | 'quiet_public' | 'followers' | 'passphrase' | 'private';
+  locked?: boolean;
+  passphrase?: string;
   repost?: {
     id: string;
     createdAt: string;
@@ -2765,6 +2783,10 @@ export type StatusV12Response = {
     url: string;
     redirectHost: string;
   } | null;
+};
+
+export type UnlockStatus = {
+  passphrase: string;
 };
 
 export type UpdateCatalystGallery = {

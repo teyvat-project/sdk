@@ -192,6 +192,7 @@ import {
   postCatalystV1StatusByIdReactionsCustomByCustomReactionId,
   postCatalystV1StatusByIdReport,
   postCatalystV1StatusByIdRepost,
+  postCatalystV1StatusByIdUnlock,
   postCatalystV1StatusesReactions,
   postCatalystV1UserAcquisition,
   postCatalystV1UserByIdReport,
@@ -408,6 +409,7 @@ import type {
   PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdData,
   PostCatalystV1StatusByIdReportData,
   PostCatalystV1StatusByIdRepostData,
+  PostCatalystV1StatusByIdUnlockData,
   PostCatalystV1StatusData,
   PostCatalystV1StatusesReactionsData,
   PostCatalystV1UserAcquisitionData,
@@ -1605,6 +1607,15 @@ export function createFacade(client: Client<ApiAuth>) {
               delete: <ThrowOnError extends boolean = false>(options: Omit<Options<DeleteCatalystV1StatusByIdRepostData, ThrowOnError>, 'client'>) =>
                 deleteCatalystV1StatusByIdRepost<ThrowOnError>({ ...options, client }),
             },
+            unlock: {
+              /**
+               * POST /catalyst/v1/status/{id}/unlock
+               *
+               * 合言葉付きの投稿を合言葉で解除します
+               */
+              create: <ThrowOnError extends boolean = false>(options: Omit<Options<PostCatalystV1StatusByIdUnlockData, ThrowOnError>, 'client'>) =>
+                postCatalystV1StatusByIdUnlock<ThrowOnError>({ ...options, client }),
+            },
           },
         },
         statuses: {
@@ -2401,7 +2412,7 @@ export function createFacade(client: Client<ApiAuth>) {
           /**
            * POST /media/v2/upload
            *
-           * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。
+           * 画像をアップロードするための URL を取得します。アップロードするファイルの Content-Type と Content-Length を指定し、署名付き URL への PUT では同じ値を送ってください。本文の省略は古いクライアントとの互換のためだけに残しており、いずれ廃止します。
            */
           create: <ThrowOnError extends boolean = false>(options?: Omit<Options<PostMediaV2UploadData, ThrowOnError>, 'client'>) =>
             postMediaV2Upload<ThrowOnError>({ ...options, client }),

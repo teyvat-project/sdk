@@ -11,4 +11,6 @@ import kotlinx.serialization.Serializable
 public data class EditStatus(
     @SerialName("description")
     public val description: String,
+    @SerialName("passphrase")
+    public val passphrase: String? = null,
 )

@@ -16,6 +16,9 @@ public sealed partial class ScheduledStatusResponse
     [global::System.Text.Json.Serialization.JsonPropertyName("privacy")]
     public required ScheduledStatusResponsePrivacy Privacy { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    public required string? Passphrase { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("isNsfw")]
     public required bool IsNsfw { get; set; }
 

@@ -15,6 +15,10 @@ public sealed partial class EditScheduledStatus
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public EditScheduledStatusPrivacy? Privacy { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Passphrase { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("isNsfw")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsNsfw { get; set; }

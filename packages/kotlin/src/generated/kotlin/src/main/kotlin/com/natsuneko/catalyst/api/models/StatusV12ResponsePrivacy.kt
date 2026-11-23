@@ -17,7 +17,7 @@ public class StatusV12ResponsePrivacy(public val value: String) {
     /** Whether [value] is one of the values the API declared. */
     public val isKnown: Boolean
         get() = when (value) {
-            "public", "quiet_public", "followers", "private" -> true
+            "public", "quiet_public", "followers", "passphrase", "private" -> true
             else -> false
         }
 
@@ -31,10 +31,11 @@ public class StatusV12ResponsePrivacy(public val value: String) {
         public val Public: StatusV12ResponsePrivacy = StatusV12ResponsePrivacy("public")
         public val QuietPublic: StatusV12ResponsePrivacy = StatusV12ResponsePrivacy("quiet_public")
         public val Followers: StatusV12ResponsePrivacy = StatusV12ResponsePrivacy("followers")
+        public val Passphrase: StatusV12ResponsePrivacy = StatusV12ResponsePrivacy("passphrase")
         public val Private: StatusV12ResponsePrivacy = StatusV12ResponsePrivacy("private")
 
         /** The values the API declared. */
-        public val knownValues: List<StatusV12ResponsePrivacy> = listOf(Public, QuietPublic, Followers, Private)
+        public val knownValues: List<StatusV12ResponsePrivacy> = listOf(Public, QuietPublic, Followers, Passphrase, Private)
     }
 
     public object Serializer : KSerializer<StatusV12ResponsePrivacy> {

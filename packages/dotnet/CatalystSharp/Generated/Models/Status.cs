@@ -37,6 +37,10 @@ public sealed partial class Status
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public StatusPrivacy? Privacy { get; set; }
 
+    [global::System.Text.Json.Serialization.JsonPropertyName("passphrase")]
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Passphrase { get; set; }
+
     [global::System.Text.Json.Serialization.JsonPropertyName("contestId")]
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string? ContestId { get; set; }

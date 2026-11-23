@@ -13,11 +13,12 @@ public struct Status: Codable, Hashable, Sendable {
     public var isPrivateMetadata: Bool?
     public var isAllowComments: Bool
     public var privacy: StatusPrivacy?
+    public var passphrase: String?
     public var contestId: String?
     public var weeklyThemeId: String?
     public var media: [StatusMediaItem]
 
-    public init(description: String, isNsfw: Bool, isSpoiler: Bool, isSubmitToContest: Bool, isSubmitToWeeklyTheme: Bool? = nil, isHidingLikeAndViewCount: Bool, isPrivateMetadata: Bool? = nil, isAllowComments: Bool, privacy: StatusPrivacy? = nil, contestId: String? = nil, weeklyThemeId: String? = nil, media: [StatusMediaItem]) {
+    public init(description: String, isNsfw: Bool, isSpoiler: Bool, isSubmitToContest: Bool, isSubmitToWeeklyTheme: Bool? = nil, isHidingLikeAndViewCount: Bool, isPrivateMetadata: Bool? = nil, isAllowComments: Bool, privacy: StatusPrivacy? = nil, passphrase: String? = nil, contestId: String? = nil, weeklyThemeId: String? = nil, media: [StatusMediaItem]) {
         self.description = description
         self.isNsfw = isNsfw
         self.isSpoiler = isSpoiler
@@ -27,6 +28,7 @@ public struct Status: Codable, Hashable, Sendable {
         self.isPrivateMetadata = isPrivateMetadata
         self.isAllowComments = isAllowComments
         self.privacy = privacy
+        self.passphrase = passphrase
         self.contestId = contestId
         self.weeklyThemeId = weeklyThemeId
         self.media = media
@@ -42,6 +44,7 @@ public struct Status: Codable, Hashable, Sendable {
         case isPrivateMetadata
         case isAllowComments
         case privacy
+        case passphrase
         case contestId
         case weeklyThemeId
         case media
@@ -58,6 +61,7 @@ public struct Status: Codable, Hashable, Sendable {
         self.isPrivateMetadata = try container.decodeIfPresent(Bool.self, forKey: .isPrivateMetadata)
         self.isAllowComments = try container.decode(Bool.self, forKey: .isAllowComments)
         self.privacy = try container.decodeIfPresent(StatusPrivacy.self, forKey: .privacy)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
         self.contestId = try container.decodeIfPresent(String.self, forKey: .contestId)
         self.weeklyThemeId = try container.decodeIfPresent(String.self, forKey: .weeklyThemeId)
         self.media = try container.decode([StatusMediaItem].self, forKey: .media)
@@ -74,6 +78,7 @@ public struct Status: Codable, Hashable, Sendable {
         try container.encodeIfPresent(isPrivateMetadata, forKey: .isPrivateMetadata)
         try container.encode(isAllowComments, forKey: .isAllowComments)
         try container.encodeIfPresent(privacy, forKey: .privacy)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
         try container.encodeIfPresent(contestId, forKey: .contestId)
         try container.encodeIfPresent(weeklyThemeId, forKey: .weeklyThemeId)
         try container.encode(media, forKey: .media)

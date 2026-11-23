@@ -5929,6 +5929,44 @@ public sealed partial class CatalystService
         .Json("500", ApiJsonContext.Default.ErrorResponse);
 
     /// <summary>
+    /// POST /catalyst/v1/status/{id}/unlock
+    ///
+    /// 合言葉付きの投稿を合言葉で解除します
+    /// </summary>
+    public async global::System.Threading.Tasks.Task<PostCatalystV1StatusByIdUnlockResponse200> PostCatalystV1StatusByIdUnlockAsync(string id, UnlockStatus? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+        => (await PostCatalystV1StatusByIdUnlockWithResponseAsync(id, body, requestOptions, cancellationToken).ConfigureAwait(false)).Data;
+
+    /// <summary>
+    /// POST /catalyst/v1/status/{id}/unlock
+    ///
+    /// 合言葉付きの投稿を合言葉で解除します
+    /// </summary>
+    public global::System.Threading.Tasks.Task<ApiResult<PostCatalystV1StatusByIdUnlockResponse200>> PostCatalystV1StatusByIdUnlockWithResponseAsync(string id, UnlockStatus? body = null, RequestOptions? requestOptions = null, global::System.Threading.CancellationToken cancellationToken = default)
+    {
+        var values = new RequestValues()
+            .Path("id", id, ApiJsonContext.Default.String);
+        if (body is not null) values.JsonBody(body, ApiJsonContext.Default.UnlockStatus);
+        return _core.SendAsync(PostCatalystV1StatusByIdUnlockSpec, values, ResponseDecoder.Json(ApiJsonContext.Default.PostCatalystV1StatusByIdUnlockResponse200), PostCatalystV1StatusByIdUnlockErrors, requestOptions, cancellationToken);
+    }
+
+    private static readonly OperationSpec PostCatalystV1StatusByIdUnlockSpec = new(
+        "postCatalystV1StatusByIdUnlock",
+        global::System.Net.Http.HttpMethod.Post,
+        "/catalyst/v1/status/{id}/unlock",
+        ["catalyst"],
+        [new SecurityRequirement([new SecurityScheme("bearerAuth", ["catalyst:interactions:write"])])],
+        [new ParamSpec("id", ParamLocation.Path, ParamStyle.Simple, false)],
+        BodyKind.Json, "application/json",
+        new global::System.Collections.Generic.Dictionary<string, ResponseKind> { ["200"] = ResponseKind.Json, ["400"] = ResponseKind.Json, ["401"] = ResponseKind.Json, ["403"] = ResponseKind.Json, ["404"] = ResponseKind.Json, ["429"] = ResponseKind.Json });
+
+    private static readonly ErrorDecoders PostCatalystV1StatusByIdUnlockErrors = new ErrorDecoders()
+        .Json("400", ApiJsonContext.Default.ErrorResponse)
+        .Json("401", ApiJsonContext.Default.ErrorResponse)
+        .Json("403", ApiJsonContext.Default.ErrorResponse)
+        .Json("404", ApiJsonContext.Default.ErrorResponse)
+        .Json("429", ApiJsonContext.Default.ErrorResponse);
+
+    /// <summary>
     /// POST /catalyst/v1/statuses/reactions
     ///
     /// 指定した複数の投稿のリアクション一覧を取得します

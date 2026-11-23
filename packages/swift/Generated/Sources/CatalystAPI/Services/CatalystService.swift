@@ -2815,6 +2815,25 @@ public struct CatalystService: Sendable {
         return try await core.send(Self.postCatalystV1StatusByIdRepostSpec, values, decoder: .json(PostCatalystV1StatusByIdRepostResponse200.self), errors: Self.postCatalystV1StatusByIdRepostErrors, options: options)
     }
 
+    /// POST /catalyst/v1/status/{id}/unlock
+    ///
+    /// 合言葉付きの投稿を合言葉で解除します
+    public func postCatalystV1StatusByIdUnlock(id: String, body: UnlockStatus? = nil, options: RequestOptions? = nil) async throws -> PostCatalystV1StatusByIdUnlockResponse200 {
+        try await postCatalystV1StatusByIdUnlockWithResponse(id: id, body: body, options: options).data
+    }
+
+    /// POST /catalyst/v1/status/{id}/unlock
+    ///
+    /// 合言葉付きの投稿を合言葉で解除します
+    public func postCatalystV1StatusByIdUnlockWithResponse(id: String, body: UnlockStatus? = nil, options: RequestOptions? = nil) async throws -> ApiResult<PostCatalystV1StatusByIdUnlockResponse200> {
+        var values = RequestValues()
+        try values.path("id", id)
+        if let body {
+            try values.json(body)
+        }
+        return try await core.send(Self.postCatalystV1StatusByIdUnlockSpec, values, decoder: .json(PostCatalystV1StatusByIdUnlockResponse200.self), errors: Self.postCatalystV1StatusByIdUnlockErrors, options: options)
+    }
+
     /// POST /catalyst/v1/statuses/reactions
     ///
     /// 指定した複数の投稿のリアクション一覧を取得します
@@ -6245,6 +6264,29 @@ extension CatalystService {
         .json("404", ErrorResponse.self)
         .json("409", ErrorResponse.self)
         .json("500", ErrorResponse.self)
+
+    static let postCatalystV1StatusByIdUnlockSpec = OperationSpec(
+        operationName: "postCatalystV1StatusByIdUnlock",
+        method: .post,
+        path: "/catalyst/v1/status/{id}/unlock",
+        tags: ["catalyst"],
+        security: [
+            SecurityRequirement([SecurityScheme("bearerAuth", scopes: ["catalyst:interactions:write"])]),
+        ],
+        params: [
+            ParamSpec("id", .path, .simple, explode: false),
+        ],
+        body: .json,
+        bodyMediaType: "application/json",
+        responses: ["200": .json, "400": .json, "401": .json, "403": .json, "404": .json, "429": .json]
+    )
+
+    static let postCatalystV1StatusByIdUnlockErrors = ErrorDecoders()
+        .json("400", ErrorResponse.self)
+        .json("401", ErrorResponse.self)
+        .json("403", ErrorResponse.self)
+        .json("404", ErrorResponse.self)
+        .json("429", ErrorResponse.self)
 
     static let postCatalystV1StatusesReactionsSpec = OperationSpec(
         operationName: "postCatalystV1StatusesReactions",

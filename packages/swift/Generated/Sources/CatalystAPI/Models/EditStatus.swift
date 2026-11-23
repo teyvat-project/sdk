@@ -5,22 +5,27 @@ import CatalystAPICore
 
 public struct EditStatus: Codable, Hashable, Sendable {
     public var description: String
+    public var passphrase: String?
 
-    public init(description: String) {
+    public init(description: String, passphrase: String? = nil) {
         self.description = description
+        self.passphrase = passphrase
     }
 
     private enum CodingKeys: String, CodingKey {
         case description
+        case passphrase
     }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.description = try container.decode(String.self, forKey: .description)
+        self.passphrase = try container.decodeIfPresent(String.self, forKey: .passphrase)
     }
 
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(description, forKey: .description)
+        try container.encodeIfPresent(passphrase, forKey: .passphrase)
     }
 }
